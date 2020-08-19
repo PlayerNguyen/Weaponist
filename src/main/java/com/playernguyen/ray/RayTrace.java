@@ -1,64 +1,87 @@
 package com.playernguyen.ray;
 
-import com.playernguyen.Weaponist;
 import com.playernguyen.WeaponistInstance;
+import com.playernguyen.location.LocationIterator;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.util.BlockIterator;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class RayTrace extends WeaponistInstance {
 
     private Player player;
-    private int range;
+    private int distance;
 
-    public RayTrace(Player player, int range) {
+    public RayTrace(Player player, int distance) {
         this.player = player;
-        this.range = range;
+        this.distance = distance;
     }
 
-    public RayResult ray() {
+    public RayResult ray(Particle particle, int maxPenetrate) {
+
         RayResult result = new RayResult();
+        AtomicInteger penetrate = new AtomicInteger();
 
-        BlockIterator blockIterator =
-                new BlockIterator(
-                        getPlayer(), getRange()
-                );
+        LocationIterator locationIterator = new LocationIterator(
+                getPlayer().getEyeLocation(),
+                getPlayer().getEyeLocation().getDirection(),
+                getDistance()
+        );
 
-        double offset = 0.5;
+        Bukkit.getScheduler().runTaskAsynchronously(getWeaponist(), () -> {
+            while (locationIterator.hasNext()) {
 
-        while (blockIterator.hasNext()) {
-            Block currentBlock = blockIterator.next();
+                Location nextLocation = locationIterator.next();
 
-            player.getLocation().getWorld().spawnParticle(Particle.HEART, currentBlock.getLocation(), 1);
+                // Particle play
+                if (particle != null) {
+                    nextLocation.getWorld().spawnParticle(particle, nextLocation, 1);
+                }
 
-            for (Entity nearbyEntity : currentBlock.getLocation().getWorld()
-                    .getNearbyEntities(currentBlock.getLocation(), offset, offset, offset)) {
-                if (nearbyEntity instanceof LivingEntity && nearbyEntity != getPlayer()) {
-                    // Headshot detect
-                    LivingEntity livingEntity = ((LivingEntity) nearbyEntity);
-                    double headDistance = livingEntity.getEyeLocation().distance(currentBlock.getLocation());
+                // Penetrate with block
+                if (nextLocation.getBlock().getType() != Material.AIR) {
+                    getDebugger().info("New Block Hitting: %s" ,nextLocation
+                            .getBlock()
+                            .getType()
+                            .toString()
+                            .toLowerCase()
+                    );
+                    penetrate.getAndIncrement();
+                    result.setHitBlock(nextLocation.getBlock());
+                }
 
-                    Weaponist.getDebugger().info(livingEntity.getType() + "=> " + headDistance);
+                double radius = 0.3f;
 
-                    result.getHeadshotEntities().add(livingEntity);
+                // Hit target
+                for (Entity entity : nextLocation.getWorld().getNearbyEntities(nextLocation, radius, radius, radius)) {
+                    if (entity instanceof LivingEntity && entity != player) {
+                        Bukkit.getScheduler().runTask(getWeaponist(), () -> {
+                            getDebugger()
+                                    .info("New Entity Target: %s", entity.getType().toString().toLowerCase());
+                            penetrate.getAndIncrement();
+                        });
+                    }
+                }
+
+                getDebugger().info("Current penetrate: %s", penetrate.toString());
+                if (penetrate.get() >= maxPenetrate) { break; }
+
+                if (locationIterator.outOfLimit()) {
+                    getDebugger().info("Ray out of limit !");
                 }
             }
-
-            // Stop when hit some block that cannot penetrate
-            if (!currentBlock.getType().isTransparent()) {
-                result.setHitBlock(currentBlock);
-                break;
-            }
-        }
+        });
 
         return result;
     }
 
-    public int getRange() {
-        return range;
+    public int getDistance() {
+        return distance;
     }
 
     public Player getPlayer() {

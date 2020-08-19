@@ -11,9 +11,9 @@ public class PlayerInteractListener implements Listener {
     @EventHandler
     public void onInteracting(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        RayTrace rayTrace = new RayTrace(player, 100);
+        RayTrace rayTrace = new RayTrace(player, 500);
 
-        rayTrace.ray();
+        rayTrace.ray(null, 2);
     }
 
 }

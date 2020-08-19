@@ -1,5 +1,6 @@
 package com.playernguyen;
 
+import com.playernguyen.debugger.Debugger;
 import com.playernguyen.setting.WeaponistSetting;
 
 public abstract class WeaponistInstance {
@@ -18,5 +19,9 @@ public abstract class WeaponistInstance {
      */
     public WeaponistSetting getWeaponistSetting() {
         return getWeaponist().getWeaponistSetting();
+    }
+
+    public Debugger getDebugger() {
+        return Weaponist.getDebugger();
     }
 }

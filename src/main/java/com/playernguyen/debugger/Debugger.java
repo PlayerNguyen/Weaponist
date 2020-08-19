@@ -26,7 +26,7 @@ public class Debugger {
 
     private void log(ChatColor c, String string, Object ...args) {
         if (isActive()) {
-            Bukkit.getConsoleSender().sendMessage(c + "[Weaponist::Debugger] ".concat(String.format(string, (Object) args)));
+            Bukkit.getConsoleSender().sendMessage(c + "[Weaponist::Debugger] ".concat(String.format(string, args)));
         }
     }
 
