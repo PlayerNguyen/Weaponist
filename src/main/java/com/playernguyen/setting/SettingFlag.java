@@ -7,6 +7,8 @@ import java.io.File;
 public enum SettingFlag implements Flagable {
 
     DEBUG_MODE("settings.debug-mode", false),
+
+    HEADSHOT_ACCURACY("settings.headshot-accuracy", 0.6),
     WEAPON_FOLDER("settings.weapon-directory", File.separatorChar + "weapon"),
 
     ;

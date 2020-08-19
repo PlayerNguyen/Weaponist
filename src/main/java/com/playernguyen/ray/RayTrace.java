@@ -43,12 +43,15 @@ public class RayTrace extends WeaponistInstance {
 
                     Weaponist.getDebugger().info(livingEntity.getType() + "=> " + headDistance);
 
-                    result.getEntities().add(livingEntity);
+                    result.getHeadshotEntities().add(livingEntity);
                 }
             }
 
-            // Stop
-            if (!currentBlock.getType().isTransparent()) { break; }
+            // Stop when hit some block that cannot penetrate
+            if (!currentBlock.getType().isTransparent()) {
+                result.setHitBlock(currentBlock);
+                break;
+            }
         }
 
         return result;

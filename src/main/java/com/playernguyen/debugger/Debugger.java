@@ -43,7 +43,7 @@ public class Debugger {
     }
 
     public void info(String string, Object ...args) {
-        this.log(ChatColor.GRAY, string, args);
+        this.log(ChatColor.DARK_GRAY, string, args);
     }
 
     public void arr(List<Object> arr) {
