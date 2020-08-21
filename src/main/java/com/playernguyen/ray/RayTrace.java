@@ -1,6 +1,7 @@
 package com.playernguyen.ray;
 
 import com.playernguyen.WeaponistInstance;
+import com.playernguyen.entity.Shooter;
 import com.playernguyen.location.LocationIterator;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -14,11 +15,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class RayTrace extends WeaponistInstance {
 
-    private Player player;
-    private int distance;
+    private final Shooter shooter;
+    private final int distance;
 
-    public RayTrace(Player player, int distance) {
-        this.player = player;
+    public RayTrace(Shooter shooter, int distance) {
+        this.shooter = shooter;
         this.distance = distance;
     }
 
@@ -28,8 +29,8 @@ public class RayTrace extends WeaponistInstance {
         AtomicInteger penetrate = new AtomicInteger();
 
         LocationIterator locationIterator = new LocationIterator(
-                getPlayer().getEyeLocation(),
-                getPlayer().getEyeLocation().getDirection(),
+                getShooter().asPlayer().getEyeLocation(),
+                getShooter().asPlayer().getEyeLocation().getDirection(),
                 getDistance()
         );
 
@@ -59,7 +60,7 @@ public class RayTrace extends WeaponistInstance {
 
                 // Hit target
                 for (Entity entity : nextLocation.getWorld().getNearbyEntities(nextLocation, radius, radius, radius)) {
-                    if (entity instanceof LivingEntity && entity != player) {
+                    if (entity instanceof LivingEntity && entity != shooter.asPlayer()) {
                         Bukkit.getScheduler().runTask(getWeaponist(), () -> {
                             getDebugger()
                                     .info("New Entity Target: %s", entity.getType().toString().toLowerCase());
@@ -84,8 +85,8 @@ public class RayTrace extends WeaponistInstance {
         return distance;
     }
 
-    public Player getPlayer() {
-        return player;
+    public Shooter getShooter() {
+        return shooter;
     }
 }
 

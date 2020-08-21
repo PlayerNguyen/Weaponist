@@ -1,5 +1,6 @@
 package com.playernguyen;
 
+import com.playernguyen.asset.ammunition.AmmunitionManager;
 import com.playernguyen.debugger.Debugger;
 import com.playernguyen.setting.WeaponistSetting;
 
@@ -23,5 +24,9 @@ public abstract class WeaponistInstance {
 
     public Debugger getDebugger() {
         return Weaponist.getDebugger();
+    }
+
+    public AmmunitionManager getAmmunitionManager() {
+        return Weaponist.getWeaponist().getAmmunitionManager();
     }
 }

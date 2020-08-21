@@ -9,6 +9,4 @@ public interface Shooter {
 
     Player asPlayer();
 
-
-
 }

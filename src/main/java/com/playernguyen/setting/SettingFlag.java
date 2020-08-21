@@ -10,6 +10,7 @@ public enum SettingFlag implements Flagable {
 
     HEADSHOT_ACCURACY("settings.headshot-accuracy", 0.6),
     WEAPON_FOLDER("settings.weapon-directory", File.separatorChar + "weapon"),
+    AMMUNITION_FOLDER("settings.ammunition-directory", File.separatorChar + "ammunition"),
 
     ;
 

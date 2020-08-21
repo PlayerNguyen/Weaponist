@@ -1,8 +1,13 @@
 package com.playernguyen;
 
+import com.playernguyen.asset.ammunition.AmmunitionConfigurationFolder;
+import com.playernguyen.asset.ammunition.AmmunitionManager;
+import com.playernguyen.asset.ammunition.AmmunitionPistol;
+import com.playernguyen.config.ConfigurationFolder;
 import com.playernguyen.debugger.Debugger;
 import com.playernguyen.listener.ListenerManager;
 import com.playernguyen.listener.PlayerInteractListener;
+import com.playernguyen.setting.SettingFlag;
 import com.playernguyen.setting.WeaponistSetting;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -16,6 +21,8 @@ public class Weaponist extends JavaPlugin {
 
     private WeaponistSetting weaponistSetting;
     private ListenerManager listenerManager;
+    private ConfigurationFolder ammunitionFolder;
+    private AmmunitionManager ammunitionManager;
 
     @Override
     public void onEnable() {
@@ -37,6 +44,17 @@ public class Weaponist extends JavaPlugin {
         }
         // Debugger setting
         debugger = new Debugger(getWeaponistSetting());
+        // Load ammunition
+        this.ammunitionFolder = new AmmunitionConfigurationFolder(getWeaponistSetting()
+                .getString(SettingFlag.AMMUNITION_FOLDER));
+
+        this.ammunitionManager = new AmmunitionManager();
+        try {
+            this.ammunitionManager.add(new AmmunitionPistol());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void setupListener() {
@@ -72,5 +90,13 @@ public class Weaponist extends JavaPlugin {
 
     public static Debugger getDebugger() {
         return debugger;
+    }
+
+    public ConfigurationFolder getAmmunitionFolder() {
+        return ammunitionFolder;
+    }
+
+    public AmmunitionManager getAmmunitionManager() {
+        return ammunitionManager;
     }
 }
