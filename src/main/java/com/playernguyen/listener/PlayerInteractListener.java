@@ -25,7 +25,7 @@ public class PlayerInteractListener extends WeaponistInstance implements Listene
         }
 
         getDebugger().warn("Trying to give player an weapon");
-        ItemStack stack = getAmmunitionManager().getRegisteredAmmunition(AmmunitionEnum.PISTOL)
+        ItemStack stack = getAmmunitionManager().getRegisteredAmmunition(AmmunitionEnum.COMMUNIST_RIFLE)
                 .toItem(player);
         player.getInventory().addItem(stack);
     }

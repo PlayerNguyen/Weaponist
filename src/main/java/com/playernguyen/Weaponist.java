@@ -1,8 +1,6 @@
 package com.playernguyen;
 
-import com.playernguyen.asset.ammunition.AmmunitionConfigurationFolder;
-import com.playernguyen.asset.ammunition.AmmunitionManager;
-import com.playernguyen.asset.ammunition.AmmunitionPistol;
+import com.playernguyen.asset.ammunition.*;
 import com.playernguyen.config.ConfigurationFolder;
 import com.playernguyen.debugger.Debugger;
 import com.playernguyen.listener.ListenerManager;
@@ -50,7 +48,9 @@ public class Weaponist extends JavaPlugin {
 
         this.ammunitionManager = new AmmunitionManager();
         try {
-            this.ammunitionManager.add(new AmmunitionPistol());
+            getAmmunitionManager().add(new AmmunitionPistol());
+            getAmmunitionManager().add(new AmmunitionCommunistRifle());
+            getAmmunitionManager().add(new AmmunitionRocket());
         } catch (IOException e) {
             e.printStackTrace();
         }

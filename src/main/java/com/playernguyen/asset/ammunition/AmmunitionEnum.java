@@ -10,7 +10,10 @@ import java.util.List;
  */
 public enum AmmunitionEnum {
 
-    PISTOL("pistol", "9mm", Material.COAL, 2, 16, Arrays.asList("9mm", "Bullet"));
+    PISTOL("pistol", "&c9mm &8Bullet", Material.COAL, 2, 16, Arrays.asList("&c9mm &7Bullet is one of", "&7the most ammunition in server")),
+    COMMUNIST_RIFLE("communist_rifle", "&c7.62mm", Material.BLAZE_ROD, 2, 16, Arrays.asList("&c7.62mm &7for rifle with ", "&7a huge damage")),
+    ROCKET("rocket", "&cRocket", Material.STICK, 1, 16, Arrays.asList("&cRocket &7is an bullet type with", "&7super explode when I triggered")),
+    ;
 
     private final String id;
     private final String defaultDisplay;

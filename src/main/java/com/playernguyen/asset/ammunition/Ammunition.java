@@ -11,4 +11,6 @@ public interface Ammunition extends ItemMetadata {
     ItemStack toItem(Player owner);
 
     AmmunitionEnum getType();
+
+
 }
