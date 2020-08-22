@@ -2,3 +2,8 @@ name: Weaponist
 main: com.playernguyen.Weaponist
 version: 1.0-snap
 authors: [Player_Nguyen]
+commands:
+  ammunition:
+    usage: /ammunition
+    description: Command of Weaponist
+    aliases: [ammuition, ammo]

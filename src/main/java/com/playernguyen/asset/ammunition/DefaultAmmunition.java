@@ -56,8 +56,12 @@ public abstract class DefaultAmmunition implements Ammunition {
 
     @Override
     public ItemStack toItem(Player owner) {
+        return toItem(owner, 1);
+    }
 
-        ItemStack stack = new ItemStack(getMaterial(), 1);
+    @Override
+    public ItemStack toItem(Player owner, int amount) {
+        ItemStack stack = new ItemStack(getMaterial(), amount);
         ItemMeta itemMeta = stack.getItemMeta();
 
         if (itemMeta != null) {

@@ -46,7 +46,7 @@ public class Debugger {
         this.log(ChatColor.DARK_GRAY, string, args);
     }
 
-    public void arr(List<Object> arr) {
+    public void arr(List<?> arr) {
         this.info("Array (%s) {", arr.size());
             for (Object o : arr) {
                 this.info("  " + o.toString());

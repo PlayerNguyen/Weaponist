@@ -2,6 +2,7 @@ package com.playernguyen;
 
 import com.playernguyen.asset.ammunition.AmmunitionManager;
 import com.playernguyen.debugger.Debugger;
+import com.playernguyen.language.LanguageConfiguration;
 import com.playernguyen.setting.WeaponistSetting;
 
 public abstract class WeaponistInstance {
@@ -28,5 +29,9 @@ public abstract class WeaponistInstance {
 
     public AmmunitionManager getAmmunitionManager() {
         return Weaponist.getWeaponist().getAmmunitionManager();
+    }
+
+    public LanguageConfiguration getLanguageConfiguration() {
+        return this.getWeaponist().getLanguageConfiguration();
     }
 }

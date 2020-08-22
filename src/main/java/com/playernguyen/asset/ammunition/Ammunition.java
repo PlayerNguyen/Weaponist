@@ -10,7 +10,12 @@ public interface Ammunition extends ItemMetadata {
 
     ItemStack toItem(Player owner);
 
+    ItemStack toItem(Player owner, int ammount);
+
     AmmunitionEnum getType();
 
+    default String getId() {
+        return getType().getId();
+    }
 
 }

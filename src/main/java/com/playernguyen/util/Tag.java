@@ -103,6 +103,14 @@ public class Tag {
             return compound() != null;
         }
 
+        public boolean hasKey(String key) {
+            return Objects.requireNonNull(compound()).hasKey(key);
+        }
+
+        public boolean hasKey(ItemTagEnum e) {
+            return hasKey(e.getKey());
+        }
+
         public String getString(String key) {
             return Objects.requireNonNull(compound()).getString(key);
         }
@@ -127,5 +135,10 @@ public class Tag {
             return getBoolean(keyEnum.getKey());
         }
 
+    }
+
+    public static boolean isAmmunition(ItemStack itemStack) {
+        Reader reader = new Reader(itemStack);
+        return reader.hasKey(ItemTagEnum.AMMUNITION_VALID) && (reader.getBoolean(ItemTagEnum.AMMUNITION_VALID));
     }
 }
