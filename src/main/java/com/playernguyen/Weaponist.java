@@ -1,14 +1,19 @@
 package com.playernguyen;
 
 import com.playernguyen.asset.ammunition.*;
+import com.playernguyen.asset.weapon.GunBeretta;
+import com.playernguyen.asset.weapon.GunConfigurationFolder;
+import com.playernguyen.asset.weapon.GunManager;
 import com.playernguyen.command.Command;
 import com.playernguyen.command.ammunition.CommandAmmunition;
 import com.playernguyen.command.CommandManager;
+import com.playernguyen.command.weapon.CommandWeapon;
 import com.playernguyen.config.ConfigurationFolder;
 import com.playernguyen.debugger.Debugger;
 import com.playernguyen.language.LanguageConfiguration;
 import com.playernguyen.listener.ListenerManager;
 import com.playernguyen.listener.PlayerInteractListener;
+import com.playernguyen.listener.PlayerSwapHandListener;
 import com.playernguyen.setting.SettingFlag;
 import com.playernguyen.setting.WeaponistSetting;
 import org.bukkit.Bukkit;
@@ -28,6 +33,8 @@ public class Weaponist extends JavaPlugin {
     private ConfigurationFolder ammunitionFolder;
     private AmmunitionManager ammunitionManager;
     private CommandManager commandManager;
+    private GunConfigurationFolder weaponFolder;
+    private GunManager gunManager;
 
     @Override
     public void onEnable() {
@@ -39,7 +46,6 @@ public class Weaponist extends JavaPlugin {
         setupLanguage();
         // Listener setup
         setupListener();
-
         // Command setup
         setupCommand();
 
@@ -49,7 +55,7 @@ public class Weaponist extends JavaPlugin {
         this.commandManager = new CommandManager();
         // Append data
         getCommandManager().add(new CommandAmmunition());
-
+        getCommandManager().add(new CommandWeapon());
         // Register
         for (Command command : commandManager.getContainer()) {
             PluginCommand pluginCommand = Bukkit.getPluginCommand(command.getCommand());
@@ -85,10 +91,10 @@ public class Weaponist extends JavaPlugin {
         }
         // Debugger setting
         debugger = new Debugger(getWeaponistSetting());
-        // Load ammunition
+        // Ammunition folder
         this.ammunitionFolder = new AmmunitionConfigurationFolder(getWeaponistSetting()
                 .getString(SettingFlag.AMMUNITION_FOLDER));
-
+        // Ammunition setting
         this.ammunitionManager = new AmmunitionManager();
         try {
             getAmmunitionManager().add(new AmmunitionPistol());
@@ -96,6 +102,17 @@ public class Weaponist extends JavaPlugin {
             getAmmunitionManager().add(new AmmunitionRocket());
         } catch (IOException e) {
             debugger.err("Cannot save ammunition...");
+            e.printStackTrace();
+        }
+        // Weapon setting
+        this.weaponFolder = new GunConfigurationFolder(getWeaponistSetting().getString(SettingFlag.WEAPON_FOLDER));
+        this.gunManager = new GunManager();
+
+        try {
+            getGunManager().add(new GunBeretta());
+
+        } catch (IOException e) {
+            debugger.err("Cannot save weapon...");
             e.printStackTrace();
         }
 
@@ -107,6 +124,7 @@ public class Weaponist extends JavaPlugin {
         this.listenerManager = new ListenerManager();
         // Register the listener
         listenerManager.add(new PlayerInteractListener());
+        listenerManager.add(new PlayerSwapHandListener());
 
         // Register the manager
         getListenerManager().register(this);
@@ -150,5 +168,13 @@ public class Weaponist extends JavaPlugin {
 
     public CommandManager getCommandManager() {
         return commandManager;
+    }
+
+    public GunConfigurationFolder getWeaponFolder() {
+        return weaponFolder;
+    }
+
+    public GunManager getGunManager() {
+        return gunManager;
     }
 }

@@ -1,5 +1,8 @@
 package com.playernguyen.ray;
 
+import com.playernguyen.entity.DefaultTarget;
+import com.playernguyen.entity.Shooter;
+import com.playernguyen.entity.Target;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 
@@ -8,22 +11,14 @@ import java.util.List;
 
 public class RayResult {
 
-    private final List<LivingEntity> entities;
-    private final List<LivingEntity> headshotEntities;
+    private Shooter shooter;
+    private List<Target> targets;
     private Block hitBlock;
 
-    public RayResult() {
-        this.entities = new ArrayList<>();
-        this.headshotEntities = new ArrayList<>();
-        this.hitBlock = null;
-    }
-
-    public List<LivingEntity> getEntities() {
-        return entities;
-    }
-
-    public List<LivingEntity> getHeadshotEntities() {
-        return headshotEntities;
+    public RayResult(Shooter shooter, List<Target> targets, Block hitBlock) {
+        this.shooter = shooter;
+        this.targets = targets;
+        this.hitBlock = hitBlock;
     }
 
     public Block getHitBlock() {
@@ -32,5 +27,25 @@ public class RayResult {
 
     public void setHitBlock(Block hitBlock) {
         this.hitBlock = hitBlock;
+    }
+
+    public void setShooter(Shooter shooter) {
+        this.shooter = shooter;
+    }
+
+    public Shooter getShooter() {
+        return shooter;
+    }
+
+    public List<Target> getTargets() {
+        return targets;
+    }
+
+    public void addTarget(Target e) {
+        targets.add(e);
+    }
+
+    public void setTargets(List<Target> targets) {
+        this.targets = targets;
     }
 }

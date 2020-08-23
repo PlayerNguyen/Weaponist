@@ -34,6 +34,7 @@ public class AmmunitionConfiguration extends WeaponistInstance {
 
         // Set the item metadata
         this.itemMetadata = new DefaultItemMetadata(
+                ammunitionEnum.getId(),
                 fileConfiguration.getString("ammunition.name"),
                 fileConfiguration.getStringList("ammunition.description"),
                 Material.getMaterial(fileConfiguration.getString("ammunition.material")),

@@ -135,10 +135,36 @@ public class Tag {
             return getBoolean(keyEnum.getKey());
         }
 
+        public String getString(ItemTagEnum e){
+            return getString(e.getKey());
+        }
     }
 
     public static boolean isAmmunition(ItemStack itemStack) {
         Reader reader = new Reader(itemStack);
-        return reader.hasKey(ItemTagEnum.AMMUNITION_VALID) && (reader.getBoolean(ItemTagEnum.AMMUNITION_VALID));
+        return reader.hasCompound()
+                && reader.hasKey(ItemTagEnum.AMMUNITION_VALID)
+                && (reader.getBoolean(ItemTagEnum.AMMUNITION_VALID));
+    }
+
+    public static String getAmmunitionType(ItemStack itemStack) {
+        Reader reader = new Reader(itemStack);
+        if (!reader.hasCompound()) throw new NullPointerException("compound not found!");
+        return reader.getString(ItemTagEnum.AMMUNITION_ID);
+    }
+
+    public static boolean isWeapon(ItemStack itemStack) {
+
+        Reader reader = new Reader(itemStack);
+
+        return reader.hasCompound()
+                && reader.hasKey(ItemTagEnum.IS_WEAPON)
+                && reader.getBoolean(ItemTagEnum.IS_WEAPON);
+    }
+
+    public static String getWeaponId(ItemStack stack) {
+        Reader reader = new Reader(stack);
+        if (!reader.hasCompound()) throw new NullPointerException("no compound found!");
+        return reader.getString(ItemTagEnum.WEAPON_ID);
     }
 }

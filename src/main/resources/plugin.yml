@@ -7,3 +7,7 @@ commands:
     usage: /ammunition
     description: Command of Weaponist
     aliases: [ammuition, ammo]
+  weapon:
+    usage: /weapon
+    description: Command of Weaponist
+    aliases: [weapon, gun]

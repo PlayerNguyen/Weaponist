@@ -2,8 +2,13 @@ package com.playernguyen.asset;
 
 public enum ItemTagEnum {
 
-    AMMUNITION_VALID("ammunition_valid", true),
+    AMMUNITION_VALID("is_ammo", true),
+    AMMUNITION_ID("ammunition_id", ""),
 
+    IS_WEAPON("is_weapon", true),
+    WEAPON_ID("weapon_id", ""),
+    WEAPON_AMMO_TYPE("weapon_ammo_type", ""),
+    WEAPON_TRIGGER_BLOCK("weapon_trigger_block", false)
     ;
 
 

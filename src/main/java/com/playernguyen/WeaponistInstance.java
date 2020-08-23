@@ -1,6 +1,8 @@
 package com.playernguyen;
 
 import com.playernguyen.asset.ammunition.AmmunitionManager;
+import com.playernguyen.asset.weapon.GunConfigurationFolder;
+import com.playernguyen.asset.weapon.GunManager;
 import com.playernguyen.debugger.Debugger;
 import com.playernguyen.language.LanguageConfiguration;
 import com.playernguyen.setting.WeaponistSetting;
@@ -33,5 +35,13 @@ public abstract class WeaponistInstance {
 
     public LanguageConfiguration getLanguageConfiguration() {
         return this.getWeaponist().getLanguageConfiguration();
+    }
+
+    public GunConfigurationFolder getWeaponFolder() {
+        return getWeaponist().getWeaponFolder();
+    }
+
+    public GunManager getGunManager() {
+        return getWeaponist().getGunManager();
     }
 }

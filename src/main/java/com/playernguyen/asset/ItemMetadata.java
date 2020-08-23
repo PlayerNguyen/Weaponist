@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface ItemMetadata {
 
+    String getId();
+
     String getDisplayName();
 
     List<String> getDescription();

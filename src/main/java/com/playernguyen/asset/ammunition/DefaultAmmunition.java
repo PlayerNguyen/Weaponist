@@ -2,7 +2,6 @@ package com.playernguyen.asset.ammunition;
 
 import com.playernguyen.asset.ItemTagEnum;
 import com.playernguyen.util.Tag;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -73,6 +72,7 @@ public abstract class DefaultAmmunition implements Ammunition {
         // Add nms data into the item
         stack = new Tag.Builder(stack)
                 .appendInitialKeyEnum(ItemTagEnum.AMMUNITION_VALID)
+                .appendData(ItemTagEnum.AMMUNITION_ID, this.getId())
                 .build();
         return stack;
     }

@@ -13,7 +13,11 @@ public class LocationIterator {
 
     public LocationIterator(Location start, Vector direction, int maxDistance) {
         this.start = start;
+        System.out.println(direction);
         this.direction = direction;
+        direction = direction.multiply(0.2);
+        System.out.println(direction);
+
         this.maxDistance = maxDistance;
 
         // Begin with current

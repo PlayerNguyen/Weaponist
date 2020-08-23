@@ -3,6 +3,7 @@ package com.playernguyen.ray;
 import com.playernguyen.WeaponistInstance;
 import com.playernguyen.entity.Shooter;
 import com.playernguyen.location.LocationIterator;
+import com.playernguyen.runnable.RayCollectRunnable;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -24,61 +25,11 @@ public class RayTrace extends WeaponistInstance {
     }
 
     public RayResult ray(Particle particle, int maxPenetrate) {
-
-        RayResult result = new RayResult();
-        AtomicInteger penetrate = new AtomicInteger();
-
-        LocationIterator locationIterator = new LocationIterator(
-                getShooter().asPlayer().getEyeLocation(),
-                getShooter().asPlayer().getEyeLocation().getDirection(),
-                getDistance()
-        );
-
-        Bukkit.getScheduler().runTaskAsynchronously(getWeaponist(), () -> {
-            while (locationIterator.hasNext()) {
-
-                Location nextLocation = locationIterator.next();
-
-                // Particle play
-                if (particle != null) {
-                    nextLocation.getWorld().spawnParticle(particle, nextLocation, 1);
-                }
-
-                // Penetrate with block
-                if (nextLocation.getBlock().getType() != Material.AIR) {
-                    getDebugger().info("New Block Hitting: %s" ,nextLocation
-                            .getBlock()
-                            .getType()
-                            .toString()
-                            .toLowerCase()
-                    );
-                    penetrate.getAndIncrement();
-                    result.setHitBlock(nextLocation.getBlock());
-                }
-
-                double radius = 0.3f;
-
-                // Hit target
-                for (Entity entity : nextLocation.getWorld().getNearbyEntities(nextLocation, radius, radius, radius)) {
-                    if (entity instanceof LivingEntity && entity != shooter.asPlayer()) {
-                        Bukkit.getScheduler().runTask(getWeaponist(), () -> {
-                            getDebugger()
-                                    .info("New Entity Target: %s", entity.getType().toString().toLowerCase());
-                            penetrate.getAndIncrement();
-                        });
-                    }
-                }
-
-                getDebugger().info("Current penetrate: %s", penetrate.toString());
-                if (penetrate.get() >= maxPenetrate) { break; }
-
-                if (locationIterator.outOfLimit()) {
-                    getDebugger().info("Ray out of limit !");
-                }
-            }
-        });
-
-        return result;
+        RayCollectRunnable collector =
+                new RayCollectRunnable(shooter, distance, maxPenetrate, particle);
+        // Run the runnable
+        collector.run();
+        return new RayResult(shooter, collector.getTargets(), collector.getLastBlock());
     }
 
     public int getDistance() {
