@@ -17,4 +17,8 @@ public interface Shooter {
 
     void setReloading(boolean b);
 
+    int getStackShoot();
+
+    void setStackShoot(int i);
+
 }

@@ -12,6 +12,7 @@ public class DefaultShooter extends WeaponistInstance implements Shooter {
     private final Weapon currentWeapon;
     private boolean canTrigger;
     private boolean reloading;
+    private int stackShoot;
 
     public DefaultShooter(Player player) {
         this.player = player;
@@ -25,6 +26,7 @@ public class DefaultShooter extends WeaponistInstance implements Shooter {
 
         this.canTrigger = true;
         this.reloading = false;
+        this.stackShoot = 0;
     }
 
     @Override
@@ -59,5 +61,14 @@ public class DefaultShooter extends WeaponistInstance implements Shooter {
     @Override
     public Weapon getCurrentWeapon() {
         return currentWeapon;
+    }
+
+    @Override
+    public int getStackShoot() {
+        return stackShoot;
+    }
+
+    public void setStackShoot(int stackShoot) {
+        this.stackShoot = stackShoot;
     }
 }

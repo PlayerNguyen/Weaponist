@@ -100,8 +100,14 @@ public class RayCollectRunnable extends BukkitRunnable {
 
             // Block set
             if (!currentLocation.getBlock().getType().isTransparent()) {
-                this.lastBlock = currentLocation.getBlock();
-                penetrate ++;
+
+                System.out.println("Last: " + ((this.lastBlock != null) ? this.lastBlock.getType() : "null"));
+                System.out.println("Current: " + currentLocation.getBlock().getType());
+
+                if (this.lastBlock == null || !this.lastBlock.equals(currentLocation.getBlock())) {
+                    this.lastBlock = currentLocation.getBlock();
+                    penetrate ++;
+                }
             }
 
 

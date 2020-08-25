@@ -26,6 +26,7 @@ public class GunConfiguration extends WeaponistInstance {
     public static final String SHOOT_NON_ACCESSORY_SOUND = "shootSound.defaultShootSound";
     public static final String DELAY_PER_SHOOT = "delayPerShoot";
     public static final String FIRE_ACCURACY = "fireAccuracy";
+    public static final String MAX_DISTANCE = "maxDistance";
 
     private final File file;
     private final FileConfiguration fileConfiguration;
@@ -38,6 +39,7 @@ public class GunConfiguration extends WeaponistInstance {
     private final List<SoundConfiguration> shootSound;
     private final double delayPerShoot;
     private final double fireAccuracy;
+    private final int maxDistance;
 
     public GunConfiguration(GunEnum gunEnum) throws IOException {
         // Load the file ~
@@ -48,23 +50,23 @@ public class GunConfiguration extends WeaponistInstance {
         // Load the configuration
         this.fileConfiguration = YamlConfiguration.loadConfiguration(file);
 
-        if (!this.file.exists()) {
-            setDefault(DISPLAY_NAME, gunEnum.getName());
-            setDefault(MATERIAL_TYPE, gunEnum.getMaterial().toString());
-            setDefault(AMMO_TYPE, gunEnum.getAmmunitionType().getId());
+        // Initial
+        setDefault(DISPLAY_NAME, gunEnum.getName());
+        setDefault(MATERIAL_TYPE, gunEnum.getMaterial().toString());
+        setDefault(AMMO_TYPE, gunEnum.getAmmunitionType().getId());
 
-            setDefault(MAX_MAGAZINE, gunEnum.getMaxMagazine());
-            setDefault(RELOAD_TIME, gunEnum.getReloadTime());
-            setDefault(GENERIC_DAMAGE, gunEnum.getDamage());
-            setDefault(DELAY_PER_SHOOT, gunEnum.getDelayPerShoot());
-            setDefault(FIRE_ACCURACY, gunEnum.getFireAccuracy());
-            setDefault(MATERIAL_TYPE, gunEnum.getMaterial().toString());
+        setDefault(MAX_MAGAZINE, gunEnum.getMaxMagazine());
+        setDefault(RELOAD_TIME, gunEnum.getReloadTime());
+        setDefault(GENERIC_DAMAGE, gunEnum.getDamage());
+        setDefault(DELAY_PER_SHOOT, gunEnum.getDelayPerShoot());
+        setDefault(FIRE_ACCURACY, gunEnum.getFireAccuracy());
+        setDefault(MATERIAL_TYPE, gunEnum.getMaterial().toString());
 
-            setDefault(RELOAD_SOUND, gunEnum.getReloadSound());
-            setDefault(SHOOT_NON_ACCESSORY_SOUND, gunEnum.getShootSound());
-        }
+        setDefault(RELOAD_SOUND, gunEnum.getReloadSound());
+        setDefault(SHOOT_NON_ACCESSORY_SOUND, gunEnum.getShootSound());
+        setDefault(MAX_DISTANCE, gunEnum.getMaxDistance());
 
-
+        // Getter
         this.itemMetadata = new DefaultItemMetadata(
                 gunEnum.getId(),
                 this.fileConfiguration.getString(DISPLAY_NAME),
@@ -80,6 +82,7 @@ public class GunConfiguration extends WeaponistInstance {
         this.damage = this.fileConfiguration.getDouble(GENERIC_DAMAGE);
         this.delayPerShoot = this.fileConfiguration.getDouble(DELAY_PER_SHOOT);
         this.fireAccuracy = this.fileConfiguration.getDouble(FIRE_ACCURACY);
+        this.maxDistance = this.fileConfiguration.getInt(MAX_DISTANCE);
         // Sound attributes initial
         this.reloadSound = new ArrayList<>();
         addSoundFromListString(this.fileConfiguration.getStringList(RELOAD_SOUND), this.reloadSound);
@@ -144,6 +147,10 @@ public class GunConfiguration extends WeaponistInstance {
 
     public double getFireAccuracy() {
         return fireAccuracy;
+    }
+
+    public int getMaxDistance() {
+        return maxDistance;
     }
 
     private void setDefault(String key, Object object) {

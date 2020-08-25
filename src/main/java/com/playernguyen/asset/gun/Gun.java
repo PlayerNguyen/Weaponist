@@ -26,4 +26,6 @@ public interface Gun extends Weapon {
 
     double getFireAccuracy();
 
+    int getMaxDistance();
+
 }

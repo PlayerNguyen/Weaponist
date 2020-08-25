@@ -1,10 +1,7 @@
 package com.playernguyen;
 
 import com.playernguyen.asset.ammunition.*;
-import com.playernguyen.asset.gun.GunBeretta;
-import com.playernguyen.asset.gun.GunConfigurationFolder;
-import com.playernguyen.asset.gun.GunManager;
-import com.playernguyen.asset.gun.GunUzi;
+import com.playernguyen.asset.gun.*;
 import com.playernguyen.command.Command;
 import com.playernguyen.command.CommandManager;
 import com.playernguyen.command.ammunition.CommandAmmunition;
@@ -124,6 +121,7 @@ public class Weaponist extends JavaPlugin {
         try {
             getGunManager().add(new GunBeretta());
             getGunManager().add(new GunUzi());
+            getGunManager().add(new GunAKRifle());
         } catch (IOException e) {
             debugger.err("Cannot save weapon...");
             e.printStackTrace();

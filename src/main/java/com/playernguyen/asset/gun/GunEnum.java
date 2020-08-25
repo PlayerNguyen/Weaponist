@@ -17,10 +17,10 @@ public enum GunEnum {
             5.5,
             0.5,
             1.2d,
+            100,
+            12,
             AmmunitionEnum.PISTOL,
             Material.PRISMARINE_CRYSTALS,
-            12,
-
             Arrays.asList(
                     "&cBarretta &7handgun is a light-weight,",
                     "&7mobility and simplex gun for who want ", "&7to have a little boy in hand"
@@ -42,9 +42,10 @@ public enum GunEnum {
             5.2,
             0.01,
             0.8,
+            100,
+            25,
             AmmunitionEnum.PISTOL,
             Material.GOLD_NUGGET,
-            25,
             Arrays.asList(
                     "&cUzi &7- Killing machine with light-weight",
                     "guns. Kill kill and kill"
@@ -57,6 +58,32 @@ public enum GunEnum {
             Arrays.asList(
                     new SoundConfiguration(Sound.BLOCK_NOTE_BASEDRUM, 0.5f, 1),
                     new SoundConfiguration(Sound.BLOCK_NOTE_SNARE, 1f, 1f)
+            )
+    ),
+    AK_RIFLE(
+            "ak_47",
+            "&cAK-47",
+            1.8,
+            9.5,
+            0.1,
+            1,
+            300,
+            30,
+            AmmunitionEnum.COMMUNIST_RIFLE,
+            Material.IRON_NUGGET,
+            Arrays.asList(
+                    "&cAK-47, &7the communist gun with ",
+                    "&7huge damage."
+            ),
+            Arrays.asList(
+                    new SoundConfiguration(Sound.BLOCK_WOODEN_TRAPDOOR_OPEN, .5f, 1.4f),
+                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_ON, .5f,  .7f),
+                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_OFF, .5f,  .7f)
+            ),
+            Arrays.asList(
+                    new SoundConfiguration(Sound.BLOCK_NOTE_BASEDRUM, 0.5f, 1),
+                    new SoundConfiguration(Sound.BLOCK_NOTE_SNARE, 1f, 1f),
+                    new SoundConfiguration(Sound.ENTITY_GENERIC_EXPLODE, 0.8f, 2f)
             )
     );
 
@@ -72,6 +99,7 @@ public enum GunEnum {
     private final List<String> reloadSound;
     private final List<String> shootSound;
     private final double fireAccuracy;
+    private final int maxDistance;
 
     GunEnum(String id,
             String name,
@@ -79,10 +107,10 @@ public enum GunEnum {
             double damage,
             double delayPerShoot,
             double fireAccuracy,
-
+            int maxDistance,
+            int maxMagazine,
             AmmunitionEnum ammunitionType,
             Material material,
-            int maxMagazine,
             List<String> description,
             List<SoundConfiguration> reloadSound,
             List<SoundConfiguration> shootSound) {
@@ -96,6 +124,7 @@ public enum GunEnum {
         this.reloadTime = reloadTime;
         this.damage = damage;
         this.delayPerShoot = delayPerShoot;
+        this.maxDistance = maxDistance;
 
         this.reloadSound = new ArrayList<>();
         for (SoundConfiguration soundConfiguration : reloadSound) {
@@ -158,5 +187,9 @@ public enum GunEnum {
 
     public double getFireAccuracy() {
         return fireAccuracy;
+    }
+
+    public int getMaxDistance() {
+        return maxDistance;
     }
 }
