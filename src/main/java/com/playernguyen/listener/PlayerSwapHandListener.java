@@ -1,8 +1,8 @@
 package com.playernguyen.listener;
 
 import com.playernguyen.WeaponistInstance;
-import com.playernguyen.asset.Weapon;
-import com.playernguyen.asset.weapon.Gun;
+import com.playernguyen.asset.gun.Gun;
+import com.playernguyen.entity.Shooter;
 import com.playernguyen.event.WeaponistPlayerReloadEvent;
 import com.playernguyen.util.Tag;
 import org.bukkit.Bukkit;
@@ -21,6 +21,13 @@ public class PlayerSwapHandListener extends WeaponistInstance implements Listene
 
         // Main hand item
         if (Tag.isWeapon(itemInMainHand)) {
+            // Shooter check reloading or not for not repeating
+            Shooter shooter = getShooterManager().getShooterAsPlayer(player);
+            if (shooter.isReloading()) {
+                event.setCancelled(true);
+                return;
+            }
+
             // Reload perform
             String weaponId = Tag.getWeaponId(itemInMainHand);
             Gun gun = getGunManager().getRegisteredWeapon(weaponId);
@@ -31,7 +38,7 @@ public class PlayerSwapHandListener extends WeaponistInstance implements Listene
             Bukkit.getServer().getPluginManager().callEvent(weaponistPlayerReloadEvent);
 
             if (!weaponistPlayerReloadEvent.isCancelled()) {
-                gun.reload(player);
+                gun.reload(shooter, getWeaponist());
                 event.setCancelled(true);
             }
         }

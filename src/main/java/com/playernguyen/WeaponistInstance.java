@@ -1,9 +1,10 @@
 package com.playernguyen;
 
 import com.playernguyen.asset.ammunition.AmmunitionManager;
-import com.playernguyen.asset.weapon.GunConfigurationFolder;
-import com.playernguyen.asset.weapon.GunManager;
+import com.playernguyen.asset.gun.GunConfigurationFolder;
+import com.playernguyen.asset.gun.GunManager;
 import com.playernguyen.debugger.Debugger;
+import com.playernguyen.entity.ShooterManager;
 import com.playernguyen.language.LanguageConfiguration;
 import com.playernguyen.setting.WeaponistSetting;
 
@@ -11,6 +12,7 @@ public abstract class WeaponistInstance {
 
     /**
      * Instancing
+     *
      * @return the instance of Weaponist
      */
     public Weaponist getWeaponist() {
@@ -19,6 +21,7 @@ public abstract class WeaponistInstance {
 
     /**
      * Setting of weaponist
+     *
      * @return the {@link WeaponistSetting} class of weaponist
      */
     public WeaponistSetting getWeaponistSetting() {
@@ -43,5 +46,9 @@ public abstract class WeaponistInstance {
 
     public GunManager getGunManager() {
         return getWeaponist().getGunManager();
+    }
+
+    public ShooterManager getShooterManager() {
+        return getWeaponist().getShooterManager();
     }
 }

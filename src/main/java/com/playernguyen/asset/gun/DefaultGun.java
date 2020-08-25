@@ -1,6 +1,7 @@
-package com.playernguyen.asset.weapon;
+package com.playernguyen.asset.gun;
 
 import com.playernguyen.asset.ItemTagEnum;
+import com.playernguyen.entity.Shooter;
 import com.playernguyen.sound.SoundConfiguration;
 import com.playernguyen.util.ActionBar;
 import com.playernguyen.util.Tag;
@@ -9,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.Plugin;
 
 import java.io.IOException;
 import java.util.List;
@@ -74,21 +76,26 @@ public abstract class DefaultGun implements Gun {
     }
 
     @Override
-    public void reload(Player player) {
+    public void reload(Shooter shooter, Plugin plugin) {
+        Player player = shooter.asPlayer();
         // Search for ammo
         for (ItemStack i : player.getInventory().getContents()) {
             if (Tag.isAmmunition(i)
                     && Tag.getAmmunitionType(i).equalsIgnoreCase(getAmmunitionType())) {
-
+                shooter.setReloading(true);
                 // Do reload
-                ActionBar.performCountdown(gunConfiguration.getWeaponist(), player, getReloadTime(), () -> {
-                    player.getInventory().getItemInMainHand().setAmount(getMaxStackSize());
+                ActionBar.performCountdown(plugin, player, getReloadTime(), () -> {
+                    ItemStack stack = player.getInventory().getItemInMainHand();
                     // Decrease the item
-                    WeaponistUtil.decreaseItemStack(i);
+                    if (stack.getAmount() < getMaxStackSize()) {
+                        WeaponistUtil.decreaseItemStack(i);
+                        stack.setAmount(getMaxStackSize());
+                    }
                     // Play sound
                     for (SoundConfiguration soundConfiguration : getReloadSoundList()) {
                         soundConfiguration.play(player.getEyeLocation());
                     }
+                    shooter.setReloading(false);
                 });
             }
         }
@@ -113,5 +120,15 @@ public abstract class DefaultGun implements Gun {
     @Override
     public List<SoundConfiguration> getShootSoundList() {
         return gunConfiguration.getShootSound();
+    }
+
+    @Override
+    public double getDelayPerShootTime() {
+        return gunConfiguration.getDelayPerShoot();
+    }
+
+    @Override
+    public double getFireAccuracy() {
+        return gunConfiguration.getFireAccuracy();
     }
 }

@@ -1,6 +1,5 @@
-package com.playernguyen.asset.weapon;
+package com.playernguyen.asset.gun;
 
-import com.playernguyen.asset.Weapon;
 import com.playernguyen.manager.ManagerSet;
 
 public class GunManager extends ManagerSet<Gun> {

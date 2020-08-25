@@ -36,7 +36,7 @@ public class CommandWeaponGive extends DefaultSubCommand {
             player.getInventory()
                     .addItem(getGunManager()
                             .getRegisteredWeapon(weaponId)
-                            .toItem(player, (params.get(1) != null)
+                            .toItem(player, (params.size() == 2)
                                     ? Integer.parseInt(params.get(1)) : 1)
                     );
         }

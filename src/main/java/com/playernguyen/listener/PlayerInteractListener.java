@@ -1,7 +1,7 @@
 package com.playernguyen.listener;
 
 import com.playernguyen.WeaponistInstance;
-import com.playernguyen.asset.weapon.Gun;
+import com.playernguyen.asset.gun.Gun;
 import com.playernguyen.event.WeaponistPlayerShootEvent;
 import com.playernguyen.language.LanguageFlag;
 import com.playernguyen.util.ActionBar;
@@ -38,8 +38,10 @@ public class PlayerInteractListener extends WeaponistInstance implements Listene
             // Call event and handler
             WeaponistPlayerShootEvent shootEvent = new WeaponistPlayerShootEvent(player);
             Bukkit.getPluginManager().callEvent(shootEvent);
+
+            //If not cancel
             if (!shootEvent.isCancelled()) {
-                weapon.shoot(player);
+                weapon.shoot(getShooterManager().getShooterAsPlayer(player), getWeaponist());
             }
         }
 

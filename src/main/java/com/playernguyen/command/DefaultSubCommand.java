@@ -1,6 +1,5 @@
 package com.playernguyen.command;
 
-import com.playernguyen.Weaponist;
 import com.playernguyen.WeaponistInstance;
 import com.playernguyen.language.LanguageFlag;
 import org.bukkit.ChatColor;

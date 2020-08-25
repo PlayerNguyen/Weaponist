@@ -9,4 +9,12 @@ public interface Shooter {
 
     Player asPlayer();
 
+    boolean isCanTrigger();
+
+    void setCanTrigger(boolean b);
+
+    boolean isReloading();
+
+    void setReloading(boolean b);
+
 }

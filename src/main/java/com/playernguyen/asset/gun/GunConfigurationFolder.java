@@ -1,4 +1,4 @@
-package com.playernguyen.asset.weapon;
+package com.playernguyen.asset.gun;
 
 import com.playernguyen.config.ConfigurationFolder;
 

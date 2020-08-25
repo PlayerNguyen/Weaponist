@@ -10,6 +10,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,6 +27,7 @@ public class RayCollectRunnable extends BukkitRunnable {
     private Block lastBlock;
 
     private int penetrate = 0;
+    private double rate = 0;
 
     public RayCollectRunnable(Shooter shooter, int maxDistance, int maxPenetrate) {
         this.shooter = shooter;
@@ -34,6 +36,7 @@ public class RayCollectRunnable extends BukkitRunnable {
         this.maxPenetrate = maxPenetrate;
     }
 
+    @Deprecated
     public RayCollectRunnable(Shooter shooter, int maxDistance, int maxPenetrate,  Particle particle) {
         this.shooter = shooter;
         this.maxDistance = maxDistance;
@@ -41,13 +44,28 @@ public class RayCollectRunnable extends BukkitRunnable {
         this.maxPenetrate = maxPenetrate;
     }
 
+    public RayCollectRunnable(Shooter shooter, int maxDistance, int maxPenetrate, Particle particle, double rate) {
+        this.shooter = shooter;
+        this.maxDistance = maxDistance;
+        this.particle = particle;
+        this.maxPenetrate = maxPenetrate;
+        this.rate = rate;
+    }
+
     @Override
     public void run() {
         // Shooter location
         Location eyeLocation = shooter.asPlayer().getEyeLocation();
+
+        Vector rateCompound = new Vector(
+                generateRate(-rate, rate),
+                generateRate(0, rate),
+                generateRate(-rate, rate)
+        );
+
         LocationIterator locationIterator = new LocationIterator(
                 eyeLocation,
-                eyeLocation.getDirection(),
+                eyeLocation.getDirection().add(rateCompound),
                 maxDistance
         );
 
@@ -105,6 +123,10 @@ public class RayCollectRunnable extends BukkitRunnable {
 
     public Block getLastBlock() {
         return lastBlock;
+    }
+
+    private double generateRate(double min, double max) {
+        return min + Math.random() * (max - min);
     }
 
 }

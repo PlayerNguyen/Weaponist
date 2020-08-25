@@ -8,7 +8,9 @@ public enum ItemTagEnum {
     IS_WEAPON("is_weapon", true),
     WEAPON_ID("weapon_id", ""),
     WEAPON_AMMO_TYPE("weapon_ammo_type", ""),
-    WEAPON_TRIGGER_BLOCK("weapon_trigger_block", false)
+
+
+
     ;
 
 

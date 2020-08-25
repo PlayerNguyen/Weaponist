@@ -10,6 +10,8 @@ public class DefaultShooter extends WeaponistInstance implements Shooter {
 
     private final Player player;
     private final Weapon currentWeapon;
+    private boolean canTrigger;
+    private boolean reloading;
 
     public DefaultShooter(Player player) {
         this.player = player;
@@ -20,6 +22,29 @@ public class DefaultShooter extends WeaponistInstance implements Shooter {
         } else {
             this.currentWeapon = null;
         }
+
+        this.canTrigger = true;
+        this.reloading = false;
+    }
+
+    @Override
+    public boolean isReloading() {
+        return reloading;
+    }
+
+    @Override
+    public void setReloading(boolean reloading) {
+        this.reloading = reloading;
+    }
+
+    @Override
+    public void setCanTrigger(boolean canTrigger) {
+        this.canTrigger = canTrigger;
+    }
+
+    @Override
+    public boolean isCanTrigger() {
+        return canTrigger;
     }
 
     public DefaultShooter(Player player, Weapon currentWeapon) {

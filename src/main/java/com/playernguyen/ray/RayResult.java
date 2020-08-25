@@ -1,12 +1,9 @@
 package com.playernguyen.ray;
 
-import com.playernguyen.entity.DefaultTarget;
 import com.playernguyen.entity.Shooter;
 import com.playernguyen.entity.Target;
 import org.bukkit.block.Block;
-import org.bukkit.entity.LivingEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RayResult {

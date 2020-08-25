@@ -2,31 +2,31 @@ package com.playernguyen.ray;
 
 import com.playernguyen.WeaponistInstance;
 import com.playernguyen.entity.Shooter;
-import com.playernguyen.location.LocationIterator;
 import com.playernguyen.runnable.RayCollectRunnable;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class RayTrace extends WeaponistInstance {
 
     private final Shooter shooter;
     private final int distance;
+    private final double rate;
 
+    @Deprecated
     public RayTrace(Shooter shooter, int distance) {
         this.shooter = shooter;
         this.distance = distance;
+        this.rate = 0;
+    }
+
+    public RayTrace(Shooter shooter, int distance, double rate) {
+        this.shooter = shooter;
+        this.distance = distance;
+        this.rate = rate;
     }
 
     public RayResult ray(Particle particle, int maxPenetrate) {
         RayCollectRunnable collector =
-                new RayCollectRunnable(shooter, distance, maxPenetrate, particle);
+                new RayCollectRunnable(shooter, distance, maxPenetrate, particle, rate/10);
         // Run the runnable
         collector.run();
         return new RayResult(shooter, collector.getTargets(), collector.getLastBlock());
@@ -38,6 +38,10 @@ public class RayTrace extends WeaponistInstance {
 
     public Shooter getShooter() {
         return shooter;
+    }
+
+    public double getRate() {
+        return rate;
     }
 }
 

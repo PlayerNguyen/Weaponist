@@ -1,18 +1,23 @@
 package com.playernguyen;
 
 import com.playernguyen.asset.ammunition.*;
-import com.playernguyen.asset.weapon.GunBeretta;
-import com.playernguyen.asset.weapon.GunConfigurationFolder;
-import com.playernguyen.asset.weapon.GunManager;
+import com.playernguyen.asset.gun.GunBeretta;
+import com.playernguyen.asset.gun.GunConfigurationFolder;
+import com.playernguyen.asset.gun.GunManager;
+import com.playernguyen.asset.gun.GunUzi;
 import com.playernguyen.command.Command;
-import com.playernguyen.command.ammunition.CommandAmmunition;
 import com.playernguyen.command.CommandManager;
+import com.playernguyen.command.ammunition.CommandAmmunition;
 import com.playernguyen.command.weapon.CommandWeapon;
 import com.playernguyen.config.ConfigurationFolder;
 import com.playernguyen.debugger.Debugger;
+import com.playernguyen.entity.DefaultShooter;
+import com.playernguyen.entity.Shooter;
+import com.playernguyen.entity.ShooterManager;
 import com.playernguyen.language.LanguageConfiguration;
 import com.playernguyen.listener.ListenerManager;
 import com.playernguyen.listener.PlayerInteractListener;
+import com.playernguyen.listener.PlayerJoinListener;
 import com.playernguyen.listener.PlayerSwapHandListener;
 import com.playernguyen.setting.SettingFlag;
 import com.playernguyen.setting.WeaponistSetting;
@@ -35,6 +40,7 @@ public class Weaponist extends JavaPlugin {
     private CommandManager commandManager;
     private GunConfigurationFolder weaponFolder;
     private GunManager gunManager;
+    private ShooterManager shooterManager;
 
     @Override
     public void onEnable() {
@@ -48,7 +54,17 @@ public class Weaponist extends JavaPlugin {
         setupListener();
         // Command setup
         setupCommand();
+        // Shooter set up
+        setupShooter();
 
+    }
+
+    private void setupShooter() {
+        this.shooterManager = new ShooterManager();
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            Shooter shooter = new DefaultShooter(player);
+            getShooterManager().add(shooter);
+        });
     }
 
     private void setupCommand() {
@@ -110,7 +126,7 @@ public class Weaponist extends JavaPlugin {
 
         try {
             getGunManager().add(new GunBeretta());
-
+            getGunManager().add(new GunUzi());
         } catch (IOException e) {
             debugger.err("Cannot save weapon...");
             e.printStackTrace();
@@ -125,6 +141,7 @@ public class Weaponist extends JavaPlugin {
         // Register the listener
         listenerManager.add(new PlayerInteractListener());
         listenerManager.add(new PlayerSwapHandListener());
+        listenerManager.add(new PlayerJoinListener());
 
         // Register the manager
         getListenerManager().register(this);
@@ -176,5 +193,9 @@ public class Weaponist extends JavaPlugin {
 
     public GunManager getGunManager() {
         return gunManager;
+    }
+
+    public ShooterManager getShooterManager() {
+        return shooterManager;
     }
 }
