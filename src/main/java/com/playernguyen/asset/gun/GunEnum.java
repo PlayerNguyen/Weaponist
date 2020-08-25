@@ -19,6 +19,7 @@ public enum GunEnum {
             1.2d,
             100,
             12,
+            2,
             AmmunitionEnum.PISTOL,
             Material.PRISMARINE_CRYSTALS,
             Arrays.asList(
@@ -44,11 +45,12 @@ public enum GunEnum {
             0.8,
             100,
             25,
+            2,
             AmmunitionEnum.PISTOL,
             Material.GOLD_NUGGET,
             Arrays.asList(
                     "&cUzi &7- Killing machine with light-weight",
-                    "guns. Kill kill and kill"
+                    "&7guns. Kill kill and kill"
             ),
             Arrays.asList(
                     new SoundConfiguration(Sound.BLOCK_WOODEN_TRAPDOOR_OPEN, .5f, 1.4f),
@@ -67,8 +69,9 @@ public enum GunEnum {
             9.5,
             0.1,
             1,
-            300,
+            150,
             30,
+            4,
             AmmunitionEnum.COMMUNIST_RIFLE,
             Material.IRON_NUGGET,
             Arrays.asList(
@@ -85,21 +88,51 @@ public enum GunEnum {
                     new SoundConfiguration(Sound.BLOCK_NOTE_SNARE, 1f, 1f),
                     new SoundConfiguration(Sound.ENTITY_GENERIC_EXPLODE, 0.8f, 2f)
             )
-    );
+    ),
+    SKS(
+            "sks",
+            "&cSKS",
+            3.0,
+            14.2,
+            1.2,
+            1.5,
+            300,
+            10,
+            7,
+            AmmunitionEnum.COMMUNIST_RIFLE,
+            Material.LEATHER,
+            Arrays.asList(
+                    "&cSKS &7is a gun for Soviet army",
+                    "&7which make enemy cry."
+            ),
+            Arrays.asList(
+                    new SoundConfiguration(Sound.BLOCK_WOODEN_TRAPDOOR_OPEN, .5f, 1.4f),
+                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_ON, .5f,  .7f),
+                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_OFF, .5f,  .7f)
+            ),
+            Arrays.asList(
+                    new SoundConfiguration(Sound.BLOCK_NOTE_BASEDRUM, 0.5f, 1),
+                    new SoundConfiguration(Sound.BLOCK_NOTE_SNARE, 1f, 1f),
+                    new SoundConfiguration(Sound.ENTITY_GENERIC_EXPLODE, 1.3f, 2f)
+            )
+    ),
+    ;
 
     private final String id;
     private final String name;
-    private final AmmunitionEnum ammunitionType;
-    private final Material material;
-    private final int maxMagazine;
     private final double delayPerShoot;
     private final double damage;
-    private final List<String> description;
     private final double reloadTime;
+    private final double fireAccuracy;
+    private final int maxMagazine;
+    private final int maxDistance;
+    private final int maxPenetrate;
+
+    private final AmmunitionEnum ammunitionType;
+    private final Material material;
+    private final List<String> description;
     private final List<String> reloadSound;
     private final List<String> shootSound;
-    private final double fireAccuracy;
-    private final int maxDistance;
 
     GunEnum(String id,
             String name,
@@ -109,6 +142,7 @@ public enum GunEnum {
             double fireAccuracy,
             int maxDistance,
             int maxMagazine,
+            int maxPenetrate,
             AmmunitionEnum ammunitionType,
             Material material,
             List<String> description,
@@ -125,7 +159,7 @@ public enum GunEnum {
         this.damage = damage;
         this.delayPerShoot = delayPerShoot;
         this.maxDistance = maxDistance;
-
+        this.maxPenetrate = maxPenetrate;
         this.reloadSound = new ArrayList<>();
         for (SoundConfiguration soundConfiguration : reloadSound) {
             this.reloadSound.add(soundConfiguration.toString());
@@ -191,5 +225,9 @@ public enum GunEnum {
 
     public int getMaxDistance() {
         return maxDistance;
+    }
+
+    public int getMaxPenetrate() {
+        return maxPenetrate;
     }
 }

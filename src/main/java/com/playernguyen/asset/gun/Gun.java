@@ -28,4 +28,6 @@ public interface Gun extends Weapon {
 
     int getMaxDistance();
 
+    int getMaxPenetrate();
+
 }

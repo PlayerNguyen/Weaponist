@@ -25,8 +25,10 @@ public class RayCollectRunnable extends BukkitRunnable {
 
     private final List<Target> targets = new ArrayList<>();
     private Block lastBlock;
+    private Block firstCollideBlock;
 
-    private int penetrate = 0;
+    private int blockPenetrate = 0;
+    private int entityPenetrate = 0;
     private double rate = 0;
 
     public RayCollectRunnable(Shooter shooter, int maxDistance, int maxPenetrate) {
@@ -58,9 +60,9 @@ public class RayCollectRunnable extends BukkitRunnable {
         Location eyeLocation = shooter.asPlayer().getEyeLocation();
 
         Vector rateCompound = new Vector(
-                generateRate(-rate, rate),
-                generateRate(0, rate),
-                generateRate(-rate, rate)
+                generateRate(-rate/3, rate/3),
+                generateRate(0, rate/2),
+                generateRate(-rate/3, rate/3)
         );
 
         LocationIterator locationIterator = new LocationIterator(
@@ -94,25 +96,25 @@ public class RayCollectRunnable extends BukkitRunnable {
                     boolean headshot = (currentLocation.distance(((LivingEntity) entity).getEyeLocation()) <= 0.5f);
                     Target target = new DefaultTarget((LivingEntity) entity, shooter, headshot);
                     targets.add(target);
-                    penetrate ++;
+                    entityPenetrate ++;
                 }
             }
 
             // Block set
             if (!currentLocation.getBlock().getType().isTransparent()) {
 
-                System.out.println("Last: " + ((this.lastBlock != null) ? this.lastBlock.getType() : "null"));
-                System.out.println("Current: " + currentLocation.getBlock().getType());
-
                 if (this.lastBlock == null || !this.lastBlock.equals(currentLocation.getBlock())) {
                     this.lastBlock = currentLocation.getBlock();
-                    penetrate ++;
+                    if (blockPenetrate == 0) {
+                        this.firstCollideBlock = currentLocation.getBlock();
+                    }
+                    blockPenetrate ++;
                 }
             }
 
 
             // Break the iterator if the penetrate was full
-            if (penetrate >= maxPenetrate) {
+            if ((blockPenetrate + entityPenetrate) >= maxPenetrate) {
                 break;
             }
         }
@@ -129,6 +131,10 @@ public class RayCollectRunnable extends BukkitRunnable {
 
     public Block getLastBlock() {
         return lastBlock;
+    }
+
+    public Block getFirstCollideBlock() {
+        return firstCollideBlock;
     }
 
     private double generateRate(double min, double max) {

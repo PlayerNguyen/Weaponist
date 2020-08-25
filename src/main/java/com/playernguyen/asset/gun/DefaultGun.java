@@ -63,53 +63,6 @@ public abstract class DefaultGun implements Gun {
     }
 
     @Override
-    public ItemStack toItem(Player owner, int amount) {
-        ItemStack stack = new ItemStack(getMaterial(), amount);
-        ItemMeta itemMeta = stack.getItemMeta();
-
-        if (itemMeta != null) {
-            itemMeta.setDisplayName(getDisplayName());
-            itemMeta.setLore(getDescription());
-        }
-        stack.setItemMeta(itemMeta);
-
-        // Add nms data into the item
-        stack = new Tag.Builder(stack)
-                .appendInitialKeyEnum(ItemTagEnum.IS_WEAPON)
-                .appendData(ItemTagEnum.WEAPON_ID, gunEnum.getId())
-                .appendData(ItemTagEnum.WEAPON_AMMO_TYPE, getAmmunitionType())
-                .build();
-        return stack;
-    }
-
-    @Override
-    public void reload(Shooter shooter, Plugin plugin) {
-        Player player = shooter.asPlayer();
-        // Search for ammo
-        for (ItemStack i : player.getInventory().getContents()) {
-            if (Tag.isAmmunition(i)
-                    && Tag.getAmmunitionType(i).equalsIgnoreCase(getAmmunitionType())) {
-                shooter.setReloading(true);
-                // Do reload
-                ActionBar.performCountdown(plugin, player, getReloadTime(), () -> {
-                    ItemStack stack = player.getInventory().getItemInMainHand();
-                    // Decrease the item
-                    if (stack.getAmount() < getMaxStackSize()) {
-                        WeaponistUtil.decreaseItemStack(i);
-                        stack.setAmount(getMaxStackSize());
-                    }
-                    // Play sound
-                    for (SoundConfiguration soundConfiguration : getReloadSoundList()) {
-                        soundConfiguration.play(player.getEyeLocation());
-                    }
-                    shooter.setReloading(false);
-                });
-            }
-        }
-        // Can't reload
-    }
-
-    @Override
     public double getReloadTime() {
         return gunConfiguration.getReloadTime();
     }
@@ -145,6 +98,11 @@ public abstract class DefaultGun implements Gun {
     }
 
     @Override
+    public int getMaxPenetrate() {
+        return gunConfiguration.getMaxPenetrate();
+    }
+
+    @Override
     public RayResult shoot(Shooter shooter, Plugin plugin) {
 
         // Shooting checker
@@ -153,7 +111,7 @@ public abstract class DefaultGun implements Gun {
         Player player = shooter.asPlayer();
 
         RayTrace rayTrace = new RayTrace(shooter, getMaxDistance(), getFireAccuracy() * shooter.getStackShoot());
-        RayResult rayResult = rayTrace.ray(Particle.VILLAGER_HAPPY, 2);
+        RayResult rayResult = rayTrace.ray(Particle.VILLAGER_HAPPY, getMaxPenetrate());
 
         // Damage
         for (Target target : rayResult.getTargets()) {
@@ -172,10 +130,10 @@ public abstract class DefaultGun implements Gun {
                     .spawnParticle(
                             Particle.BLOCK_CRACK,
                             block.getLocation(),
-                            650,
-                            0.2f,
-                            0.2f,
-                            0.2f,
+                            350,
+                            0.5f,
+                            0.5f,
+                            0.5f,
                             new MaterialData(block.getType())
                     );
         }
@@ -188,6 +146,11 @@ public abstract class DefaultGun implements Gun {
         // Lock the trigger
         if (getDelayPerShootTime() > 0) {
             shooter.setCanTrigger(false);
+
+            if (this instanceof Cockable) {
+                // Play cock sound
+                ((Cockable) this).getCockSound().play(player.getLocation());
+            }
             BukkitRunnable runnable = new BukkitRunnable() {
                 double d = getDelayPerShootTime();
                 @Override
@@ -220,4 +183,55 @@ public abstract class DefaultGun implements Gun {
         WeaponistUtil.decreaseItemStack(player.getInventory().getItemInMainHand());
         return rayResult;
     }
+
+
+    @Override
+    public ItemStack toItem(Player owner, int amount) {
+        ItemStack stack = new ItemStack(getMaterial(), amount);
+        ItemMeta itemMeta = stack.getItemMeta();
+
+        // Set metadata
+        if (itemMeta != null) {
+            itemMeta.setDisplayName(getDisplayName());
+            itemMeta.setLore(getDescription());
+        }
+        stack.setItemMeta(itemMeta);
+
+        // Add nms data into the item
+        stack = new Tag.Builder(stack)
+                .appendInitialKeyEnum(ItemTagEnum.IS_WEAPON)
+                .appendData(ItemTagEnum.WEAPON_ID, gunEnum.getId())
+                .appendData(ItemTagEnum.WEAPON_AMMO_TYPE, getAmmunitionType())
+                .build();
+        return stack;
+    }
+
+    @Override
+    public void reload(Shooter shooter, Plugin plugin) {
+        Player player = shooter.asPlayer();
+        // Search for ammo
+        for (ItemStack i : player.getInventory().getContents()) {
+            if (Tag.isAmmunition(i)
+                    && Tag.getAmmunitionType(i).equalsIgnoreCase(getAmmunitionType())) {
+                shooter.setReloading(true);
+                // Do reload
+                ActionBar.performCountdown(plugin, player, getReloadTime(), () -> {
+                    ItemStack stack = player.getInventory().getItemInMainHand();
+
+                    // Decrease the item
+                    if (stack.getAmount() < getMaxStackSize()) {
+                        WeaponistUtil.decreaseItemStack(i);
+                        stack.setAmount(getMaxStackSize());
+                    }
+
+                    // Play sound
+                    for (SoundConfiguration soundConfiguration : getReloadSoundList()) {
+                        soundConfiguration.play(player.getEyeLocation());
+                    }
+                    shooter.setReloading(false);
+                });
+            }
+        }
+    }
+
 }

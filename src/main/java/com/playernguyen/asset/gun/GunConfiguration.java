@@ -27,19 +27,21 @@ public class GunConfiguration extends WeaponistInstance {
     public static final String DELAY_PER_SHOOT = "delayPerShoot";
     public static final String FIRE_ACCURACY = "fireAccuracy";
     public static final String MAX_DISTANCE = "maxDistance";
+    public static final String MAX_PENETRATE = "maxPenetrate";
 
     private final File file;
     private final FileConfiguration fileConfiguration;
+    private final String ammoType;
     private final ItemMetadata itemMetadata;
     private final int maxMagazine;
-    private final String ammoType;
     private final double reloadTime;
     private final double damage;
-    private final List<SoundConfiguration> reloadSound;
-    private final List<SoundConfiguration> shootSound;
     private final double delayPerShoot;
     private final double fireAccuracy;
     private final int maxDistance;
+    private final int maxPenetrate;
+    private final List<SoundConfiguration> reloadSound;
+    private final List<SoundConfiguration> shootSound;
 
     public GunConfiguration(GunEnum gunEnum) throws IOException {
         // Load the file ~
@@ -65,6 +67,7 @@ public class GunConfiguration extends WeaponistInstance {
         setDefault(RELOAD_SOUND, gunEnum.getReloadSound());
         setDefault(SHOOT_NON_ACCESSORY_SOUND, gunEnum.getShootSound());
         setDefault(MAX_DISTANCE, gunEnum.getMaxDistance());
+        setDefault(MAX_PENETRATE, gunEnum.getMaxPenetrate());
 
         // Getter
         this.itemMetadata = new DefaultItemMetadata(
@@ -83,6 +86,7 @@ public class GunConfiguration extends WeaponistInstance {
         this.delayPerShoot = this.fileConfiguration.getDouble(DELAY_PER_SHOOT);
         this.fireAccuracy = this.fileConfiguration.getDouble(FIRE_ACCURACY);
         this.maxDistance = this.fileConfiguration.getInt(MAX_DISTANCE);
+        this.maxPenetrate = this.fileConfiguration.getInt(MAX_PENETRATE);
         // Sound attributes initial
         this.reloadSound = new ArrayList<>();
         addSoundFromListString(this.fileConfiguration.getStringList(RELOAD_SOUND), this.reloadSound);
@@ -151,6 +155,10 @@ public class GunConfiguration extends WeaponistInstance {
 
     public int getMaxDistance() {
         return maxDistance;
+    }
+
+    public int getMaxPenetrate() {
+        return maxPenetrate;
     }
 
     private void setDefault(String key, Object object) {

@@ -122,6 +122,7 @@ public class Weaponist extends JavaPlugin {
             getGunManager().add(new GunBeretta());
             getGunManager().add(new GunUzi());
             getGunManager().add(new GunAKRifle());
+            getGunManager().add(new GunSKS());
         } catch (IOException e) {
             debugger.err("Cannot save weapon...");
             e.printStackTrace();

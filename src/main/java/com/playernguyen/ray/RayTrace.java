@@ -29,7 +29,7 @@ public class RayTrace extends WeaponistInstance {
                 new RayCollectRunnable(shooter, distance, maxPenetrate, particle, rate/10);
         // Run the runnable
         collector.run();
-        return new RayResult(shooter, collector.getTargets(), collector.getLastBlock());
+        return new RayResult(shooter, collector.getTargets(), collector.getFirstCollideBlock());
     }
 
     public int getDistance() {

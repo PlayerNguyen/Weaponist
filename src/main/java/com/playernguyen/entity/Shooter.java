@@ -21,4 +21,8 @@ public interface Shooter {
 
     void setStackShoot(int i);
 
+    boolean isScoping();
+
+    void setScoping(boolean b);
+
 }

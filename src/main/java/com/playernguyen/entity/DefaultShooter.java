@@ -13,6 +13,7 @@ public class DefaultShooter extends WeaponistInstance implements Shooter {
     private boolean canTrigger;
     private boolean reloading;
     private int stackShoot;
+    private boolean scoping;
 
     public DefaultShooter(Player player) {
         this.player = player;
@@ -27,6 +28,7 @@ public class DefaultShooter extends WeaponistInstance implements Shooter {
         this.canTrigger = true;
         this.reloading = false;
         this.stackShoot = 0;
+        this.scoping = false;
     }
 
     @Override
@@ -68,7 +70,18 @@ public class DefaultShooter extends WeaponistInstance implements Shooter {
         return stackShoot;
     }
 
+    @Override
     public void setStackShoot(int stackShoot) {
         this.stackShoot = stackShoot;
+    }
+
+    @Override
+    public boolean isScoping() {
+        return scoping;
+    }
+
+    @Override
+    public void setScoping(boolean scoping) {
+        this.scoping = scoping;
     }
 }
