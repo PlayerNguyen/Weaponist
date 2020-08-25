@@ -1,12 +1,10 @@
 package com.playernguyen.listener;
 
-import com.playernguyen.WeaponistInstance;
 import com.playernguyen.entity.DefaultShooter;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-public class PlayerJoinListener extends WeaponistInstance implements Listener {
+public class PlayerJoinListener extends WeaponistListener{
     @EventHandler
     public void join(PlayerJoinEvent event) {
 

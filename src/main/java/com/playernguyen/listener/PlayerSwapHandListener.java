@@ -1,6 +1,5 @@
 package com.playernguyen.listener;
 
-import com.playernguyen.WeaponistInstance;
 import com.playernguyen.asset.gun.Gun;
 import com.playernguyen.entity.Shooter;
 import com.playernguyen.event.WeaponistPlayerReloadEvent;
@@ -8,11 +7,10 @@ import com.playernguyen.util.Tag;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class PlayerSwapHandListener extends WeaponistInstance implements Listener {
+public class PlayerSwapHandListener extends WeaponistListener {
 
     @EventHandler
     public void swapHand(PlayerSwapHandItemsEvent event) {

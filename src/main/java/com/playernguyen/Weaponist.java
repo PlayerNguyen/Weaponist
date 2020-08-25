@@ -123,6 +123,7 @@ public class Weaponist extends JavaPlugin {
             getGunManager().add(new GunUzi());
             getGunManager().add(new GunAKRifle());
             getGunManager().add(new GunSKS());
+            getGunManager().add(new GunRPG());
         } catch (IOException e) {
             debugger.err("Cannot save weapon...");
             e.printStackTrace();
@@ -139,6 +140,7 @@ public class Weaponist extends JavaPlugin {
         listenerManager.add(new PlayerSwapHandListener());
         listenerManager.add(new PlayerJoinListener());
         listenerManager.add(new PlayerItemHeldListener());
+        listenerManager.add(new PlayerOpenInventoryListener());
 
         // Register the manager
         getListenerManager().register(this);

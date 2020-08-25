@@ -1,11 +1,13 @@
 package com.playernguyen.entity;
 
-import com.playernguyen.asset.Weapon;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public interface Shooter {
 
-    Weapon getCurrentWeapon();
+    ItemStack getCurrentItem();
+
+    void setCurrentItem(ItemStack itemStack);
 
     Player asPlayer();
 
@@ -24,5 +26,11 @@ public interface Shooter {
     boolean isScoping();
 
     void setScoping(boolean b);
+
+    void scopeToggle();
+
+    ItemStack getCurrentHelmet();
+
+    void setCurrentHelmet(ItemStack i);
 
 }

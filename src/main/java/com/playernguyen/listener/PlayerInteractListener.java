@@ -1,7 +1,5 @@
 package com.playernguyen.listener;
 
-import com.playernguyen.WeaponistInstance;
-import com.playernguyen.asset.Weapon;
 import com.playernguyen.asset.gun.Gun;
 import com.playernguyen.asset.gun.Scopeable;
 import com.playernguyen.entity.Shooter;
@@ -13,12 +11,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class PlayerInteractListener extends WeaponistInstance implements Listener {
+public class PlayerInteractListener extends WeaponistListener {
 
     @EventHandler
     public void onInteracting(PlayerInteractEvent event) {
@@ -34,7 +31,7 @@ public class PlayerInteractListener extends WeaponistInstance implements Listene
             // Left click
             if (event.getAction() == Action.LEFT_CLICK_AIR) {
                 if (weapon instanceof Scopeable) {
-                    ((Scopeable) weapon).scope(shooter, getWeaponist());
+                    shooter.scopeToggle();
                 }
                 return;
             }

@@ -116,6 +116,34 @@ public enum GunEnum {
                     new SoundConfiguration(Sound.ENTITY_GENERIC_EXPLODE, 1.3f, 2f)
             )
     ),
+    RPG(
+            "rpg",
+            "&6RPGß",
+            6.0,
+            40,
+            0.01,
+            0.2,
+            150,
+            1,
+            1,
+            AmmunitionEnum.ROCKET,
+            Material.RABBIT_HIDE,
+            Arrays.asList(
+                    "&6RPG &7a rocket with high damage",
+                    "&7Explosion when hit object"
+            ),
+            Arrays.asList(
+                    new SoundConfiguration(Sound.BLOCK_WOODEN_TRAPDOOR_OPEN, .5f, 1.4f),
+                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_ON, .5f,  .7f),
+                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_OFF, .5f,  .7f)
+            ),
+            Arrays.asList(
+                    new SoundConfiguration(Sound.BLOCK_NOTE_BASEDRUM, 0.5f, 1),
+                    new SoundConfiguration(Sound.BLOCK_NOTE_SNARE, 1f, 1f),
+                    new SoundConfiguration(Sound.ENTITY_GENERIC_EXPLODE, 1.3f, 2f),
+                    new SoundConfiguration(Sound.ENTITY_ENDERDRAGON_SHOOT, 1.3f, 1f)
+            )
+    ),
     ;
 
     private final String id;

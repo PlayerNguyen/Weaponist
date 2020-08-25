@@ -1,34 +1,38 @@
 package com.playernguyen.entity;
 
 import com.playernguyen.WeaponistInstance;
-import com.playernguyen.asset.Weapon;
-import com.playernguyen.util.Tag;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class DefaultShooter extends WeaponistInstance implements Shooter {
 
     private final Player player;
-    private final Weapon currentWeapon;
+    private ItemStack currentItem;
     private boolean canTrigger;
     private boolean reloading;
     private int stackShoot;
     private boolean scoping;
+    private ItemStack currentHelmet;
 
     public DefaultShooter(Player player) {
         this.player = player;
-        ItemStack stack = player.getInventory().getItemInMainHand();
-        if (Tag.isWeapon(stack)) {
-            this.currentWeapon = getGunManager()
-                    .getRegisteredWeapon(Tag.getWeaponId(stack));
-        } else {
-            this.currentWeapon = null;
-        }
-
+        this.currentItem = player.getInventory().getItemInMainHand();
         this.canTrigger = true;
         this.reloading = false;
         this.stackShoot = 0;
         this.scoping = false;
+        this.currentHelmet = player.getInventory().getHelmet();
+    }
+
+    @Override
+    public ItemStack getCurrentHelmet() {
+        return currentHelmet;
+    }
+
+    @Override
+    public void setCurrentHelmet(ItemStack currentHelmet) {
+        this.currentHelmet = currentHelmet;
     }
 
     @Override
@@ -51,18 +55,8 @@ public class DefaultShooter extends WeaponistInstance implements Shooter {
         return canTrigger;
     }
 
-    public DefaultShooter(Player player, Weapon currentWeapon) {
-        this.player = player;
-        this.currentWeapon = currentWeapon;
-    }
-
     public Player asPlayer() {
         return player;
-    }
-
-    @Override
-    public Weapon getCurrentWeapon() {
-        return currentWeapon;
     }
 
     @Override
@@ -82,6 +76,33 @@ public class DefaultShooter extends WeaponistInstance implements Shooter {
 
     @Override
     public void setScoping(boolean scoping) {
+        if (scoping) {
+            // Storage current helmet
+            this.setCurrentHelmet(asPlayer().getInventory().getHelmet());
+            // Zoom in
+            asPlayer().setWalkSpeed(-0.5f);
+            asPlayer().getInventory().setHelmet(new ItemStack(Material.PUMPKIN));
+        } else {
+            // Zoom out
+            asPlayer().setWalkSpeed(0.2f);
+            asPlayer().getInventory().setHelmet(getCurrentHelmet());
+        }
+
         this.scoping = scoping;
+    }
+
+    @Override
+    public void setCurrentItem(ItemStack currentItem) {
+        this.currentItem = currentItem;
+    }
+
+    @Override
+    public ItemStack getCurrentItem() {
+        return currentItem;
+    }
+
+    @Override
+    public void scopeToggle() {
+        this.setScoping(!scoping);
     }
 }
