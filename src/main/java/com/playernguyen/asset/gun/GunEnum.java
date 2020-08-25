@@ -26,8 +26,9 @@ public enum GunEnum {
                     "&7mobility and simplex gun for who want ", "&7to have a little boy in hand"
             ),
             Arrays.asList(
-                    new SoundConfiguration(Sound.BLOCK_WOODEN_TRAPDOOR_OPEN, 1, 1.4f),
-                    new SoundConfiguration(Sound.BLOCK_CHEST_OPEN, 1, 1)
+                    new SoundConfiguration(Sound.BLOCK_WOODEN_TRAPDOOR_OPEN, .5f, 1.4f),
+                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_ON, .5f,  .7f),
+                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_OFF, .5f,  .7f)
             ),
             Arrays.asList(
                     new SoundConfiguration(Sound.BLOCK_WOODEN_TRAPDOOR_OPEN, 1, 1.4f),
@@ -49,8 +50,9 @@ public enum GunEnum {
                     "guns. Kill kill and kill"
             ),
             Arrays.asList(
-                    new SoundConfiguration(Sound.BLOCK_WOODEN_TRAPDOOR_OPEN, 1, 1.4f),
-                    new SoundConfiguration(Sound.BLOCK_CHEST_OPEN, 1, 1)
+                    new SoundConfiguration(Sound.BLOCK_WOODEN_TRAPDOOR_OPEN, .5f, 1.4f),
+                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_ON, .5f,  .7f),
+                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_OFF, .5f,  .7f)
             ),
             Arrays.asList(
                     new SoundConfiguration(Sound.BLOCK_NOTE_BASEDRUM, 0.5f, 1),

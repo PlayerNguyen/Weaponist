@@ -15,10 +15,7 @@ import com.playernguyen.entity.DefaultShooter;
 import com.playernguyen.entity.Shooter;
 import com.playernguyen.entity.ShooterManager;
 import com.playernguyen.language.LanguageConfiguration;
-import com.playernguyen.listener.ListenerManager;
-import com.playernguyen.listener.PlayerInteractListener;
-import com.playernguyen.listener.PlayerJoinListener;
-import com.playernguyen.listener.PlayerSwapHandListener;
+import com.playernguyen.listener.*;
 import com.playernguyen.setting.SettingFlag;
 import com.playernguyen.setting.WeaponistSetting;
 import org.bukkit.Bukkit;
@@ -142,6 +139,7 @@ public class Weaponist extends JavaPlugin {
         listenerManager.add(new PlayerInteractListener());
         listenerManager.add(new PlayerSwapHandListener());
         listenerManager.add(new PlayerJoinListener());
+        listenerManager.add(new PlayerItemHeldListener());
 
         // Register the manager
         getListenerManager().register(this);

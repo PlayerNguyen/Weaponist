@@ -25,7 +25,6 @@ public class LocationIterator {
                 start.getYaw(),
                 start.getPitch()
         );
-
     }
 
     public boolean hasNext() {
