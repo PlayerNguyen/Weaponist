@@ -30,6 +30,10 @@ public abstract class RocketGun extends DefaultGun {
         );
         r.runTaskTimerAsynchronously(Weaponist.getWeaponist(), 0, 0);
 
+        // Take ammo
+        shooter
+                .getCurrentItem()
+                .setAmount(shooter.getCurrentItem().getAmount() - 1);
 
         return null;
     }

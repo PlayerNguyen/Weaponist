@@ -14,13 +14,17 @@ public class PlayerItemHeldListener extends WeaponistListener {
         Shooter shooter = getShooterManager().getShooterAsPlayer(player);
         ItemStack stack = player.getInventory().getItemInMainHand();
 
-        // Check reloading
-        if (shooter != null && shooter.isReloading()) {
-            event.setCancelled(true);
-        }
-        // If scoping
-        if (shooter != null && shooter.isScoping()) {
-            shooter.setScoping(false);
+        if (shooter != null) {
+            // Check reloading
+            if (shooter.isReloading()) {
+                event.setCancelled(true);
+            }
+            // If scoping
+            if (shooter.isScoping()) {
+                shooter.setScoping(false);
+            }
+
+            shooter.setCurrentItem(stack);
         }
     }
 
