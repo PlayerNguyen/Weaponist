@@ -52,12 +52,12 @@ public abstract class DefaultCommand extends WeaponistInstance implements Comman
         getDebugger().info("Execute::commandSender: " + commandSender + " / arguments" + Arrays.asList(strings).toString());
         CommandResult result = onCommand(commandSender, Arrays.asList(strings));
         switch (result) {
-            case INVALID_SENDER -> {
+            case INVALID_SENDER: {
                 commandSender.sendMessage(getLanguageConfiguration()
                         .getLanguageWithPrefix(LanguageFlag.COMMAND_RESULT_INVALID_SENDER));
                 return true;
             }
-            case MISSING_ARGUMENTS -> {
+            case MISSING_ARGUMENTS: {
                 commandSender.sendMessage(ChatColor.GRAY + "[+] ------------------ [+]");
                 sendHelp(commandSender);
                 commandSender.sendMessage(getLanguageConfiguration()
@@ -66,11 +66,11 @@ public abstract class DefaultCommand extends WeaponistInstance implements Comman
                 return true;
             }
 
-            case NOTHING -> {
+            case NOTHING: {
                 return true;
             }
 
-            case NOT_FOUND -> {
+            case NOT_FOUND: {
                 commandSender.sendMessage(getLanguageConfiguration()
                         .getLanguageWithPrefix(LanguageFlag.COMMAND_RESULT_NOT_FOUND));
                 return true;
