@@ -15,6 +15,7 @@ public class PlayerShootEntityListener extends WeaponistListener {
         // Play particle
         LivingEntity livingEntity = event.getLivingEntity();
         MaterialData materialData;
+
         switch (livingEntity.getType()) {
             default: {
                 materialData = new MaterialData(Material.REDSTONE_BLOCK);
