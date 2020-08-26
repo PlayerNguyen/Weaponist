@@ -1,8 +1,10 @@
 package com.playernguyen.listener;
 
+import com.playernguyen.entity.Shooter;
 import com.playernguyen.event.WeaponistPlayerShootEntityEvent;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.material.MaterialData;
@@ -25,6 +27,24 @@ public class PlayerShootEntityListener extends WeaponistListener {
                         150,
                         materialData
                 );
+
+        if (event.isHeadshot()) {
+            livingEntity.getWorld()
+                    .spawnParticle(Particle.CRIT,
+                            livingEntity.getEyeLocation(),
+                            30);
+            livingEntity.getWorld()
+                    .spawnParticle(Particle.CRIT_MAGIC,
+                            livingEntity.getEyeLocation(),
+                            15);
+        }
+
+        Shooter shooter = event.getShooter();
+        shooter.asPlayer().playSound(shooter.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.4f, 1);
+
+        if (livingEntity.isDead()) {
+            shooter.asPlayer().playSound(shooter.getLocation(), Sound.ENTITY_FIREWORK_LAUNCH, 0.3f, 0.7f);
+        }
     }
 
 }

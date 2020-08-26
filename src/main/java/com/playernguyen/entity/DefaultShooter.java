@@ -1,6 +1,7 @@
 package com.playernguyen.entity;
 
 import com.playernguyen.WeaponistInstance;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -104,5 +105,15 @@ public class DefaultShooter extends WeaponistInstance implements Shooter {
     @Override
     public void scopeToggle() {
         this.setScoping(!scoping);
+    }
+
+    @Override
+    public Location getLocation() {
+        return asPlayer().getLocation();
+    }
+
+    @Override
+    public Location getEyeLocation() {
+        return asPlayer().getEyeLocation();
     }
 }

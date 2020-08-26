@@ -1,5 +1,6 @@
 package com.playernguyen.entity;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -32,5 +33,9 @@ public interface Shooter {
     ItemStack getCurrentHelmet();
 
     void setCurrentHelmet(ItemStack i);
+
+    Location getLocation();
+
+    Location getEyeLocation();
 
 }

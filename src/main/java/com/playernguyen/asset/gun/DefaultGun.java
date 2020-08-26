@@ -121,12 +121,21 @@ public abstract class DefaultGun implements Gun {
             if (target.isHeadshot()) {
                 target.asEntity().damage(getDamage()*2, shooter.asPlayer());
                 WeaponistPlayerShootEntityEvent event =
-                        new WeaponistPlayerShootEntityEvent(shooter, target.asEntity(), getDamage()*2);
+                        new WeaponistPlayerShootEntityEvent(
+                                shooter,
+                                target.asEntity(),
+                                getDamage()*2,
+                                true
+                        );
                 Bukkit.getPluginManager().callEvent(event);
             } else {
                 target.asEntity().damage(getDamage(), shooter.asPlayer());
                 WeaponistPlayerShootEntityEvent event =
-                        new WeaponistPlayerShootEntityEvent(shooter, target.asEntity(), getDamage());
+                        new WeaponistPlayerShootEntityEvent(
+                                shooter,
+                                target.asEntity(),
+                                getDamage()
+                        );
                 Bukkit.getPluginManager().callEvent(event);
             }
         }

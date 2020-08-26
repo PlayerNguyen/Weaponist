@@ -4,13 +4,16 @@ import com.playernguyen.Weaponist;
 import com.playernguyen.entity.Shooter;
 import com.playernguyen.event.WeaponistPlayerShootEntityEvent;
 import com.playernguyen.event.WeaponistPlayerShootEvent;
+import com.playernguyen.util.LocationUtil;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 
 public class RocketProjectileRunnable extends BukkitRunnable {
 
@@ -70,7 +73,12 @@ public class RocketProjectileRunnable extends BukkitRunnable {
 
         // Cancel
         if (currentLocation.getBlock().getType() != Material.AIR
-        || currentLocation.distance(firstLocation) >= maxDistance) {
+        || currentLocation.distance(firstLocation) >= maxDistance
+        || LocationUtil.hasLivingEntity(
+                currentLocation,
+                        0.3,
+                        Collections.singletonList(shooter.asPlayer()))
+        ) {
             fakeExplosion(currentLocation, damage);
             cancel();
         }
