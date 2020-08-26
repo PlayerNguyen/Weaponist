@@ -1,6 +1,9 @@
 package com.playernguyen.runnable;
 
 import com.playernguyen.Weaponist;
+import com.playernguyen.entity.Shooter;
+import com.playernguyen.event.WeaponistPlayerShootEntityEvent;
+import com.playernguyen.event.WeaponistPlayerShootEvent;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -14,13 +17,14 @@ public class RocketProjectileRunnable extends BukkitRunnable {
     private final Weaponist weaponist;
 
     private Location currentLocation;
-    private Location firstLocation;
-    private Vector direction;
-    private float speed;
-    private float damage;
-    private int maxDistance;
+    private final Location firstLocation;
+    private final Vector direction;
+    private final float damage;
+    private final int maxDistance;
+    private final Shooter shooter;
 
     public RocketProjectileRunnable(Weaponist weaponist,
+                                    Shooter shooter,
                                     Location location,
                                     Vector direction,
                                     float speed,
@@ -42,11 +46,11 @@ public class RocketProjectileRunnable extends BukkitRunnable {
                 location.getZ(),
                 location.getYaw(),
                 location.getPitch()
-        );;
-        this.direction = direction.multiply(1);
-        this.speed = speed;
+        );
+        this.direction = direction.multiply(speed);
         this.damage = damage;
         this.maxDistance = maxDistance;
+        this.shooter = shooter;
     }
 
     @Override
@@ -89,7 +93,11 @@ public class RocketProjectileRunnable extends BukkitRunnable {
                     // .println(entity.toString() + " -> damage: " + d + " distance: " +
                     // entityLocation.distance(location));
 
-                    ((LivingEntity) entity).damage(d);
+                    ((LivingEntity) entity).damage(d, shooter.asPlayer());
+
+                    WeaponistPlayerShootEntityEvent event =
+                            new WeaponistPlayerShootEntityEvent(shooter, (LivingEntity)entity, d);
+                    Bukkit.getPluginManager().callEvent(event);
                 });
 
                 Vector direction = new Vector(

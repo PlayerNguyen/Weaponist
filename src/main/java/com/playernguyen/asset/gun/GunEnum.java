@@ -118,7 +118,7 @@ public enum GunEnum {
     ),
     RPG(
             "rpg",
-            "&6RPGß",
+            "&6RPG",
             6.0,
             40,
             0.01,

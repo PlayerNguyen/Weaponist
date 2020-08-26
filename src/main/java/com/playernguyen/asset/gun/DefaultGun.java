@@ -3,15 +3,18 @@ package com.playernguyen.asset.gun;
 import com.playernguyen.asset.ItemTagEnum;
 import com.playernguyen.entity.Shooter;
 import com.playernguyen.entity.Target;
+import com.playernguyen.event.WeaponistPlayerShootEntityEvent;
 import com.playernguyen.ray.RayResult;
 import com.playernguyen.ray.RayTrace;
 import com.playernguyen.sound.SoundConfiguration;
 import com.playernguyen.util.ActionBar;
 import com.playernguyen.util.Tag;
 import com.playernguyen.util.WeaponistUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -117,8 +120,14 @@ public abstract class DefaultGun implements Gun {
         for (Target target : rayResult.getTargets()) {
             if (target.isHeadshot()) {
                 target.asEntity().damage(getDamage()*2, shooter.asPlayer());
+                WeaponistPlayerShootEntityEvent event =
+                        new WeaponistPlayerShootEntityEvent(shooter, target.asEntity(), getDamage()*2);
+                Bukkit.getPluginManager().callEvent(event);
             } else {
                 target.asEntity().damage(getDamage(), shooter.asPlayer());
+                WeaponistPlayerShootEntityEvent event =
+                        new WeaponistPlayerShootEntityEvent(shooter, target.asEntity(), getDamage());
+                Bukkit.getPluginManager().callEvent(event);
             }
         }
 

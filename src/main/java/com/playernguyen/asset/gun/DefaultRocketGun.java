@@ -11,9 +11,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
 
-public abstract class RocketGun extends DefaultGun {
+public abstract class DefaultRocketGun extends DefaultGun {
 
-    public RocketGun(GunEnum gunEnum) throws IOException {
+    public DefaultRocketGun(GunEnum gunEnum) throws IOException {
         super(gunEnum);
     }
 
@@ -23,6 +23,7 @@ public abstract class RocketGun extends DefaultGun {
 
         BukkitRunnable r = new RocketProjectileRunnable(
                 Weaponist.getWeaponist(),
+                shooter,
                 player.getEyeLocation(),
                 player.getEyeLocation().getDirection(),
                 2,
@@ -34,7 +35,7 @@ public abstract class RocketGun extends DefaultGun {
         // Take ammo
         player
                 .getInventory().getItemInMainHand()
-                .setAmount(shooter.getCurrentItem().getAmount() - 1);
+                .setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
 
         // Play sound
         for (SoundConfiguration soundConfiguration : getShootSoundList()) {

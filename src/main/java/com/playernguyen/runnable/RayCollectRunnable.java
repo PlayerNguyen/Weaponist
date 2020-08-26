@@ -79,7 +79,7 @@ public class RayCollectRunnable extends BukkitRunnable {
             if (currentLocation.distance(eyeLocation) >= 2)
             currentLocation.getWorld().spawnParticle(particle, currentLocation, 1);
 
-            double detectOffset = 0.5;
+            double detectOffset = 0.1;
             // Detect
             Collection<Entity> entities =
                     currentLocation.getWorld()
