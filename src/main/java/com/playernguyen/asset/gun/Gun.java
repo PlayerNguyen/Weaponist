@@ -1,5 +1,6 @@
 package com.playernguyen.asset.gun;
 
+import com.playernguyen.Weaponist;
 import com.playernguyen.asset.Weapon;
 import com.playernguyen.entity.Shooter;
 import com.playernguyen.ray.RayResult;
@@ -14,7 +15,7 @@ public interface Gun extends Weapon {
 
     RayResult shoot(Shooter shooter, Plugin plugin);
 
-    void reload(Shooter shooter, Plugin plugin);
+    void reload(Shooter shooter, Weaponist plugin);
 
     double getReloadTime();
 

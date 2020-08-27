@@ -1,12 +1,13 @@
 package com.playernguyen.entity;
 
-import com.playernguyen.WeaponistInstance;
+import com.playernguyen.runnable.TaskTimer;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
-public class DefaultShooter extends WeaponistInstance implements Shooter {
+public class DefaultShooter implements Shooter {
 
     private final Player player;
     private ItemStack currentItem;
@@ -14,7 +15,11 @@ public class DefaultShooter extends WeaponistInstance implements Shooter {
     private boolean reloading;
     private int stackShoot;
     private boolean scoping;
+    private boolean shooting;
+    private boolean canReload;
     private ItemStack currentHelmet;
+    private long lastShoot;
+
 
     public DefaultShooter(Player player) {
         this.player = player;
@@ -23,7 +28,10 @@ public class DefaultShooter extends WeaponistInstance implements Shooter {
         this.reloading = false;
         this.stackShoot = 0;
         this.scoping = false;
+        this.shooting = false;
+        this.canReload = true;
         this.currentHelmet = player.getInventory().getHelmet();
+        this.lastShoot = 0;
     }
 
     @Override
@@ -115,5 +123,35 @@ public class DefaultShooter extends WeaponistInstance implements Shooter {
     @Override
     public Location getEyeLocation() {
         return asPlayer().getEyeLocation();
+    }
+
+    @Override
+    public boolean isShooting() {
+        return shooting;
+    }
+
+    @Override
+    public void setShooting(boolean shooting) {
+        this.shooting = shooting;
+    }
+
+    @Override
+    public long getLastShoot() {
+        return lastShoot;
+    }
+
+    @Override
+    public void setLastShoot(long lastShoot) {
+        this.lastShoot = lastShoot;
+    }
+
+    @Override
+    public boolean isCanReload() {
+        return canReload;
+    }
+
+    @Override
+    public void setCanReload(boolean canReload) {
+        this.canReload = canReload;
     }
 }

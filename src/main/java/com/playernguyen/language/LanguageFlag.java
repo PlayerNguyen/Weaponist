@@ -17,6 +17,7 @@ public enum LanguageFlag implements Flagable {
 
     GENERAL_WEAPON_NOT_FOUND("general.weapon-not-found", "&cThe weapon you need not found!"),
     GENERAL_WEAPON_OUT_OF_AMMO("general.weapon-out-of-ammo", "&7ø &cOut of ammo &7ø"),
+    GENERAL_GUN_RELOAD_CANCELLED("general.gun-reload-cancelled", "&6ø &cCancel reload &6ø"),
 
     ;
 

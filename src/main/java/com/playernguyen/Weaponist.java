@@ -13,6 +13,8 @@ import com.playernguyen.entity.Shooter;
 import com.playernguyen.entity.ShooterManager;
 import com.playernguyen.language.LanguageConfiguration;
 import com.playernguyen.listener.*;
+import com.playernguyen.runnable.ActionPerformRunnable;
+import com.playernguyen.runnable.TaskManager;
 import com.playernguyen.setting.SettingFlag;
 import com.playernguyen.setting.WeaponistSetting;
 import org.bukkit.Bukkit;
@@ -35,6 +37,7 @@ public class Weaponist extends JavaPlugin {
     private GunConfigurationFolder weaponFolder;
     private GunManager gunManager;
     private ShooterManager shooterManager;
+    private TaskManager<ActionPerformRunnable> taskManager;
 
     @Override
     public void onEnable() {
@@ -50,6 +53,12 @@ public class Weaponist extends JavaPlugin {
         setupCommand();
         // Shooter set up
         setupShooter();
+        // Set up task manager
+        setupTask();
+    }
+
+    private void setupTask() {
+        this.taskManager = new TaskManager<>();
 
     }
 
@@ -198,5 +207,9 @@ public class Weaponist extends JavaPlugin {
 
     public ShooterManager getShooterManager() {
         return shooterManager;
+    }
+
+    public TaskManager<ActionPerformRunnable> getTaskManager() {
+        return taskManager;
     }
 }

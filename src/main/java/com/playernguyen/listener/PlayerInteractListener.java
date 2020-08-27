@@ -37,6 +37,7 @@ public class PlayerInteractListener extends WeaponistListener {
             }
 
             // Right click
+            // No ammo
             if (mainHandStack.getAmount() == 1) {
                 ActionBar actionBar = new ActionBar();
                 actionBar.setContent(getLanguageConfiguration()
@@ -46,13 +47,16 @@ public class PlayerInteractListener extends WeaponistListener {
                 return ;
             }
 
-
             // Call event and handler
             WeaponistPlayerShootEvent shootEvent = new WeaponistPlayerShootEvent(player);
             Bukkit.getPluginManager().callEvent(shootEvent);
 
             //If not cancel
             if (!shootEvent.isCancelled()) {
+                if (System.currentTimeMillis() - shooter.getLastShoot() > 400) {
+                    shooter.setShooting(false);
+                }
+                shooter.setLastShoot(System.currentTimeMillis());
                 weapon.shoot(shooter, getWeaponist());
             }
         }

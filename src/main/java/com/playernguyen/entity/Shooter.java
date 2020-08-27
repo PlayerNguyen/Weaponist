@@ -1,8 +1,10 @@
 package com.playernguyen.entity;
 
+import com.playernguyen.runnable.TaskTimer;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public interface Shooter {
 
@@ -37,5 +39,17 @@ public interface Shooter {
     Location getLocation();
 
     Location getEyeLocation();
+
+    boolean isShooting();
+
+    void setShooting(boolean b);
+
+    long getLastShoot();
+
+    void setLastShoot(long l);
+
+    boolean isCanReload();
+
+    void setCanReload(boolean b);
 
 }

@@ -1,11 +1,14 @@
 package com.playernguyen.asset.gun;
 
+import com.playernguyen.Weaponist;
 import com.playernguyen.asset.ItemTagEnum;
 import com.playernguyen.entity.Shooter;
 import com.playernguyen.entity.Target;
 import com.playernguyen.event.WeaponistPlayerShootEntityEvent;
+import com.playernguyen.language.LanguageFlag;
 import com.playernguyen.ray.RayResult;
 import com.playernguyen.ray.RayTrace;
+import com.playernguyen.runnable.ActionPerformRunnable;
 import com.playernguyen.sound.SoundConfiguration;
 import com.playernguyen.util.ActionBar;
 import com.playernguyen.util.Tag;
@@ -14,7 +17,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -22,6 +24,7 @@ import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.List;
 
@@ -111,9 +114,14 @@ public abstract class DefaultGun implements Gun {
         // Shooting checker
         if (!shooter.isCanTrigger()) { return null; }
 
+
+        if (!shooter.isShooting()) {
+            shooter.setStackShoot(0);
+        }
+
         Player player = shooter.asPlayer();
 
-        RayTrace rayTrace = new RayTrace(shooter, getMaxDistance(), getFireAccuracy() * shooter.getStackShoot());
+        RayTrace rayTrace = new RayTrace(shooter, getMaxDistance(), getFireAccuracy() * ((double)shooter.getStackShoot()/2));
         RayResult rayResult = rayTrace.ray(Particle.VILLAGER_HAPPY, getMaxPenetrate());
 
         // Damage
@@ -183,19 +191,23 @@ public abstract class DefaultGun implements Gun {
             runnable.runTaskTimerAsynchronously(plugin, 0, 0);
         }
         // Stacking the shoot
+        shooter.setShooting(true);
         shooter.setStackShoot(shooter.getStackShoot() + 1);
-        BukkitRunnable runnable = new BukkitRunnable() {
-            double d = 1;
-            @Override
-            public void run() {
-                d = d - (0.05);
-                if (d <= 0) {
-                    shooter.setStackShoot(0);
-                    cancel();
-                }
-            }
-        };
-        runnable.runTaskTimerAsynchronously(plugin, 0, 0);
+//        BukkitRunnable runnable = new BukkitRunnable() {
+//            final int currentStack = shooter.getStackShoot();
+//
+//
+//            double d = 1;
+//            @Override
+//            public void run() {
+//                d = d - (0.05);
+//                if (d <= 0) {
+//                    shooter.setShooting(false);
+//                    cancel();
+//                }
+//            }
+//        };
+//        runnable.runTaskTimerAsynchronously(plugin, 0, 0);
         // Play effect
         //WeaponistUtil.knockBack(player, 0.5f);
         WeaponistUtil.decreaseItemStack(player.getInventory().getItemInMainHand());
@@ -225,15 +237,33 @@ public abstract class DefaultGun implements Gun {
     }
 
     @Override
-    public void reload(Shooter shooter, Plugin plugin) {
+    public void reload(Shooter shooter, Weaponist plugin) {
         Player player = shooter.asPlayer();
         // Search for ammo
         for (ItemStack i : player.getInventory().getContents()) {
             if (Tag.isAmmunition(i)
                     && Tag.getAmmunitionType(i).equalsIgnoreCase(getAmmunitionType())) {
                 shooter.setReloading(true);
+
                 // Do reload
-                ActionBar.performCountdown(plugin, player, getReloadTime(), () -> {
+                ActionPerformRunnable bukkitRunnable = ActionBar.performCountdown(shooter, getReloadTime());
+
+                // On tick
+                bukkitRunnable.setOnTick(() -> {
+                    if (!shooter.isCanReload()) {
+                        // Send cancel reload
+                        new ActionBar(plugin.getLanguageConfiguration()
+                                .getLanguage(LanguageFlag.GENERAL_GUN_RELOAD_CANCELLED))
+                                .send(player);
+                        // Set properties
+                        shooter.setCanReload(true);
+                        shooter.setReloading(false);
+                        bukkitRunnable.cancel();
+                    }
+                });
+
+                // On done
+                bukkitRunnable.setOnDone(() -> {
                     ItemStack stack = player.getInventory().getItemInMainHand();
 
                     // Decrease the item
@@ -248,6 +278,12 @@ public abstract class DefaultGun implements Gun {
                     }
                     shooter.setReloading(false);
                 });
+
+                // Call new tasks
+                plugin.getTaskManager().put(shooter, bukkitRunnable);
+                // Execute the task
+                plugin.getTaskManager().get(shooter).runTaskTimer(plugin, 0, 0);
+
             }
         }
     }

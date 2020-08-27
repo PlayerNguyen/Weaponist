@@ -3,7 +3,7 @@ package com.playernguyen.manager;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ManagerSet<T> {
+public abstract class ManagerSet<T> {
 
     private final Set<T> container = new HashSet<>();
 

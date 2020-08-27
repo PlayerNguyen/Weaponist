@@ -6,6 +6,8 @@ import com.playernguyen.asset.gun.GunManager;
 import com.playernguyen.debugger.Debugger;
 import com.playernguyen.entity.ShooterManager;
 import com.playernguyen.language.LanguageConfiguration;
+import com.playernguyen.runnable.ActionPerformRunnable;
+import com.playernguyen.runnable.TaskManager;
 import com.playernguyen.setting.WeaponistSetting;
 
 public abstract class WeaponistInstance {
@@ -51,4 +53,9 @@ public abstract class WeaponistInstance {
     public ShooterManager getShooterManager() {
         return getWeaponist().getShooterManager();
     }
+
+    public TaskManager<ActionPerformRunnable> getTaskManager() {
+        return getWeaponist().getTaskManager();
+    }
+
 }
