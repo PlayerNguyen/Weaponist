@@ -19,7 +19,7 @@ public enum LanguageFlag implements Flagable {
     GENERAL_WEAPON_OUT_OF_AMMO("general.weapon-out-of-ammo", "&7ø &cOut of ammo &7ø"),
     GENERAL_GUN_RELOAD_CANCELLED("general.gun-reload-cancelled", "&6ø &cCancel reload &6ø"),
 
-    GENERAL_TIPS_DROP("general.tips.how-to-drop", "&7To drop item, use &6SHIFT+Q"),
+    GENERAL_TIPS_DROP("general.tips.how-to-drop", "&7To drop item, use &6CTRL+Q"),
 
     ;
 

@@ -54,6 +54,7 @@ public class GunConfiguration extends WeaponistInstance {
 
         // Initial
         setDefault(DISPLAY_NAME, gunEnum.getName());
+        setDefault(DISPLAY_DESCRIPTION, gunEnum.getDescription());
         setDefault(MATERIAL_TYPE, gunEnum.getMaterial().toString());
         setDefault(AMMO_TYPE, gunEnum.getAmmunitionType().getId());
 

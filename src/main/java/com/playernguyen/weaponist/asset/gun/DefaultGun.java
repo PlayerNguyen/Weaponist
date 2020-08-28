@@ -209,14 +209,23 @@ public abstract class DefaultGun implements Gun {
 //        runnable.runTaskTimerAsynchronously(plugin, 0, 0);
         // Play effect
         //WeaponistUtil.knockBack(player, 0.5f);
-        WeaponistUtil.decreaseItemStack(player.getInventory().getItemInMainHand());
+        //WeaponistUtil.decreaseItemStack(player.getInventory().getItemInMainHand());
+        // Decrease ammo
+        ItemStack handStack = player.getInventory().getItemInMainHand();
+        ItemStack updateStack = WeaponistUtil
+                .updateItemMeta(
+                        Tag.setData(handStack, ItemTagEnum.GUN_AMMO, Tag.getGunAmmo(handStack)-1),
+                        this
+                );
+        player.getInventory()
+                .setItemInMainHand(updateStack);
         return rayResult;
     }
 
 
     @Override
     public ItemStack toItem(Player owner, int amount) {
-        ItemStack stack = new ItemStack(getMaterial(), amount);
+        ItemStack stack = new ItemStack(getMaterial(), 1);
         ItemMeta itemMeta = stack.getItemMeta();
 
         // Set metadata
@@ -228,11 +237,12 @@ public abstract class DefaultGun implements Gun {
 
         // Add nms data into the item
         stack = new Tag.Builder(stack)
-                .appendInitialKeyEnum(ItemTagEnum.IS_WEAPON)
-                .appendData(ItemTagEnum.WEAPON_ID, gunEnum.getId())
-                .appendData(ItemTagEnum.WEAPON_AMMO_TYPE, getAmmunitionType())
+                .initData(ItemTagEnum.IS_WEAPON)
+                .setData(ItemTagEnum.WEAPON_ID, gunEnum.getId())
+                .setData(ItemTagEnum.WEAPON_AMMO_TYPE, getAmmunitionType())
+                .setData(ItemTagEnum.GUN_AMMO, amount)
                 .build();
-        return stack;
+        return WeaponistUtil.updateItemMeta(stack, this);
     }
 
     @Override
@@ -263,12 +273,29 @@ public abstract class DefaultGun implements Gun {
 
                 // On done
                 bukkitRunnable.setOnDone(() -> {
-                    ItemStack stack = player.getInventory().getItemInMainHand();
+                    ItemStack manHand = player.getInventory().getItemInMainHand();
 
                     // Decrease the item
-                    if (stack.getAmount() < getMaxStackSize()) {
+//                    if (manHand.getAmount() < getMaxStackSize()) {
+//                        WeaponistUtil.decreaseItemStack(i);
+//                        manHand.setAmount(getMaxStackSize());
+//                    }
+                    // Using Tag
+                    if (Tag.getGunAmmo(manHand) < getMaxStackSize()) {
+                        //Tag.setData(manHand, ItemTagEnum.GUN_AMMO, getMaxStackSize());
+                        player.getInventory()
+                                .setItemInMainHand(
+                                        WeaponistUtil
+                                                .updateItemMeta(
+                                                        Tag.setData(manHand,
+                                                            ItemTagEnum.GUN_AMMO,
+                                                            this.getMaxStackSize()
+                                                        ),
+                                                        this
+                                                )
+                                );
+
                         WeaponistUtil.decreaseItemStack(i);
-                        stack.setAmount(getMaxStackSize());
                     }
 
                     // Play sound

@@ -27,9 +27,6 @@ public class PlayerDropItemListener extends WeaponistListener {
                         .getLanguage(LanguageFlag.GENERAL_TIPS_DROP))
                         .send(player);
                 // TODO: show accessories GUI
-            } else {
-                player.getWorld().dropItemNaturally(player.getEyeLocation(), itemInMainHand);
-                player.getInventory().setItemInMainHand(null);
             }
 
             // Cancel reloading

@@ -71,8 +71,8 @@ public abstract class DefaultAmmunition implements Ammunition {
 
         // Add nms data into the item
         stack = new Tag.Builder(stack)
-                .appendInitialKeyEnum(ItemTagEnum.AMMUNITION_VALID)
-                .appendData(ItemTagEnum.AMMUNITION_ID, this.getId())
+                .initData(ItemTagEnum.AMMUNITION_VALID)
+                .setData(ItemTagEnum.AMMUNITION_ID, this.getId())
                 .build();
         return stack;
     }

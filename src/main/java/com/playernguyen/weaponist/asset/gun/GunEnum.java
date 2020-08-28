@@ -12,7 +12,7 @@ import java.util.List;
 public enum GunEnum {
 
     BERETTA("beretta",
-            "&cBeretta",
+            "&cBeretta &7(%ammo%/%max_ammo%)",
             1.2d,
             5.5,
             0.5,
@@ -38,7 +38,7 @@ public enum GunEnum {
     ),
     UZI(
             "uzi",
-            "&cUzi",
+            "&cUzi &7(%ammo%/%max_ammo%)",
             1.4,
             5.2,
             0.01,
@@ -64,7 +64,7 @@ public enum GunEnum {
     ),
     AK_RIFLE(
             "ak_47",
-            "&cAK-47",
+            "&cAK-47 &7(%ammo%/%max_ammo%)",
             1.8,
             9.5,
             0.1,
@@ -91,7 +91,7 @@ public enum GunEnum {
     ),
     SKS(
             "sks",
-            "&cSKS",
+            "&cSKS &7(%ammo%/%max_ammo%)",
             3.0,
             14.2,
             1.2,
@@ -118,7 +118,7 @@ public enum GunEnum {
     ),
     RPG(
             "rpg",
-            "&6RPG",
+            "&6RPG &7(%ammo%/%max_ammo%)",
             6.0,
             40,
             0.01,

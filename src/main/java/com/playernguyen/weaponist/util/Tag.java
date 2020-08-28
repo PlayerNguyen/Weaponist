@@ -4,10 +4,9 @@ import com.playernguyen.weaponist.asset.ItemTagEnum;
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class Tag {
 
@@ -21,17 +20,17 @@ public class Tag {
             this.map = new LinkedHashMap<>();
         }
 
-        public Builder appendData(String key, Object object) {
+        public Builder setData(String key, Object object) {
             this.map.put(key, object);
             return this;
         }
 
-        public Builder appendData(ItemTagEnum keyEnum, Object data) {
+        public Builder setData(ItemTagEnum keyEnum, Object data) {
             this.map.put(keyEnum.getKey(), data);
             return this;
         }
 
-        public Builder appendInitialKeyEnum(ItemTagEnum itemTagEnum) {
+        public Builder initData(ItemTagEnum itemTagEnum) {
             this.map.put(itemTagEnum.getKey(), itemTagEnum.getInitial());
             return this;
         }
@@ -138,6 +137,10 @@ public class Tag {
         public String getString(ItemTagEnum e){
             return getString(e.getKey());
         }
+
+        public int getInt(ItemTagEnum e){
+            return getInt(e.getKey());
+        }
     }
 
     public static boolean isAmmunition(ItemStack itemStack) {
@@ -167,4 +170,21 @@ public class Tag {
         if (!reader.hasCompound()) throw new NullPointerException("no compound found!");
         return reader.getString(ItemTagEnum.WEAPON_ID);
     }
+
+    public static ItemStack setData(ItemStack stack, ItemTagEnum itemTagEnum, Object value) {
+        Builder builder = new Builder(stack);
+        // Set the data
+        builder.setData(itemTagEnum, value);
+
+        // Rebuild
+        return builder.build();
+    }
+
+    public static int getGunAmmo(ItemStack stack) {
+        Reader reader = new Reader(stack);
+        if (!reader.hasCompound()) throw new NullPointerException("no compound found!");
+        return reader.getInt(ItemTagEnum.GUN_AMMO);
+    }
+
+
 }

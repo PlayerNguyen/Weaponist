@@ -1,11 +1,15 @@
 package com.playernguyen.weaponist.asset.gun;
 
 import com.playernguyen.weaponist.Weaponist;
+import com.playernguyen.weaponist.asset.ItemTagEnum;
 import com.playernguyen.weaponist.entity.Shooter;
 import com.playernguyen.weaponist.ray.RayResult;
 import com.playernguyen.weaponist.runnable.RocketProjectileRunnable;
 import com.playernguyen.weaponist.sound.SoundConfiguration;
+import com.playernguyen.weaponist.util.Tag;
+import com.playernguyen.weaponist.util.WeaponistUtil;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -33,9 +37,14 @@ public abstract class DefaultRocketGun extends DefaultGun {
         r.runTaskTimerAsynchronously(Weaponist.getWeaponist(), 0, 0);
 
         // Take ammo
-        player
-                .getInventory().getItemInMainHand()
-                .setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
+        ItemStack handStack = player.getInventory().getItemInMainHand();
+        ItemStack updateStack = WeaponistUtil
+                .updateItemMeta(
+                        Tag.setData(handStack, ItemTagEnum.GUN_AMMO, Tag.getGunAmmo(handStack)-1),
+                        this
+                );
+        player.getInventory()
+                .setItemInMainHand(updateStack);
 
         // Play sound
         for (SoundConfiguration soundConfiguration : getShootSoundList()) {

@@ -9,6 +9,8 @@ public enum ItemTagEnum {
     WEAPON_ID("weapon_id", ""),
     WEAPON_AMMO_TYPE("weapon_ammo_type", ""),
 
+    GUN_AMMO("gun_ammo", 0),
+
     WEAPON_ACCESSORY_1("wp_accessory_1", ""),
     WEAPON_ACCESSORY_2("wp_accessory_2", ""),
     WEAPON_ACCESSORY_3("wp_accessory_3", ""),

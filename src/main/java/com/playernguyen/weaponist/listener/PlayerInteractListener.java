@@ -38,7 +38,7 @@ public class PlayerInteractListener extends WeaponistListener {
 
             // Right click
             // No ammo
-            if (mainHandStack.getAmount() == 1) {
+            if (Tag.getGunAmmo(mainHandStack) == 0) {
                 ActionBar actionBar = new ActionBar();
                 actionBar.setContent(getLanguageConfiguration()
                         .getLanguage(LanguageFlag.GENERAL_WEAPON_OUT_OF_AMMO));
@@ -58,6 +58,7 @@ public class PlayerInteractListener extends WeaponistListener {
                 }
                 shooter.setLastShoot(System.currentTimeMillis());
                 weapon.shoot(shooter, getWeaponist());
+
             }
         }
 
