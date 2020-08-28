@@ -1,5 +1,5 @@
 name: Weaponist
-main: com.playernguyen.Weaponist
+main: com.playernguyen.weaponist.Weaponist
 version: 1.0-snap
 authors: [Player_Nguyen]
 commands:

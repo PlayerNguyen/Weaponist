@@ -1,7 +1,7 @@
 package com.playernguyen.weaponist;
 
-import com.playernguyen.asset.ammunition.*;
-import com.playernguyen.asset.gun.*;
+import com.playernguyen.weaponist.asset.ammunition.*;
+import com.playernguyen.weaponist.asset.gun.*;
 import com.playernguyen.weaponist.command.Command;
 import com.playernguyen.weaponist.command.CommandManager;
 import com.playernguyen.weaponist.command.ammunition.CommandAmmunition;
@@ -12,14 +12,11 @@ import com.playernguyen.weaponist.entity.DefaultShooter;
 import com.playernguyen.weaponist.entity.Shooter;
 import com.playernguyen.weaponist.entity.ShooterManager;
 import com.playernguyen.weaponist.language.LanguageConfiguration;
-import com.playernguyen.listener.*;
 import com.playernguyen.weaponist.listener.*;
 import com.playernguyen.weaponist.runnable.ActionPerformRunnable;
 import com.playernguyen.weaponist.runnable.TaskManager;
 import com.playernguyen.weaponist.setting.SettingFlag;
 import com.playernguyen.weaponist.setting.WeaponistSetting;
-import com.playernguyen.weaponist.asset.ammunition.*;
-import com.playernguyen.weaponist.asset.gun.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
