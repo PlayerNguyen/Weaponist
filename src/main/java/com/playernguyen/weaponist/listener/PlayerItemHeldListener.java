@@ -21,7 +21,7 @@ public class PlayerItemHeldListener extends WeaponistListener {
             if (shooter.isReloading() && shooter.isCanReload()) {
                 getDebugger().info("Change while reloading");
                 shooter.setCanReload(false);
-                getTaskManager().swipeTask(shooter);
+                //getTaskManager().swipeTask(shooter);
             }
             // If scoping
             if (shooter.isScoping()) {

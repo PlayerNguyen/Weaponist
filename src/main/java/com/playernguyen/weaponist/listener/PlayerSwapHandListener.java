@@ -22,6 +22,7 @@ public class PlayerSwapHandListener extends WeaponistListener {
             // Shooter check reloading or not for not repeating
             Shooter shooter = getShooterManager().getShooterAsPlayer(player);
             if (shooter.isReloading()) {
+                getDebugger().info("Is reloading...");
                 event.setCancelled(true);
                 return;
             }

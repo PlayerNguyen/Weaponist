@@ -9,6 +9,6 @@ public class AmmunitionCommunistRifle extends DefaultAmmunition {
      * @throws IOException cannot save the configuration
      */
     public AmmunitionCommunistRifle() throws IOException {
-        super(AmmunitionEnum.COMMUNIST_RIFLE);
+        super(AmmunitionEnum.RIFLE);
     }
 }

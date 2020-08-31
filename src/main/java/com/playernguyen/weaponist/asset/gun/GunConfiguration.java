@@ -101,7 +101,7 @@ public class GunConfiguration extends WeaponistInstance {
 
         // Not found ammo type ~
         if (getAmmunitionManager().getRegisteredAmmunition(ammoType) == null) {
-            throw new NullPointerException("The ammo type not found!");
+            throw new NullPointerException("The ammo type not found...");
         }
 
         save();

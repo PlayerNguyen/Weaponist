@@ -21,7 +21,7 @@ public enum GunEnum {
             12,
             2,
             AmmunitionEnum.PISTOL,
-            Material.PRISMARINE_CRYSTALS,
+            Material.WOOD_HOE,
             Arrays.asList(
                     "&cBarretta &7handgun is a light-weight,",
                     "&7mobility and simplex gun for who want ", "&7to have a little boy in hand"
@@ -34,7 +34,8 @@ public enum GunEnum {
             Arrays.asList(
                     new SoundConfiguration(Sound.BLOCK_WOODEN_TRAPDOOR_OPEN, 1, 1.4f),
                     new SoundConfiguration(Sound.ENTITY_GENERIC_EXPLODE, 1, 1.4f)
-            )
+            ),
+            ShootType.SINGLE
     ),
     UZI(
             "uzi",
@@ -46,8 +47,8 @@ public enum GunEnum {
             100,
             25,
             2,
-            AmmunitionEnum.PISTOL,
-            Material.GOLD_NUGGET,
+            AmmunitionEnum.SMG,
+            Material.GOLD_PICKAXE,
             Arrays.asList(
                     "&cUzi &7- Killing machine with light-weight",
                     "&7guns. Kill kill and kill"
@@ -60,7 +61,8 @@ public enum GunEnum {
             Arrays.asList(
                     new SoundConfiguration(Sound.BLOCK_NOTE_BASEDRUM, 0.5f, 1),
                     new SoundConfiguration(Sound.BLOCK_NOTE_SNARE, 1f, 1f)
-            )
+            ),
+            ShootType.MULTIPLE
     ),
     AK_RIFLE(
             "ak_47",
@@ -72,8 +74,8 @@ public enum GunEnum {
             150,
             30,
             4,
-            AmmunitionEnum.COMMUNIST_RIFLE,
-            Material.IRON_NUGGET,
+            AmmunitionEnum.RIFLE,
+            Material.DIAMOND_AXE,
             Arrays.asList(
                     "&cAK-47, &7the communist gun with ",
                     "&7huge damage."
@@ -87,7 +89,8 @@ public enum GunEnum {
                     new SoundConfiguration(Sound.BLOCK_NOTE_BASEDRUM, 0.5f, 1),
                     new SoundConfiguration(Sound.BLOCK_NOTE_SNARE, 1f, 1f),
                     new SoundConfiguration(Sound.ENTITY_GENERIC_EXPLODE, 0.8f, 2f)
-            )
+            ),
+            ShootType.MULTIPLE
     ),
     SKS(
             "sks",
@@ -99,7 +102,7 @@ public enum GunEnum {
             300,
             10,
             7,
-            AmmunitionEnum.COMMUNIST_RIFLE,
+            AmmunitionEnum.SNIPER,
             Material.LEATHER,
             Arrays.asList(
                     "&cSKS &7is a gun for Soviet army",
@@ -114,7 +117,8 @@ public enum GunEnum {
                     new SoundConfiguration(Sound.BLOCK_NOTE_BASEDRUM, 0.5f, 1),
                     new SoundConfiguration(Sound.BLOCK_NOTE_SNARE, 1f, 1f),
                     new SoundConfiguration(Sound.ENTITY_GENERIC_EXPLODE, 1.3f, 2f)
-            )
+            ),
+            ShootType.SINGLE
     ),
     RPG(
             "rpg",
@@ -127,7 +131,7 @@ public enum GunEnum {
             1,
             1,
             AmmunitionEnum.ROCKET,
-            Material.RABBIT_HIDE,
+            Material.NAME_TAG,
             Arrays.asList(
                     "&6RPG &7a rocket with high damage",
                     "&7Explosion when hit object"
@@ -142,7 +146,8 @@ public enum GunEnum {
                     new SoundConfiguration(Sound.BLOCK_NOTE_SNARE, 1f, 1f),
                     new SoundConfiguration(Sound.ENTITY_GENERIC_EXPLODE, 1.3f, 2f),
                     new SoundConfiguration(Sound.ENTITY_ENDERDRAGON_SHOOT, 1.3f, 1f)
-            )
+            ),
+            ShootType.SINGLE
     ),
     ;
 
@@ -162,6 +167,8 @@ public enum GunEnum {
     private final List<String> reloadSound;
     private final List<String> shootSound;
 
+    private final ShootType shootType;
+
     GunEnum(String id,
             String name,
             double reloadTime,
@@ -175,7 +182,9 @@ public enum GunEnum {
             Material material,
             List<String> description,
             List<SoundConfiguration> reloadSound,
-            List<SoundConfiguration> shootSound) {
+            List<SoundConfiguration> shootSound,
+            ShootType shootType
+    ) {
         this.id = id;
         this.name = name;
         this.ammunitionType = ammunitionType;
@@ -197,6 +206,8 @@ public enum GunEnum {
         for (SoundConfiguration soundConfiguration : shootSound) {
             this.shootSound.add(soundConfiguration.toString());
         }
+
+        this.shootType = shootType;
     }
 
     public List<String> getReloadSound() {
@@ -257,5 +268,9 @@ public enum GunEnum {
 
     public int getMaxPenetrate() {
         return maxPenetrate;
+    }
+
+    public ShootType getShootType() {
+        return shootType;
     }
 }

@@ -31,6 +31,6 @@ public interface Gun extends Weapon {
 
     int getMaxPenetrate();
 
-
+    ShootType getShootType();
 
 }

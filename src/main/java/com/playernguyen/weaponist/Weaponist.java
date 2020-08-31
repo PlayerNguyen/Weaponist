@@ -119,6 +119,9 @@ public class Weaponist extends JavaPlugin {
             getAmmunitionManager().add(new AmmunitionPistol());
             getAmmunitionManager().add(new AmmunitionCommunistRifle());
             getAmmunitionManager().add(new AmmunitionRocket());
+            getAmmunitionManager().add(new AmmunitionSMG());
+            getAmmunitionManager().add(new AmmunitionLMG());
+            getAmmunitionManager().add(new AmmunitionSniper());
         } catch (IOException e) {
             debugger.err("Cannot save ammunition...");
             e.printStackTrace();

@@ -2,6 +2,7 @@ package com.playernguyen.weaponist.listener;
 
 import com.playernguyen.weaponist.asset.gun.Gun;
 import com.playernguyen.weaponist.asset.gun.Scopeable;
+import com.playernguyen.weaponist.asset.gun.ShootType;
 import com.playernguyen.weaponist.entity.Shooter;
 import com.playernguyen.weaponist.event.WeaponistPlayerShootEvent;
 import com.playernguyen.weaponist.language.LanguageFlag;
@@ -14,6 +15,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class PlayerInteractListener extends WeaponistListener {
 
@@ -38,7 +42,7 @@ public class PlayerInteractListener extends WeaponistListener {
 
             // Right click
             // No ammo
-            if (Tag.getGunAmmo(mainHandStack) == 0) {
+            if (Tag.getGunAmmo(mainHandStack) <= 0) {
                 ActionBar actionBar = new ActionBar();
                 actionBar.setContent(getLanguageConfiguration()
                         .getLanguage(LanguageFlag.GENERAL_WEAPON_OUT_OF_AMMO));
@@ -56,12 +60,54 @@ public class PlayerInteractListener extends WeaponistListener {
                 if (System.currentTimeMillis() - shooter.getLastShoot() > 400) {
                     shooter.setShooting(false);
                 }
-                shooter.setLastShoot(System.currentTimeMillis());
-                weapon.shoot(shooter, getWeaponist());
 
+                if (shooter.isReloading()) {
+                    shooter.setCanReload(false);
+                }
+
+                shooter.setLastShoot(System.currentTimeMillis());
+                if (weapon.getShootType() == ShootType.MULTIPLE) {
+                    BukkitRunnable runnable = new BukkitRunnable() {
+                        int i = 0;
+                        @Override
+                        public void run() {
+                            ++ i;
+                            // Shoot
+                            weapon.shoot(shooter, getWeaponist());
+                            // Cancel
+                            if (i > 3) {
+                                cancel();
+                            }
+                        }
+                    };
+
+                    runnable.runTaskTimerAsynchronously(getWeaponist(), 0, 0);
+                } else {
+                    weapon.shoot(shooter, getWeaponist());
+                }
             }
         }
 
+    }
+
+    //@EventHandler
+    public void testInteract(PlayerInteractEvent event) {
+        BukkitRunnable runnable = new BukkitRunnable() {
+            int i = 0;
+            @Override
+            public void run() {
+                i ++;
+
+                //
+                event.getPlayer().sendMessage("shoot " + i);
+
+                // Condition to close
+                if (i >= 3) {
+                    cancel();
+                }
+            }
+        };
+        runnable.runTaskTimer(getWeaponist(), 0, 0);
     }
 
 }

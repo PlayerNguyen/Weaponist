@@ -32,6 +32,7 @@ public abstract class DefaultGun implements Gun {
     private final GunEnum gunEnum;
     private final GunConfiguration gunConfiguration;
 
+
     public DefaultGun(GunEnum gunEnum) throws IOException {
         this.gunEnum = gunEnum;
         this.gunConfiguration = new GunConfiguration(gunEnum);
@@ -113,6 +114,9 @@ public abstract class DefaultGun implements Gun {
         // Shooting checker
         if (!shooter.isCanTrigger()) { return null; }
 
+        if (Tag.getGunAmmo(shooter.asPlayer().getInventory().getItemInMainHand()) <= 0) {
+            return null;
+        }
 
         if (!shooter.isShooting()) {
             shooter.setStackShoot(0);
@@ -121,12 +125,13 @@ public abstract class DefaultGun implements Gun {
         Player player = shooter.asPlayer();
 
         RayTrace rayTrace = new RayTrace(shooter, getMaxDistance(), getFireAccuracy() * ((double)shooter.getStackShoot()/2));
-        RayResult rayResult = rayTrace.ray(Particle.VILLAGER_HAPPY, getMaxPenetrate());
+        RayResult rayResult = rayTrace.ray(null, getMaxPenetrate());
 
         // Damage
         for (Target target : rayResult.getTargets()) {
             if (target.isHeadshot()) {
-                target.asEntity().damage(getDamage()*2, shooter.asPlayer());
+                Bukkit.getScheduler().runTask(plugin, () ->
+                        target.asEntity().damage(getDamage()*2, shooter.asPlayer()));
                 WeaponistPlayerShootEntityEvent event =
                         new WeaponistPlayerShootEntityEvent(
                                 shooter,
@@ -136,7 +141,8 @@ public abstract class DefaultGun implements Gun {
                         );
                 Bukkit.getPluginManager().callEvent(event);
             } else {
-                target.asEntity().damage(getDamage(), shooter.asPlayer());
+                Bukkit.getScheduler().runTask(plugin, () ->
+                        target.asEntity().damage(getDamage(), shooter.asPlayer()));
                 WeaponistPlayerShootEntityEvent event =
                         new WeaponistPlayerShootEntityEvent(
                                 shooter,
@@ -155,10 +161,10 @@ public abstract class DefaultGun implements Gun {
                     .spawnParticle(
                             Particle.BLOCK_CRACK,
                             block.getLocation(),
-                            350,
-                            0.5f,
-                            0.5f,
-                            0.5f,
+                            120,
+                            0.1f,
+                            0.1f,
+                            0.1f,
                             new MaterialData(block.getType())
                     );
         }
@@ -176,11 +182,16 @@ public abstract class DefaultGun implements Gun {
                 // Play cock sound
                 ((Cockable) this).getCockSound().play(player.getLocation());
             }
+
+            // Refresh trigger
             BukkitRunnable runnable = new BukkitRunnable() {
                 double d = getDelayPerShootTime();
+
                 @Override
                 public void run() {
+                    // Update tick
                     d = d - (0.05);
+
                     if (d <= 0) {
                         shooter.setCanTrigger(true);
                         cancel();
@@ -241,6 +252,10 @@ public abstract class DefaultGun implements Gun {
                 .setData(ItemTagEnum.WEAPON_ID, gunEnum.getId())
                 .setData(ItemTagEnum.WEAPON_AMMO_TYPE, getAmmunitionType())
                 .setData(ItemTagEnum.GUN_AMMO, amount)
+                .setData(ItemTagEnum.WEAPON_ACCESSORY_1, "")
+                .setData(ItemTagEnum.WEAPON_ACCESSORY_2, "")
+                .setData(ItemTagEnum.WEAPON_ACCESSORY_3, "")
+                .setData(ItemTagEnum.WEAPON_ACCESSORY_4, "")
                 .build();
         return WeaponistUtil.updateItemMeta(stack, this);
     }
@@ -263,11 +278,13 @@ public abstract class DefaultGun implements Gun {
                         // Set properties
                         shooter.setCanReload(true);
                         shooter.setReloading(false);
-                        bukkitRunnable.cancel();
+
                         // Send cancel reload
                         new ActionBar(plugin.getLanguageConfiguration()
                                 .getLanguage(LanguageFlag.GENERAL_GUN_RELOAD_CANCELLED))
                                 .send(player);
+
+                        bukkitRunnable.cancel();
                     }
                 });
 
@@ -308,10 +325,14 @@ public abstract class DefaultGun implements Gun {
                 // Call new tasks
                 plugin.getTaskManager().put(shooter, bukkitRunnable);
                 // Execute the task
-                plugin.getTaskManager().get(shooter).runTaskTimer(plugin, 0, 0);
+                plugin.getTaskManager().get(shooter).runTaskTimerAsynchronously(plugin, 0, 0);
 
             }
         }
     }
 
+    @Override
+    public ShootType getShootType() {
+        return gunEnum.getShootType();
+    }
 }
