@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public abstract class DefaultRifleSingleShoot extends DefaultGun implements SingleShoot {
 
-    public DefaultRifleSingleShoot(GunEnum gunEnum) throws IOException {
+    public DefaultRifleSingleShoot(GunEnum gunEnum) {
         super(gunEnum);
     }
 

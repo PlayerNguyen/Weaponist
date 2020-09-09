@@ -2,6 +2,8 @@ package com.playernguyen.weaponist;
 
 import com.playernguyen.weaponist.asset.ammunition.*;
 import com.playernguyen.weaponist.asset.gun.*;
+import com.playernguyen.weaponist.asset.throwItem.ThrowFrag;
+import com.playernguyen.weaponist.asset.throwItem.ThrowManager;
 import com.playernguyen.weaponist.command.Command;
 import com.playernguyen.weaponist.command.CommandManager;
 import com.playernguyen.weaponist.command.ammunition.CommandAmmunition;
@@ -11,6 +13,7 @@ import com.playernguyen.weaponist.debugger.Debugger;
 import com.playernguyen.weaponist.entity.DefaultShooter;
 import com.playernguyen.weaponist.entity.Shooter;
 import com.playernguyen.weaponist.entity.ShooterManager;
+import com.playernguyen.weaponist.item.ItemManager;
 import com.playernguyen.weaponist.language.LanguageConfiguration;
 import com.playernguyen.weaponist.listener.*;
 import com.playernguyen.weaponist.runnable.ActionPerformRunnable;
@@ -34,7 +37,9 @@ public class Weaponist extends JavaPlugin {
     private ConfigurationFolder ammunitionFolder;
     private AmmunitionManager ammunitionManager;
     private CommandManager commandManager;
+    private ThrowManager throwManager;
     private GunConfigurationFolder weaponFolder;
+    private ItemManager itemManager;
     private GunManager gunManager;
     private ShooterManager shooterManager;
     private TaskManager<ActionPerformRunnable> taskManager;
@@ -49,12 +54,41 @@ public class Weaponist extends JavaPlugin {
         setupLanguage();
         // Listener setup
         setupListener();
+        // Set up depends
+        setupDepends();
         // Command setup
         setupCommand();
         // Shooter set up
         setupShooter();
         // Set up task manager
         setupTask();
+
+    }
+
+    protected void reloadPlugin() {
+        weaponistSetting.load();
+        languageConfiguration.load();
+
+        listenerManager.clear();
+        ammunitionManager.clear();
+        commandManager.clear();
+        gunManager.clear();
+
+        setupSetting();
+        setupLanguage();
+        setupListener();
+        setupLanguage();
+        setupCommand();
+
+    }
+
+    private void setupDepends() {
+        // ProtocolLib
+        if (Bukkit.getPluginManager().getPlugin("ProtocolLib") == null) {
+            getLogger().severe("Cannot found ProtocolLib. Please install at:" +
+                    " https://www.spigotmc.org/resources/protocollib.1997/");
+            Bukkit.getPluginManager().disablePlugin(this);
+        }
     }
 
     private void setupTask() {
@@ -110,6 +144,10 @@ public class Weaponist extends JavaPlugin {
         }
         // Debugger setting
         debugger = new Debugger(getWeaponistSetting());
+
+        // ItemManager initial
+        this.itemManager = new ItemManager();
+
         // Ammunition folder
         this.ammunitionFolder = new AmmunitionConfigurationFolder(getWeaponistSetting()
                 .getString(SettingFlag.AMMUNITION_FOLDER));
@@ -129,17 +167,17 @@ public class Weaponist extends JavaPlugin {
         // Weapon setting
         this.weaponFolder = new GunConfigurationFolder(getWeaponistSetting().getString(SettingFlag.WEAPON_FOLDER));
         this.gunManager = new GunManager();
+        // Register gun
+        getGunManager().add(new GunBeretta());
+        getGunManager().add(new GunUzi());
+        getGunManager().add(new GunAKRifle());
+        getGunManager().add(new GunSKS());
+        getGunManager().add(new GunRPG());
+        getGunManager().add(new GunGlock());
 
-        try {
-            getGunManager().add(new GunBeretta());
-            getGunManager().add(new GunUzi());
-            getGunManager().add(new GunAKRifle());
-            getGunManager().add(new GunSKS());
-            getGunManager().add(new GunRPG());
-        } catch (IOException e) {
-            debugger.err("Cannot save weapon...");
-            e.printStackTrace();
-        }
+        // Throwable
+        this.throwManager = new ThrowManager();
+        getThrowManager().add(new ThrowFrag());
 
     }
 
@@ -164,6 +202,7 @@ public class Weaponist extends JavaPlugin {
     public ListenerManager getListenerManager() {
         return listenerManager;
     }
+
 
     /**
      * Get instance of weaponist
@@ -215,5 +254,13 @@ public class Weaponist extends JavaPlugin {
 
     public TaskManager<ActionPerformRunnable> getTaskManager() {
         return taskManager;
+    }
+
+    public ItemManager getItemManager() {
+        return itemManager;
+    }
+
+    public ThrowManager getThrowManager() {
+        return throwManager;
     }
 }

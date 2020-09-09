@@ -11,8 +11,9 @@ import java.io.IOException;
 
 public abstract class ConfigurationWeaponist extends WeaponistInstance {
 
-    private final File file;
-    private final FileConfiguration fileConfiguration;
+    private final String fileName;
+    private File file;
+    private FileConfiguration fileConfiguration;
 
     /**
      * Instance of the configuration
@@ -20,8 +21,9 @@ public abstract class ConfigurationWeaponist extends WeaponistInstance {
      * @param flagables Default flagables to save
      */
     public ConfigurationWeaponist(@NotNull String fileName, @NotNull Flagable[] flagables) throws IOException {
-        this.file = new File(getWeaponist().getDataFolder(), fileName);
-        this.fileConfiguration = YamlConfiguration.loadConfiguration(this.file);
+        this.fileName = fileName;
+        // Call load
+        load();
 
         for (Flagable flagable : flagables) {
             if (!fileConfiguration.contains(flagable.getPath())) {
@@ -46,6 +48,11 @@ public abstract class ConfigurationWeaponist extends WeaponistInstance {
 
     public boolean getBoolean(Flagable flagable) {
         return this.fileConfiguration.getBoolean(flagable.getPath());
+    }
+
+    public void load () {
+        this.file = new File(getWeaponist().getDataFolder(), fileName);
+        this.fileConfiguration = YamlConfiguration.loadConfiguration(this.file);
     }
 
 }

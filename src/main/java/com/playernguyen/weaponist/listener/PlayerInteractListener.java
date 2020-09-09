@@ -3,10 +3,12 @@ package com.playernguyen.weaponist.listener;
 import com.playernguyen.weaponist.asset.gun.Gun;
 import com.playernguyen.weaponist.asset.gun.Scopeable;
 import com.playernguyen.weaponist.asset.gun.ShootType;
+import com.playernguyen.weaponist.asset.throwItem.Throw;
 import com.playernguyen.weaponist.entity.Shooter;
 import com.playernguyen.weaponist.event.WeaponistPlayerShootEvent;
 import com.playernguyen.weaponist.language.LanguageFlag;
 import com.playernguyen.weaponist.util.ActionBar;
+import com.playernguyen.weaponist.util.LocationUtil;
 import com.playernguyen.weaponist.util.Tag;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
@@ -17,8 +19,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 public class PlayerInteractListener extends WeaponistListener {
 
     @EventHandler
@@ -26,8 +26,8 @@ public class PlayerInteractListener extends WeaponistListener {
         Player player = event.getPlayer();
         ItemStack mainHandStack = player.getInventory().getItemInMainHand();
 
+        // Guns
         if (Tag.isWeapon(mainHandStack)) {
-
             String weaponId = Tag.getWeaponId(mainHandStack);
             Gun weapon = getGunManager().getRegisteredWeapon(weaponId);
             Shooter shooter = getShooterManager().getShooterAsPlayer(player);
@@ -88,26 +88,20 @@ public class PlayerInteractListener extends WeaponistListener {
             }
         }
 
+        // Throwable
+        if (Tag.isThrowable(mainHandStack)) {
+            String itemId = Tag.getItemId(mainHandStack);
+            Throw thr = getThrowManager().getRegisteredWeapon(itemId);
+            Shooter shooter = getShooterManager().getShooterAsPlayer(player);
+
+            thr.onThrow(shooter);
+        }
+
     }
 
-    //@EventHandler
+    // @EventHandler
     public void testInteract(PlayerInteractEvent event) {
-        BukkitRunnable runnable = new BukkitRunnable() {
-            int i = 0;
-            @Override
-            public void run() {
-                i ++;
-
-                //
-                event.getPlayer().sendMessage("shoot " + i);
-
-                // Condition to close
-                if (i >= 3) {
-                    cancel();
-                }
-            }
-        };
-        runnable.runTaskTimer(getWeaponist(), 0, 0);
+        LocationUtil.createNoise(event.getPlayer(), 15);
     }
 
 }

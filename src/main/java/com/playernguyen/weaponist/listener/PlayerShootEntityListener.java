@@ -33,11 +33,11 @@ public class PlayerShootEntityListener extends WeaponistListener {
             livingEntity.getWorld()
                     .spawnParticle(Particle.CRIT,
                             livingEntity.getEyeLocation(),
-                            30);
+                            1);
             livingEntity.getWorld()
                     .spawnParticle(Particle.CRIT_MAGIC,
                             livingEntity.getEyeLocation(),
-                            15);
+                            1);
         }
 
         Shooter shooter = event.getShooter();

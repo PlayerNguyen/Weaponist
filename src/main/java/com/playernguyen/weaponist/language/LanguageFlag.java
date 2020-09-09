@@ -10,6 +10,7 @@ public enum LanguageFlag implements Flagable {
     COMMAND_USAGE_NO_PERMISSION("command-usage.no-permission", "&cYou have no permission to access this command."),
     COMMAND_RESULT_NOT_FOUND("command-result.not-found", "&cCommand not found!"),
 
+    COMMAND_RELOAD_SUCCEED("command-result.reload-succeed", "&aSucceed reload Weaponist by Player Nguyen :)"),
 
     GENERAL_PLAYER_NOT_FOUND("general.player-not-found", "&cPlayer not found in server!"),
     GENERAL_AMMO_NOT_FOUND("general.ammo-not-found", "&cThe ammunition you need not found!"),
@@ -20,6 +21,9 @@ public enum LanguageFlag implements Flagable {
     GENERAL_GUN_RELOAD_CANCELLED("general.gun-reload-cancelled", "&6ø &cCancel reload &6ø"),
 
     GENERAL_TIPS_DROP("general.tips.how-to-drop", "&7To drop item, use &6CTRL+Q"),
+
+    COMMAND_CLICK_ME("command.tips.click-me", "Click me"),
+
 
     ;
 

@@ -1,9 +1,6 @@
 package com.playernguyen.weaponist.command.ammunition;
 
-import com.playernguyen.weaponist.command.Command;
-import com.playernguyen.weaponist.command.CommandManager;
-import com.playernguyen.weaponist.command.CommandResult;
-import com.playernguyen.weaponist.command.DefaultCommand;
+import com.playernguyen.weaponist.command.*;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
@@ -13,9 +10,11 @@ public class CommandAmmunition extends DefaultCommand {
     private final CommandManager subCommandManager = new CommandManager();
 
     public CommandAmmunition() {
-        super("ammunition", "<command>", "Ammunition command");
+        super("ammunition", "<command>", "Ammunition command", CommandPermissionEnum.COMMAND_AMMO);
         // Register sub command
         subCommandManager.add(new CommandAmmunitionGive(this));
+        // Register group permissions
+        getPermissions().add(CommandPermissionEnum.COMMAND_GROUP_ADMIN);
     }
 
     @Override

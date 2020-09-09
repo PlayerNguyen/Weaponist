@@ -4,9 +4,11 @@ import com.playernguyen.weaponist.asset.ItemTagEnum;
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class Tag {
 
@@ -32,6 +34,11 @@ public class Tag {
 
         public Builder initData(ItemTagEnum itemTagEnum) {
             this.map.put(itemTagEnum.getKey(), itemTagEnum.getInitial());
+            return this;
+        }
+
+        public Builder clearAttribute() {
+            this.map.put("AttributeModifiers", new ArrayList<>());
             return this;
         }
 
@@ -146,18 +153,15 @@ public class Tag {
     public static boolean isAmmunition(ItemStack itemStack) {
         Reader reader = new Reader(itemStack);
         return reader.hasCompound()
-                && reader.hasKey(ItemTagEnum.AMMUNITION_VALID)
-                && (reader.getBoolean(ItemTagEnum.AMMUNITION_VALID));
+                && reader.hasKey(ItemTagEnum.IS_AMMO)
+                && (reader.getBoolean(ItemTagEnum.IS_AMMO));
     }
 
     public static String getAmmunitionType(ItemStack itemStack) {
-        Reader reader = new Reader(itemStack);
-        if (!reader.hasCompound()) throw new NullPointerException("compound not found!");
-        return reader.getString(ItemTagEnum.AMMUNITION_ID);
+        return getItemId(itemStack);
     }
 
     public static boolean isWeapon(ItemStack itemStack) {
-
         Reader reader = new Reader(itemStack);
 
         return reader.hasCompound()
@@ -165,10 +169,16 @@ public class Tag {
                 && reader.getBoolean(ItemTagEnum.IS_WEAPON);
     }
 
-    public static String getWeaponId(ItemStack stack) {
+    public static boolean isThrowable(ItemStack stack) {
         Reader reader = new Reader(stack);
-        if (!reader.hasCompound()) throw new NullPointerException("no compound found!");
-        return reader.getString(ItemTagEnum.WEAPON_ID);
+
+        return reader.hasCompound()
+                && reader.hasKey(ItemTagEnum.IS_THROWABLE)
+                && reader.getBoolean(ItemTagEnum.IS_THROWABLE);
+    }
+
+    public static String getWeaponId(ItemStack stack) {
+        return getItemId(stack);
     }
 
     public static ItemStack setData(ItemStack stack, ItemTagEnum itemTagEnum, Object value) {
@@ -178,6 +188,12 @@ public class Tag {
 
         // Rebuild
         return builder.build();
+    }
+
+    public static String getItemId(ItemStack itemStack) {
+        Reader reader = new Reader(itemStack);
+        if (!reader.hasCompound()) throw new NullPointerException("compound not found!");
+        return reader.getString(ItemTagEnum.ITEM_ID);
     }
 
     public static int getGunAmmo(ItemStack stack) {

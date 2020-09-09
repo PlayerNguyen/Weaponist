@@ -4,9 +4,8 @@ import java.io.IOException;
 
 public abstract class DefaultRifleGun extends DefaultGun {
 
-    public DefaultRifleGun(GunEnum gunEnum) throws IOException {
+    public DefaultRifleGun(GunEnum gunEnum) {
         super(gunEnum);
     }
-
 
 }

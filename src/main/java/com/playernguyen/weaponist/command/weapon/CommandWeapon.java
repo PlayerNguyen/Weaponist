@@ -1,9 +1,8 @@
 package com.playernguyen.weaponist.command.weapon;
 
-import com.playernguyen.weaponist.command.Command;
-import com.playernguyen.weaponist.command.CommandManager;
-import com.playernguyen.weaponist.command.CommandResult;
-import com.playernguyen.weaponist.command.DefaultCommand;
+import com.playernguyen.weaponist.command.*;
+import com.playernguyen.weaponist.command.weapon.give.CommandWeaponGive;
+import com.playernguyen.weaponist.command.weapon.reload.CommandWeaponReload;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
@@ -13,9 +12,12 @@ public class CommandWeapon extends DefaultCommand {
     private final CommandManager subCommandManager = new CommandManager();
 
     public CommandWeapon() {
-        super("weapon", "<command>", "Weapon command");
+        super("weapon", "<command>", "Weapon command", CommandPermissionEnum.COMMAND_WEAPON);
         // Register command manager
         subCommandManager.add(new CommandWeaponGive(this));
+        subCommandManager.add(new CommandWeaponReload(this));
+        // Register permissions
+        getPermissions().add(CommandPermissionEnum.COMMAND_GROUP_ADMIN);
     }
 
     @Override

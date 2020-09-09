@@ -1,15 +1,17 @@
 package com.playernguyen.weaponist.asset.ammunition;
 
+import com.playernguyen.weaponist.asset.AssetEnum;
+import com.playernguyen.weaponist.asset.ItemType;
 import org.bukkit.Material;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 /**
  * Immutable at first registry
  */
-public enum AmmunitionEnum {
+public enum AmmunitionEnum implements AssetEnum {
 
     PISTOL("pistol", "&cPistol Clip", Material.GOLD_NUGGET, 2, 16, Collections.singletonList("")),
     SMG("smg", "&cSMG Clip", Material.PAPER, 2, 16, Collections.singletonList("")),
@@ -45,11 +47,11 @@ public enum AmmunitionEnum {
         return id;
     }
 
-    public String getDefaultDisplay() {
+    public String getDisplay() {
         return defaultDisplay;
     }
 
-    public List<String> getDefaultDescription() {
+    public List<String> getDescription() {
         return defaultDescription;
     }
 
@@ -57,7 +59,7 @@ public enum AmmunitionEnum {
         return getId().concat(".yml");
     }
 
-    public Material getDefaultMaterial() {
+    public Material getMaterial() {
         return defaultMaterial;
     }
 
@@ -67,5 +69,19 @@ public enum AmmunitionEnum {
 
     public int getDefaultMaxStackSize() {
         return defaultMaxStackSize;
+    }
+
+    @Override
+    public ItemType getItemType() {
+        return ItemType.AMMO;
+    }
+
+    @Nullable
+    public static AmmunitionEnum fromId(String id) {
+        for (AmmunitionEnum value : AmmunitionEnum.values()) {
+            if (value.getId().equalsIgnoreCase(id))
+                return value;
+        }
+        throw new NullPointerException("Not found the AmmunitionEnum id " + id);
     }
 }

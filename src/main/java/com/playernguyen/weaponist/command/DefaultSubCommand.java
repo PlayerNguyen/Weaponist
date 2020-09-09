@@ -15,12 +15,18 @@ public abstract class DefaultSubCommand extends WeaponistInstance implements Sub
     private final String parameter;
     private final String description;
     private final Command previous;
+    private final PermissionConstructor permissions = new PermissionConstructor();
+    private final String primaryPermissions;
 
     public DefaultSubCommand(String command, String parameter, String description, Command previous) {
         this.command = command;
         this.parameter = parameter;
         this.description = description;
         this.previous = previous;
+        this.primaryPermissions = previous.getPrimaryPermission().concat(".").concat(command);
+        // Register default command
+        permissions.add(CommandPermissionEnum.COMMAND_ALL);
+        permissions.add(primaryPermissions);
     }
 
     @Override
@@ -36,6 +42,16 @@ public abstract class DefaultSubCommand extends WeaponistInstance implements Sub
     @Override
     public String getDescription() {
         return description;
+    }
+
+    @Override
+    public PermissionConstructor getPermissions() {
+        return permissions;
+    }
+
+    @Override
+    public String getPrimaryPermission() {
+        return primaryPermissions;
     }
 
     @Override
@@ -68,7 +84,7 @@ public abstract class DefaultSubCommand extends WeaponistInstance implements Sub
                 return true;
             }
 
-            case NOTHING: {
+            case NOTHING: case NULL: {
                 return true;
             }
 
@@ -79,6 +95,11 @@ public abstract class DefaultSubCommand extends WeaponistInstance implements Sub
             }
         }
         return true;
+    }
+
+    @Override
+    public boolean hasPermissions(CommandSender sender) {
+        return false;
     }
 
     @Override

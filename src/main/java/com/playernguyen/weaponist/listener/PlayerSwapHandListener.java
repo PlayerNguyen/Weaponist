@@ -4,6 +4,7 @@ import com.playernguyen.weaponist.asset.gun.Gun;
 import com.playernguyen.weaponist.entity.Shooter;
 import com.playernguyen.weaponist.event.WeaponistPlayerReloadEvent;
 import com.playernguyen.weaponist.util.Tag;
+import com.playernguyen.weaponist.util.WeaponistUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -30,6 +31,10 @@ public class PlayerSwapHandListener extends WeaponistListener {
             // Reload perform
             String weaponId = Tag.getWeaponId(itemInMainHand);
             Gun gun = getGunManager().getRegisteredWeapon(weaponId);
+
+            if (Tag.getGunAmmo(itemInMainHand) == gun.getMaxStackSize()) {
+                return;
+            }
 
             // perform
             // event calling

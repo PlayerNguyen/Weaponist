@@ -7,10 +7,11 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+@Deprecated
 public abstract class ConfigurationFolder extends WeaponistInstance {
 
     private final File file;
-
+    @Deprecated
     public ConfigurationFolder(String name) {
         this.file = new File(getWeaponist().getDataFolder(), name);
         // Make a dir if not exist

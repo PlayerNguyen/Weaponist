@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class GunRPG extends DefaultRocketGun {
 
-    public GunRPG() throws IOException {
+    public GunRPG() {
         super(GunEnum.RPG);
     }
 }

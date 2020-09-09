@@ -1,7 +1,8 @@
 package com.playernguyen.weaponist.asset.gun;
 
 import com.playernguyen.weaponist.Weaponist;
-import com.playernguyen.weaponist.asset.Weapon;
+import com.playernguyen.weaponist.asset.Item;
+import com.playernguyen.weaponist.asset.ammunition.AmmunitionEnum;
 import com.playernguyen.weaponist.entity.Shooter;
 import com.playernguyen.weaponist.ray.RayResult;
 import com.playernguyen.weaponist.sound.SoundConfiguration;
@@ -9,9 +10,9 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.List;
 
-public interface Gun extends Weapon {
+public interface Gun extends Item {
 
-    String getAmmunitionType();
+    AmmunitionEnum getAmmunitionType();
 
     RayResult shoot(Shooter shooter, Plugin plugin);
 
@@ -32,5 +33,7 @@ public interface Gun extends Weapon {
     int getMaxPenetrate();
 
     ShootType getShootType();
+
+    double getDamage();
 
 }

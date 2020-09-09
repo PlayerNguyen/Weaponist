@@ -13,6 +13,10 @@ public interface Command extends TabExecutor {
 
     String getParameter();
 
+    PermissionConstructor getPermissions();
+
+    String getPrimaryPermission();
+
     CommandResult onCommand(CommandSender sender, List<String> params);
 
     List<String> onTab(CommandSender sender, List<String> params);
@@ -21,6 +25,13 @@ public interface Command extends TabExecutor {
 
     default void sendHelp(CommandSender sender) {
         sender.sendMessage(toHelp());
+    }
+
+    default boolean hasPermissions(CommandSender sender) {
+        for (String permission : getPermissions()) {
+            if (sender.hasPermission(permission)) return true;
+        }
+        return false;
     }
 
 }

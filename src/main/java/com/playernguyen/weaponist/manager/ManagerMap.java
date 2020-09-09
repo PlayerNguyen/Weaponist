@@ -2,6 +2,7 @@ package com.playernguyen.weaponist.manager;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public abstract class ManagerMap<K, V> {
     private final Map<K, V> map = new HashMap<>();
@@ -25,5 +26,11 @@ public abstract class ManagerMap<K, V> {
     public V get(K k) {
         return map.get(k);
     }
+
+    public Set<K> keySet() {
+        return map.keySet();
+    }
+
+
 
 }

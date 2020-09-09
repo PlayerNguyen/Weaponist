@@ -5,6 +5,7 @@ import com.playernguyen.weaponist.language.LanguageFlag;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,11 +14,46 @@ public abstract class DefaultCommand extends WeaponistInstance implements Comman
     private final String command;
     private final String parameter;
     private final String description;
+    private final PermissionConstructor permissions
+            = new PermissionConstructor();
+    private final String primaryPermission;
 
-    public DefaultCommand(String command, String parameter, String description) {
+    public DefaultCommand(String command,
+                          String parameter,
+                          String description,
+                          String primaryPermission
+    ) {
         this.command = command;
         this.parameter = parameter;
         this.description = description;
+        this.primaryPermission = primaryPermission;
+        // Register all permission
+        permissions.add(CommandPermissionEnum.COMMAND_ALL);
+        permissions.add(primaryPermission);
+    }
+
+    public DefaultCommand(String command,
+                          String parameter,
+                          String description,
+                          CommandPermissionEnum primaryPermission
+    ) {
+        this.command = command;
+        this.parameter = parameter;
+        this.description = description;
+        this.primaryPermission = primaryPermission.getNode();
+        // Register all permission
+        permissions.add(CommandPermissionEnum.COMMAND_ALL);
+        permissions.add(primaryPermission);
+    }
+
+    @Override
+    public String getPrimaryPermission() {
+        return primaryPermission;
+    }
+
+    @Override
+    public PermissionConstructor getPermissions() {
+        return permissions;
     }
 
     @Override
@@ -43,7 +79,7 @@ public abstract class DefaultCommand extends WeaponistInstance implements Comman
     @Override
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings) {
 
-        if (!commandSender.hasPermission("weaponist.".concat(getCommand())) || !commandSender.hasPermission("weaponist.*")) {
+        if (!hasPermissions(commandSender)) {
             commandSender.sendMessage(getLanguageConfiguration()
                         .getLanguageWithPrefix(LanguageFlag.COMMAND_USAGE_NO_PERMISSION));
             return true;
@@ -83,4 +119,5 @@ public abstract class DefaultCommand extends WeaponistInstance implements Comman
     public String toHelp() {
         return ChatColor.GOLD +  "/" + getCommand() + " " + ChatColor.DARK_PURPLE + getParameter() + ": " + ChatColor.GRAY + getDescription();
     }
+
 }

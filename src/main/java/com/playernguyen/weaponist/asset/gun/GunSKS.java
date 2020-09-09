@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class GunSKS extends DefaultRifleSingleShoot {
 
-    public GunSKS() throws IOException {
+    public GunSKS() {
         super(GunEnum.SKS);
     }
 }

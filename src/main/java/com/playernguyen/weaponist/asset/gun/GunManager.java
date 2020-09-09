@@ -1,8 +1,16 @@
 package com.playernguyen.weaponist.asset.gun;
 
+import com.playernguyen.weaponist.Weaponist;
 import com.playernguyen.weaponist.manager.ManagerSet;
 
 public class GunManager extends ManagerSet<Gun> {
+    @Override
+    public boolean add(Gun e) {
+        String globalId = e.getGlobalId();
+        Weaponist.getDebugger().warn("Register globalId: " + globalId);
+        Weaponist.getWeaponist().getItemManager().put(globalId, e);
+        return super.add(e);
+    }
 
     /**
      * Easy searching algo

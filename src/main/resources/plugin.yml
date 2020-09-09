@@ -2,6 +2,7 @@ name: Weaponist
 main: com.playernguyen.weaponist.Weaponist
 version: 1.0-snap
 authors: [Player_Nguyen]
+depends: [ProtocolLib]
 commands:
   ammunition:
     usage: /ammunition
@@ -10,4 +11,4 @@ commands:
   weapon:
     usage: /weapon
     description: Command of Weaponist
-    aliases: [weapon, gun]
+    aliases: [weapon, gun, wp]

@@ -1,5 +1,7 @@
 package com.playernguyen.weaponist.asset.gun;
 
+import com.playernguyen.weaponist.asset.AssetEnum;
+import com.playernguyen.weaponist.asset.ItemType;
 import com.playernguyen.weaponist.asset.ammunition.AmmunitionEnum;
 import com.playernguyen.weaponist.sound.SoundConfiguration;
 import org.bukkit.Material;
@@ -9,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public enum GunEnum {
+public enum GunEnum implements AssetEnum {
 
     BERETTA("beretta",
             "&cBeretta &7(%ammo%/%max_ammo%)",
@@ -98,7 +100,7 @@ public enum GunEnum {
             3.0,
             14.2,
             1.2,
-            1.5,
+            25,
             300,
             10,
             7,
@@ -149,6 +151,33 @@ public enum GunEnum {
             ),
             ShootType.SINGLE
     ),
+    GLOCK(
+            "glock",
+            "&5Glock 18 &7(%ammo%/%max_ammo%)",
+            0.6,
+            5.0,
+            0.01,
+            6,
+            100,
+            30,
+            2,
+            AmmunitionEnum.PISTOL,
+            Material.DIAMOND_HOE,
+            Arrays.asList(
+                    "&cGlock-18&7, &7the best gun for US Military",
+                    "&7 with high fire rate."
+            ),
+            Arrays.asList(
+                    new SoundConfiguration(Sound.BLOCK_WOODEN_TRAPDOOR_OPEN, .5f, 1.4f),
+                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_ON, .5f,  .7f),
+                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_OFF, .5f,  .7f)
+            ),
+            Arrays.asList(
+                    new SoundConfiguration(Sound.BLOCK_NOTE_BASEDRUM, 0.5f, 1),
+                    new SoundConfiguration(Sound.BLOCK_NOTE_SNARE, 1f, 1f)
+            ),
+            ShootType.MULTIPLE
+    )
     ;
 
     private final String id;
@@ -226,7 +255,21 @@ public enum GunEnum {
         return id;
     }
 
+    /**
+     * @deprecated change to {@link #getDisplay()}
+     */
+    @Deprecated
     public String getName() {
+        return name;
+    }
+
+    @Override
+    public ItemType getItemType() {
+        return ItemType.GUN;
+    }
+
+    @Override
+    public String getDisplay() {
         return name;
     }
 
@@ -258,7 +301,12 @@ public enum GunEnum {
         return delayPerShoot;
     }
 
+    @Deprecated
     public double getFireAccuracy() {
+        return fireAccuracy;
+    }
+
+    public double getFireRate() {
         return fireAccuracy;
     }
 

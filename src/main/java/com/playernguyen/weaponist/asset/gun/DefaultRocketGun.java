@@ -17,7 +17,7 @@ import java.io.IOException;
 
 public abstract class DefaultRocketGun extends DefaultGun {
 
-    public DefaultRocketGun(GunEnum gunEnum) throws IOException {
+    public DefaultRocketGun(GunEnum gunEnum) {
         super(gunEnum);
     }
 

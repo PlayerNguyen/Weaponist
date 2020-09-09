@@ -1,6 +1,7 @@
 package com.playernguyen.weaponist.asset.ammunition;
 
 import com.playernguyen.weaponist.asset.ItemTagEnum;
+import com.playernguyen.weaponist.asset.ItemType;
 import com.playernguyen.weaponist.util.Tag;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -54,11 +55,6 @@ public abstract class DefaultAmmunition implements Ammunition {
     }
 
     @Override
-    public ItemStack toItem(Player owner) {
-        return toItem(owner, 1);
-    }
-
-    @Override
     public ItemStack toItem(Player owner, int amount) {
         ItemStack stack = new ItemStack(getMaterial(), amount);
         ItemMeta itemMeta = stack.getItemMeta();
@@ -71,9 +67,16 @@ public abstract class DefaultAmmunition implements Ammunition {
 
         // Add nms data into the item
         stack = new Tag.Builder(stack)
-                .initData(ItemTagEnum.AMMUNITION_VALID)
-                .setData(ItemTagEnum.AMMUNITION_ID, this.getId())
+                .initData(ItemTagEnum.IS_AMMO)
+                .clearAttribute()
+                .setData(ItemTagEnum.ITEM_TYPE, ItemType.AMMO.toString())
+                .setData(ItemTagEnum.ITEM_ID, this.getId())
                 .build();
         return stack;
+    }
+
+    @Override
+    public String getGlobalId() {
+        return "ammo_".concat(getId());
     }
 }

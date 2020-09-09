@@ -2,6 +2,8 @@ package com.playernguyen.weaponist.asset.gun;
 
 import com.playernguyen.weaponist.Weaponist;
 import com.playernguyen.weaponist.asset.ItemTagEnum;
+import com.playernguyen.weaponist.asset.ItemType;
+import com.playernguyen.weaponist.asset.ammunition.AmmunitionEnum;
 import com.playernguyen.weaponist.entity.Shooter;
 import com.playernguyen.weaponist.entity.Target;
 import com.playernguyen.weaponist.event.WeaponistPlayerShootEntityEvent;
@@ -11,9 +13,11 @@ import com.playernguyen.weaponist.ray.RayTrace;
 import com.playernguyen.weaponist.runnable.ActionPerformRunnable;
 import com.playernguyen.weaponist.sound.SoundConfiguration;
 import com.playernguyen.weaponist.util.ActionBar;
+import com.playernguyen.weaponist.util.LocationUtil;
 import com.playernguyen.weaponist.util.Tag;
 import com.playernguyen.weaponist.util.WeaponistUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -23,19 +27,22 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.io.IOException;
 import java.util.List;
 
 public abstract class DefaultGun implements Gun {
 
+    private static final String PARENT_FOLDER = "gun";
+
     private final GunEnum gunEnum;
     private final GunConfiguration gunConfiguration;
 
 
-    public DefaultGun(GunEnum gunEnum) throws IOException {
+    public DefaultGun(GunEnum gunEnum) {
         this.gunEnum = gunEnum;
-        this.gunConfiguration = new GunConfiguration(gunEnum);
+        this.gunConfiguration = new GunConfiguration(gunEnum, GunFlags.values(), PARENT_FOLDER);
     }
 
     @Override
@@ -64,7 +71,7 @@ public abstract class DefaultGun implements Gun {
     }
 
     @Override
-    public String getAmmunitionType() {
+    public AmmunitionEnum getAmmunitionType() {
         return gunConfiguration.getAmmoType();
     }
 
@@ -124,9 +131,29 @@ public abstract class DefaultGun implements Gun {
 
         Player player = shooter.asPlayer();
 
-        RayTrace rayTrace = new RayTrace(shooter, getMaxDistance(), getFireAccuracy() * ((double)shooter.getStackShoot()/2));
+        // Raytrace the block and entities
+        RayTrace rayTrace = new RayTrace(shooter, getMaxDistance(), (getFireAccuracy() * ((double)shooter.getStackShoot()/2))/10);
         RayResult rayResult = rayTrace.ray(null, getMaxPenetrate());
+        // Play start shooting particle
+        shooter.getEyeLocation().getWorld()
+                .spawnParticle(
+                        Particle.SMOKE_NORMAL,
+                        shooter.getEyeLocation().add(getDirection(shooter).multiply(1.2)),
+                        1,
+                        getDirection(shooter).multiply(0.2).getX(),
+                        getDirection(shooter).multiply(0.2).getY(),
+                        getDirection(shooter).multiply(0.2).getZ(),
+                        0.1
+                );
+        Bukkit.getScheduler().runTask(plugin, () -> {
+            Location l = shooter
+                    .getEyeLocation()
+                    .add(getDirection(shooter).multiply(1.2));
 
+//            Snowball spawn = l.getWorld().spawn(l, Snowball.class);
+//            spawn.setVelocity(getDirection(shooter).multiply(3));
+//            spawn.setTicksLived(1);
+        });
         // Damage
         for (Target target : rayResult.getTargets()) {
             if (target.isHeadshot()) {
@@ -221,6 +248,8 @@ public abstract class DefaultGun implements Gun {
         // Play effect
         //WeaponistUtil.knockBack(player, 0.5f);
         //WeaponistUtil.decreaseItemStack(player.getInventory().getItemInMainHand());
+        // Create accuracy
+        LocationUtil.createNoise(player, (float) getFireAccuracy());
         // Decrease ammo
         ItemStack handStack = player.getInventory().getItemInMainHand();
         ItemStack updateStack = WeaponistUtil
@@ -231,6 +260,10 @@ public abstract class DefaultGun implements Gun {
         player.getInventory()
                 .setItemInMainHand(updateStack);
         return rayResult;
+    }
+
+    private Vector getDirection(Shooter shooter) {
+        return shooter.getEyeLocation().getDirection();
     }
 
 
@@ -249,13 +282,15 @@ public abstract class DefaultGun implements Gun {
         // Add nms data into the item
         stack = new Tag.Builder(stack)
                 .initData(ItemTagEnum.IS_WEAPON)
-                .setData(ItemTagEnum.WEAPON_ID, gunEnum.getId())
+                .setData(ItemTagEnum.ITEM_ID, gunEnum.getId())
                 .setData(ItemTagEnum.WEAPON_AMMO_TYPE, getAmmunitionType())
                 .setData(ItemTagEnum.GUN_AMMO, amount)
+                .setData(ItemTagEnum.ITEM_TYPE, ItemType.GUN.toString())
                 .setData(ItemTagEnum.WEAPON_ACCESSORY_1, "")
                 .setData(ItemTagEnum.WEAPON_ACCESSORY_2, "")
                 .setData(ItemTagEnum.WEAPON_ACCESSORY_3, "")
                 .setData(ItemTagEnum.WEAPON_ACCESSORY_4, "")
+                .clearAttribute()
                 .build();
         return WeaponistUtil.updateItemMeta(stack, this);
     }
@@ -266,7 +301,7 @@ public abstract class DefaultGun implements Gun {
         // Search for ammo
         for (ItemStack i : player.getInventory().getContents()) {
             if (Tag.isAmmunition(i)
-                    && Tag.getAmmunitionType(i).equalsIgnoreCase(getAmmunitionType())) {
+                    && Tag.getAmmunitionType(i).equalsIgnoreCase(getAmmunitionType().getId())) {
                 shooter.setReloading(true);
 
                 // Do reload
@@ -326,7 +361,7 @@ public abstract class DefaultGun implements Gun {
                 plugin.getTaskManager().put(shooter, bukkitRunnable);
                 // Execute the task
                 plugin.getTaskManager().get(shooter).runTaskTimerAsynchronously(plugin, 0, 0);
-
+                break;
             }
         }
     }
@@ -334,5 +369,10 @@ public abstract class DefaultGun implements Gun {
     @Override
     public ShootType getShootType() {
         return gunEnum.getShootType();
+    }
+
+    @Override
+    public String getGlobalId() {
+        return gunEnum.getGlobalId();
     }
 }

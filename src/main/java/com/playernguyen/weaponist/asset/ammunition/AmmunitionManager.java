@@ -1,8 +1,17 @@
 package com.playernguyen.weaponist.asset.ammunition;
 
+import com.playernguyen.weaponist.Weaponist;
 import com.playernguyen.weaponist.manager.ManagerSet;
 
 public class AmmunitionManager extends ManagerSet<Ammunition> {
+
+    @Override
+    public boolean add(Ammunition e) {
+        String globalId = e.getGlobalId();
+        Weaponist.getDebugger().warn("Register globalId: " + globalId);
+        Weaponist.getWeaponist().getItemManager().put(globalId, e);
+        return super.add(e);
+    }
 
     /**
      * Search with O(n) by using enum
@@ -25,7 +34,7 @@ public class AmmunitionManager extends ManagerSet<Ammunition> {
      */
     public Ammunition getRegisteredAmmunition(String id) {
         for (Ammunition ammunition : getContainer()) {
-            if (ammunition.getType().getId().equalsIgnoreCase(id)) {
+            if (ammunition.getType().getId().toLowerCase().equalsIgnoreCase(id.toLowerCase().trim())) {
                 return ammunition;
             }
         }

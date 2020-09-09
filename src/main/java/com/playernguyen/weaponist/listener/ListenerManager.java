@@ -3,6 +3,7 @@ package com.playernguyen.weaponist.listener;
 import com.playernguyen.weaponist.Weaponist;
 import com.playernguyen.weaponist.manager.ManagerSet;
 import org.bukkit.Bukkit;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
@@ -15,4 +16,11 @@ public class ListenerManager extends ManagerSet<Listener> {
         });
     }
 
+    @Override
+    public void clear() {
+        // Un-register
+        getContainer().forEach(HandlerList::unregisterAll);
+        // Swipe clear
+        super.clear();
+    }
 }

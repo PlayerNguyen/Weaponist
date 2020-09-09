@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class GunAKRifle extends DefaultRifleGun {
 
-    public GunAKRifle() throws IOException {
+    public GunAKRifle() {
         super(GunEnum.AK_RIFLE);
     }
 }
