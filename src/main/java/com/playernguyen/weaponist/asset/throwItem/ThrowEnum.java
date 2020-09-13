@@ -13,10 +13,28 @@ public enum ThrowEnum implements AssetEnum {
             "frag",
             "&cFlag Grenade",
             " | ",
-            7,
+            5,
             20,
             Material.SLIME_BALL
     ),
+    SMOKE(
+            "smoke",
+            "&6Smoke Grenade",
+            "|",
+            3,
+            20,
+            Material.CLAY_BALL,
+             20
+    ),
+    MOLOTOV(
+            "molotov",
+            "&cMolotov",
+            "|",
+            0.1D,
+            20,
+            Material.DIAMOND,
+            5
+    )
     ;
 
     private final String id;
@@ -25,6 +43,17 @@ public enum ThrowEnum implements AssetEnum {
     private final double explodeTime;
     private final double power;
     private final Material material;
+    private final double explodingTime;
+
+    ThrowEnum(String id, String display, String description, double explodeTime, double power, Material material, double explodingTime) {
+        this.id = id;
+        this.display = display;
+        this.description = description;
+        this.explodeTime = explodeTime;
+        this.power = power;
+        this.material = material;
+        this.explodingTime = explodingTime;
+    }
 
     ThrowEnum(String id, String display, String description, double explodeTime, double power, Material material) {
         this.id = id;
@@ -33,6 +62,11 @@ public enum ThrowEnum implements AssetEnum {
         this.explodeTime = explodeTime;
         this.power = power;
         this.material = material;
+        this.explodingTime = 1;
+    }
+
+    public double getExplodingTime() {
+        return explodingTime;
     }
 
     public String getId() {

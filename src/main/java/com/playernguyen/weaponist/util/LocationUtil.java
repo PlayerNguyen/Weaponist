@@ -51,6 +51,32 @@ public class LocationUtil {
         position.sendPacket(player);
     }
 
+    public static void createScopeNoise(Player player, float level) {
+        WrapperPlayServerPosition position
+                = new WrapperPlayServerPosition();
+
+        Set<WrapperPlayServerPosition.PlayerTeleportFlag> flagsSet = new HashSet<>();
+        flagsSet.add(WrapperPlayServerPosition.PlayerTeleportFlag.X);
+        flagsSet.add(WrapperPlayServerPosition.PlayerTeleportFlag.Y);
+        flagsSet.add(WrapperPlayServerPosition.PlayerTeleportFlag.Z);
+        flagsSet.add(WrapperPlayServerPosition.PlayerTeleportFlag.X_ROT);
+        flagsSet.add(WrapperPlayServerPosition.PlayerTeleportFlag.Y_ROT);
+
+        position.setFlags(flagsSet);
+
+
+        position.setX(0);
+        position.setY(0);
+        position.setZ(0);
+        // X axis
+        position.setYaw(random(-level/10, level/10));
+
+        // Y axis
+        position.setPitch(random(-level/10, level/10));
+
+        position.sendPacket(player);
+    }
+
     private static float random(float min, float max) {
         return min + (max - min) * new Random().nextFloat();
     }

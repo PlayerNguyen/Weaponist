@@ -116,9 +116,9 @@ public enum GunEnum implements AssetEnum {
                     new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_OFF, .5f,  .7f)
             ),
             Arrays.asList(
-                    new SoundConfiguration(Sound.BLOCK_NOTE_BASEDRUM, 0.5f, 1),
-                    new SoundConfiguration(Sound.BLOCK_NOTE_SNARE, 1f, 1f),
-                    new SoundConfiguration(Sound.ENTITY_GENERIC_EXPLODE, 1.3f, 2f)
+                    new SoundConfiguration(Sound.ENTITY_BLAZE_DEATH, 0.5f, 1)
+//                    new SoundConfiguration(Sound.BLOCK_NOTE_SNARE, 1f, 1f),
+//                    new SoundConfiguration(Sound.ENTITY_GENERIC_EXPLODE, 1.3f, 2f)
             ),
             ShootType.SINGLE
     ),

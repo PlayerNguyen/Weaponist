@@ -2,11 +2,15 @@ package com.playernguyen.weaponist.asset.throwItem;
 
 import com.playernguyen.weaponist.WeaponistInstance;
 import com.playernguyen.weaponist.asset.ItemTagEnum;
+import com.playernguyen.weaponist.entity.Shooter;
+import com.playernguyen.weaponist.runnable.ThrowableExplodeCountdownRunnable;
 import com.playernguyen.weaponist.util.Tag;
 import org.bukkit.Material;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.util.Vector;
 
 import java.util.List;
 import java.util.UUID;
@@ -37,6 +41,11 @@ public abstract class DefaultThrow extends WeaponistInstance implements Throw {
     @Override
     public double getPower() {
         return getThrowConfiguration().getDouble(ThrowFlags.ATTRIBUTE_GENERIC_POWER);
+    }
+
+    @Override
+    public double getExplodingTime() {
+        return getThrowConfiguration().getDouble(ThrowFlags.ATTRIBUTE_EXPLODING_TIME);
     }
 
     @Override
@@ -87,5 +96,25 @@ public abstract class DefaultThrow extends WeaponistInstance implements Throw {
                 .setData("UID", UUID.randomUUID());
 
         return builder.build();
+    }
+
+    @Override
+    public void onThrow(Shooter shooter) {
+        Player player = shooter.asPlayer();
+        ItemStack mainHandStack = player.getInventory().getItemInMainHand();
+        Item item = player.getWorld().dropItem(player.getLocation(), mainHandStack);
+        // Set item data
+        item.setVelocity(player.getEyeLocation().getDirection()
+                .normalize()
+                .multiply(1)
+                .add(new Vector(0, 0.5, 0))
+        );
+        item.setPickupDelay(999999);
+
+        // Take item
+        mainHandStack.setAmount(mainHandStack.getAmount() - 1);
+        // Run countdown task
+        new ThrowableExplodeCountdownRunnable(this, item, shooter)
+                .runTaskTimerAsynchronously(getWeaponist(), 0, 0);
     }
 }

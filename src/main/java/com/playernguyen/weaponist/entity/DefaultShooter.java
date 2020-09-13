@@ -1,5 +1,7 @@
 package com.playernguyen.weaponist.entity;
 
+import com.playernguyen.weaponist.Weaponist;
+import com.playernguyen.weaponist.runnable.ScopeRunnable;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -15,8 +17,11 @@ public class DefaultShooter implements Shooter {
     private boolean scoping;
     private boolean shooting;
     private boolean canReload;
+    private boolean breathing;
     private ItemStack currentHelmet;
     private long lastShoot;
+    private double maxBreathLevel;
+    private double breathLevel;
 
 
     public DefaultShooter(Player player) {
@@ -28,6 +33,9 @@ public class DefaultShooter implements Shooter {
         this.scoping = false;
         this.shooting = false;
         this.canReload = true;
+        this.breathing = false;
+        this.maxBreathLevel = 20;
+        this.breathLevel = maxBreathLevel;
         this.currentHelmet = player.getInventory().getHelmet();
         this.lastShoot = 0;
     }
@@ -89,6 +97,8 @@ public class DefaultShooter implements Shooter {
             // Zoom in
             asPlayer().setWalkSpeed(-0.5f);
             asPlayer().getInventory().setHelmet(new ItemStack(Material.PUMPKIN));
+            // run scope task
+            new ScopeRunnable(this).runTaskTimerAsynchronously(Weaponist.getWeaponist(), 0, 0);
         } else {
             // Zoom out
             asPlayer().setWalkSpeed(0.2f);
@@ -151,5 +161,35 @@ public class DefaultShooter implements Shooter {
     @Override
     public void setCanReload(boolean canReload) {
         this.canReload = canReload;
+    }
+
+    @Override
+    public boolean isBreathing() {
+        return breathing;
+    }
+
+    @Override
+    public void setBreathing(boolean breathing) {
+        this.breathing = breathing;
+    }
+
+    @Override
+    public double getBreathLevel() {
+        return breathLevel;
+    }
+
+    @Override
+    public void setBreathLevel(double breathLevel) {
+        this.breathLevel = breathLevel;
+    }
+
+    @Override
+    public void setMaxBreathLevel(double maxBreathLevel) {
+        this.maxBreathLevel = maxBreathLevel;
+    }
+
+    @Override
+    public double getMaxBreathLevel() {
+        return maxBreathLevel;
     }
 }

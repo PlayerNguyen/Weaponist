@@ -4,6 +4,8 @@ import com.playernguyen.weaponist.asset.ammunition.*;
 import com.playernguyen.weaponist.asset.gun.*;
 import com.playernguyen.weaponist.asset.throwItem.ThrowFrag;
 import com.playernguyen.weaponist.asset.throwItem.ThrowManager;
+import com.playernguyen.weaponist.asset.throwItem.ThrowMolotov;
+import com.playernguyen.weaponist.asset.throwItem.ThrowSmoke;
 import com.playernguyen.weaponist.command.Command;
 import com.playernguyen.weaponist.command.CommandManager;
 import com.playernguyen.weaponist.command.ammunition.CommandAmmunition;
@@ -178,6 +180,8 @@ public class Weaponist extends JavaPlugin {
         // Throwable
         this.throwManager = new ThrowManager();
         getThrowManager().add(new ThrowFrag());
+        getThrowManager().add(new ThrowSmoke());
+        getThrowManager().add(new ThrowMolotov());
 
     }
 

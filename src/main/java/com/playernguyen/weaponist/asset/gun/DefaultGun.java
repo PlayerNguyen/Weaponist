@@ -12,10 +12,7 @@ import com.playernguyen.weaponist.ray.RayResult;
 import com.playernguyen.weaponist.ray.RayTrace;
 import com.playernguyen.weaponist.runnable.ActionPerformRunnable;
 import com.playernguyen.weaponist.sound.SoundConfiguration;
-import com.playernguyen.weaponist.util.ActionBar;
-import com.playernguyen.weaponist.util.LocationUtil;
-import com.playernguyen.weaponist.util.Tag;
-import com.playernguyen.weaponist.util.WeaponistUtil;
+import com.playernguyen.weaponist.util.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -117,149 +114,7 @@ public abstract class DefaultGun implements Gun {
 
     @Override
     public RayResult shoot(Shooter shooter, Plugin plugin) {
-
-        // Shooting checker
-        if (!shooter.isCanTrigger()) { return null; }
-
-        if (Tag.getGunAmmo(shooter.asPlayer().getInventory().getItemInMainHand()) <= 0) {
-            return null;
-        }
-
-        if (!shooter.isShooting()) {
-            shooter.setStackShoot(0);
-        }
-
-        Player player = shooter.asPlayer();
-
-        // Raytrace the block and entities
-        RayTrace rayTrace = new RayTrace(shooter, getMaxDistance(), (getFireAccuracy() * ((double)shooter.getStackShoot()/2))/10);
-        RayResult rayResult = rayTrace.ray(null, getMaxPenetrate());
-        // Play start shooting particle
-        shooter.getEyeLocation().getWorld()
-                .spawnParticle(
-                        Particle.SMOKE_NORMAL,
-                        shooter.getEyeLocation().add(getDirection(shooter).multiply(1.2)),
-                        1,
-                        getDirection(shooter).multiply(0.2).getX(),
-                        getDirection(shooter).multiply(0.2).getY(),
-                        getDirection(shooter).multiply(0.2).getZ(),
-                        0.1
-                );
-        Bukkit.getScheduler().runTask(plugin, () -> {
-            Location l = shooter
-                    .getEyeLocation()
-                    .add(getDirection(shooter).multiply(1.2));
-
-//            Snowball spawn = l.getWorld().spawn(l, Snowball.class);
-//            spawn.setVelocity(getDirection(shooter).multiply(3));
-//            spawn.setTicksLived(1);
-        });
-        // Damage
-        for (Target target : rayResult.getTargets()) {
-            if (target.isHeadshot()) {
-                Bukkit.getScheduler().runTask(plugin, () ->
-                        target.asEntity().damage(getDamage()*2, shooter.asPlayer()));
-                WeaponistPlayerShootEntityEvent event =
-                        new WeaponistPlayerShootEntityEvent(
-                                shooter,
-                                target.asEntity(),
-                                getDamage()*2,
-                                true
-                        );
-                Bukkit.getPluginManager().callEvent(event);
-            } else {
-                Bukkit.getScheduler().runTask(plugin, () ->
-                        target.asEntity().damage(getDamage(), shooter.asPlayer()));
-                WeaponistPlayerShootEntityEvent event =
-                        new WeaponistPlayerShootEntityEvent(
-                                shooter,
-                                target.asEntity(),
-                                getDamage()
-                        );
-                Bukkit.getPluginManager().callEvent(event);
-            }
-        }
-
-        // Play break particle
-        if (rayResult.getHitBlock() != null) {
-            // Get block
-            Block block = rayResult.getHitBlock();
-            block.getLocation().getWorld()
-                    .spawnParticle(
-                            Particle.BLOCK_CRACK,
-                            block.getLocation(),
-                            120,
-                            0.1f,
-                            0.1f,
-                            0.1f,
-                            new MaterialData(block.getType())
-                    );
-        }
-
-        // Play sound
-        for (SoundConfiguration soundConfiguration : getShootSoundList()) {
-            soundConfiguration.play(player.getLocation());
-        }
-
-        // Lock the trigger
-        if (getDelayPerShootTime() > 0) {
-            shooter.setCanTrigger(false);
-
-            if (this instanceof Cockable) {
-                // Play cock sound
-                ((Cockable) this).getCockSound().play(player.getLocation());
-            }
-
-            // Refresh trigger
-            BukkitRunnable runnable = new BukkitRunnable() {
-                double d = getDelayPerShootTime();
-
-                @Override
-                public void run() {
-                    // Update tick
-                    d = d - (0.05);
-
-                    if (d <= 0) {
-                        shooter.setCanTrigger(true);
-                        cancel();
-                    }
-                }
-            };
-            runnable.runTaskTimerAsynchronously(plugin, 0, 0);
-        }
-        // Stacking the shoot
-        shooter.setShooting(true);
-        shooter.setStackShoot(shooter.getStackShoot() + 1);
-//        BukkitRunnable runnable = new BukkitRunnable() {
-//            final int currentStack = shooter.getStackShoot();
-//
-//
-//            double d = 1;
-//            @Override
-//            public void run() {
-//                d = d - (0.05);
-//                if (d <= 0) {
-//                    shooter.setShooting(false);
-//                    cancel();
-//                }
-//            }
-//        };
-//        runnable.runTaskTimerAsynchronously(plugin, 0, 0);
-        // Play effect
-        //WeaponistUtil.knockBack(player, 0.5f);
-        //WeaponistUtil.decreaseItemStack(player.getInventory().getItemInMainHand());
-        // Create accuracy
-        LocationUtil.createNoise(player, (float) getFireAccuracy());
-        // Decrease ammo
-        ItemStack handStack = player.getInventory().getItemInMainHand();
-        ItemStack updateStack = WeaponistUtil
-                .updateItemMeta(
-                        Tag.setData(handStack, ItemTagEnum.GUN_AMMO, Tag.getGunAmmo(handStack)-1),
-                        this
-                );
-        player.getInventory()
-                .setItemInMainHand(updateStack);
-        return rayResult;
+        return generateBullet(shooter, plugin, (getFireAccuracy() * ((double)shooter.getStackShoot()/2))/10);
     }
 
     private Vector getDirection(Shooter shooter) {
@@ -298,6 +153,9 @@ public abstract class DefaultGun implements Gun {
     @Override
     public void reload(Shooter shooter, Weaponist plugin) {
         Player player = shooter.asPlayer();
+        if (shooter.isScoping()) {
+            shooter.setScoping(false);
+        }
         // Search for ammo
         for (ItemStack i : player.getInventory().getContents()) {
             if (Tag.isAmmunition(i)
@@ -374,5 +232,127 @@ public abstract class DefaultGun implements Gun {
     @Override
     public String getGlobalId() {
         return gunEnum.getGlobalId();
+    }
+
+    protected RayResult generateBullet(Shooter shooter, Plugin plugin, double rate) {
+        if (Tag.getGunAmmo(shooter.asPlayer().getInventory().getItemInMainHand()) <= 0) {
+            return null;
+        }
+
+        if (!shooter.isShooting()) {
+            shooter.setStackShoot(0);
+        }
+
+        Player player = shooter.asPlayer();
+
+        // Raytrace the block and entities
+        RayTrace rayTrace = new RayTrace(shooter, getMaxDistance(), rate);
+        RayResult rayResult = rayTrace.ray(Particle.VILLAGER_HAPPY, getMaxPenetrate());
+        // Play start shooting particle
+        new ParticleBuilder(Particle.SMOKE_NORMAL, 1)
+                .offset(getDirection(shooter)
+                        .multiply(0.2))
+                .extra(0.1)
+                .play(shooter.getEyeLocation().add(getDirection(shooter).multiply(1.2)));
+
+        // Damage
+        for (Target target : rayResult.getTargets()) {
+            if (target.isHeadshot()) {
+                Bukkit.getScheduler().runTask(plugin, () ->
+                        target.asEntity().damage(getDamage()*2, shooter.asPlayer()));
+                WeaponistPlayerShootEntityEvent event =
+                        new WeaponistPlayerShootEntityEvent(
+                                shooter,
+                                target.asEntity(),
+                                getDamage()*2,
+                                true
+                        );
+                Bukkit.getPluginManager().callEvent(event);
+            } else {
+                Bukkit.getScheduler().runTask(plugin, () ->
+                        target.asEntity().damage(getDamage(), shooter.asPlayer()));
+                WeaponistPlayerShootEntityEvent event =
+                        new WeaponistPlayerShootEntityEvent(
+                                shooter,
+                                target.asEntity(),
+                                getDamage()
+                        );
+                Bukkit.getPluginManager().callEvent(event);
+            }
+        }
+
+        // Play break particle
+        if (rayResult.getHitBlock() != null) {
+            // Get block
+            Block block = rayResult.getHitBlock();
+            new ParticleBuilder(Particle.BLOCK_CRACK, 60)
+                    .offset(new Vector(0.1, 0.1, 0.1))
+                    .play(block.getLocation(), new MaterialData(block.getType()));
+        }
+
+        // Play sound
+        for (SoundConfiguration soundConfiguration : getShootSoundList()) {
+            soundConfiguration.play(player.getLocation());
+        }
+
+        // Lock the trigger
+        if (getDelayPerShootTime() > 0) {
+            shooter.setCanTrigger(false);
+
+            if (this instanceof Cockable) {
+                // Play cock sound
+                ((Cockable) this).getCockSound().play(player.getLocation());
+            }
+
+            // Refresh trigger
+            BukkitRunnable runnable = new BukkitRunnable() {
+                double d = getDelayPerShootTime();
+                //                int i = getDelayPerShootTime();
+                @Override
+                public void run() {
+                    // Update tick
+                    d = d - (0.1d);
+
+                    if (d <= 0) {
+                        shooter.setCanTrigger(true);
+                        cancel();
+                    }
+                }
+            };
+            runnable.runTaskTimerAsynchronously(plugin, 0, 0);
+        }
+        // Stacking the shoot
+        shooter.setShooting(true);
+        shooter.setStackShoot(shooter.getStackShoot() + 1);
+//        BukkitRunnable runnable = new BukkitRunnable() {
+//            final int currentStack = shooter.getStackShoot();
+//
+//
+//            double d = 1;
+//            @Override
+//            public void run() {
+//                d = d - (0.05);
+//                if (d <= 0) {
+//                    shooter.setShooting(false);
+//                    cancel();
+//                }
+//            }
+//        };
+//        runnable.runTaskTimerAsynchronously(plugin, 0, 0);
+        // Play effect
+        //WeaponistUtil.knockBack(player, 0.5f);
+        //WeaponistUtil.decreaseItemStack(player.getInventory().getItemInMainHand());
+        // Create accuracy
+        LocationUtil.createNoise(player, (float) getFireAccuracy());
+        // Decrease ammo
+        ItemStack handStack = player.getInventory().getItemInMainHand();
+        ItemStack updateStack = WeaponistUtil
+                .updateItemMeta(
+                        Tag.setData(handStack, ItemTagEnum.GUN_AMMO, Tag.getGunAmmo(handStack)-1),
+                        this
+                );
+        player.getInventory()
+                .setItemInMainHand(updateStack);
+        return rayResult;
     }
 }

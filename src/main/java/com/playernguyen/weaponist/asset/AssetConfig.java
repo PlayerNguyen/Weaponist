@@ -1,5 +1,6 @@
 package com.playernguyen.weaponist.asset;
 
+import com.playernguyen.weaponist.Weaponist;
 import com.playernguyen.weaponist.WeaponistInstance;
 import com.playernguyen.weaponist.asset.ammunition.AmmunitionEnum;
 import org.bukkit.ChatColor;
@@ -30,9 +31,9 @@ public abstract class AssetConfig<T extends AssetEnum, F extends AssetKeyFlag> e
         load();
 
         // Generate the loadDefault if not found the key :D
-        for (F f : defaultLoader) {
-            loadDefault(f);
-        }
+//        for (F f : defaultLoader) {
+//            loadDefault(f);
+//        }
         // Save
         save();
     }
@@ -45,6 +46,12 @@ public abstract class AssetConfig<T extends AssetEnum, F extends AssetKeyFlag> e
                     keyFlag.getDefine())
             );
             set(keyFlag, keyFlag.getDefine());
+        }
+    }
+
+    public void addDefault(F keyFlag, Object value) {
+        if (!hasFlag(keyFlag)) {
+            set(keyFlag, value);
         }
     }
 
@@ -86,7 +93,10 @@ public abstract class AssetConfig<T extends AssetEnum, F extends AssetKeyFlag> e
     }
 
     public Object get(F flag) {
-        return fileConfiguration.get(flag.getPath());
+        Object value = fileConfiguration.get(flag.getPath());
+        //Weaponist.getDebugger().warn("Getting " + flag.getPath() + " with value " + value.toString());
+//        System.out.println(flag.getPath() + " => " + value);
+        return value;
     }
 
     public String getString(F flag) {

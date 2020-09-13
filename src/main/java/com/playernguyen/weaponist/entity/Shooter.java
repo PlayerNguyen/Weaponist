@@ -50,4 +50,16 @@ public interface Shooter {
 
     void setCanReload(boolean b);
 
+    boolean isBreathing();
+
+    void setBreathing(boolean b);
+
+    double getBreathLevel();
+
+    void setBreathLevel(double d);
+
+    double getMaxBreathLevel();
+
+    void setMaxBreathLevel(double d);
+
 }

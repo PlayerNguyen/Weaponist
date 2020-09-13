@@ -18,7 +18,7 @@ public enum  GunFlags implements AssetKeyFlag {
 
     ATTRIBUTE_GENERIC_DAMAGE("Attribute.GenericDamage", 0.0D),
     ATTRIBUTE_GENERIC_DISTANCE("Attribute.Distance", 100),
-    ATTRIBUTE_GENERIC_PENETRATE("Attribute.Penetrrate", 1),
+    ATTRIBUTE_GENERIC_PENETRATE("Attribute.Penetrate", 1),
     ATTRIBUTE_MAX_MAGAZINE("Attribute.MaxMagazine", 1),
     ATTRIBUTE_GENERIC_FIRE_RATE("Attribute.FireRate", 0)
 

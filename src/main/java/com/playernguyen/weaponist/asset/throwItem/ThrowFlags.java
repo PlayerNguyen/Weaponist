@@ -11,6 +11,8 @@ public enum  ThrowFlags implements AssetKeyFlag {
 
     ATTRIBUTE_EXPLODE_TIME("Attribute.ExplodeTime", 1),
     ATTRIBUTE_GENERIC_POWER("Attribute.GenericDamage", 20),
+    ATTRIBUTE_EXPLODING_TIME("Attribute.ExplodingTime", 1),
+
 
     ;
 

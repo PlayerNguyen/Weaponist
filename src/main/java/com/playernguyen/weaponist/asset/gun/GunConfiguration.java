@@ -29,21 +29,21 @@ public class GunConfiguration extends AssetConfig<GunEnum, GunFlags> {
     public GunConfiguration(GunEnum gunEnum, GunFlags[] defaultLoader, String parent) {
         super(gunEnum, defaultLoader, parent);
         // Load default
-        set(GunFlags.METADATA_DISPLAY_NAME, gunEnum.getDisplay());
-        set(GunFlags.METADATA_DESCRIPTION, gunEnum.getDescription());
-        set(GunFlags.METADATA_MATERIAL, gunEnum.getMaterial().toString());
-        set(GunFlags.METADATA_AMMO_TYPE, gunEnum.getAmmunitionType().getId());
+        addDefault(GunFlags.METADATA_DISPLAY_NAME, gunEnum.getDisplay());
+        addDefault(GunFlags.METADATA_DESCRIPTION, gunEnum.getDescription());
+        addDefault(GunFlags.METADATA_MATERIAL, gunEnum.getMaterial().toString());
+        addDefault(GunFlags.METADATA_AMMO_TYPE, gunEnum.getAmmunitionType().getId());
 
-        set(GunFlags.ATTRIBUTE_MAX_MAGAZINE, gunEnum.getMaxMagazine());
-        set(GunFlags.METADATA_TIME_RELOAD, gunEnum.getReloadTime());
-        set(GunFlags.ATTRIBUTE_GENERIC_DAMAGE, gunEnum.getDamage());
-        set(GunFlags.METADATA_TIME_DELAY, gunEnum.getDelayPerShoot());
-        set(GunFlags.ATTRIBUTE_GENERIC_FIRE_RATE, gunEnum.getFireAccuracy());
+        addDefault(GunFlags.ATTRIBUTE_MAX_MAGAZINE, gunEnum.getMaxMagazine());
+        addDefault(GunFlags.METADATA_TIME_RELOAD, gunEnum.getReloadTime());
+        addDefault(GunFlags.ATTRIBUTE_GENERIC_DAMAGE, gunEnum.getDamage());
+        addDefault(GunFlags.METADATA_TIME_DELAY, gunEnum.getDelayPerShoot());
+        addDefault(GunFlags.ATTRIBUTE_GENERIC_FIRE_RATE, gunEnum.getFireAccuracy());
 
-        set(GunFlags.SOUND_RELOAD, gunEnum.getReloadSound());
-        set(GunFlags.SOUND_NON_COMPRESSOR_SOUND_PROJECTILE, gunEnum.getShootSound());
-        set(GunFlags.ATTRIBUTE_GENERIC_DISTANCE, gunEnum.getMaxDistance());
-        set(GunFlags.ATTRIBUTE_GENERIC_PENETRATE, gunEnum.getMaxPenetrate());
+        addDefault(GunFlags.SOUND_RELOAD, gunEnum.getReloadSound());
+        addDefault(GunFlags.SOUND_NON_COMPRESSOR_SOUND_PROJECTILE, gunEnum.getShootSound());
+        addDefault(GunFlags.ATTRIBUTE_GENERIC_DISTANCE, gunEnum.getMaxDistance());
+        addDefault(GunFlags.ATTRIBUTE_GENERIC_PENETRATE, gunEnum.getMaxPenetrate());
 
         // Getter
         this.itemMetadata = new DefaultItemMetadata(
@@ -80,7 +80,7 @@ public class GunConfiguration extends AssetConfig<GunEnum, GunFlags> {
             throw new NullPointerException("The ammo type not found...");
         }
         // Save change
-        save();
+        if (!getFile().exists()) save();
     }
 
 

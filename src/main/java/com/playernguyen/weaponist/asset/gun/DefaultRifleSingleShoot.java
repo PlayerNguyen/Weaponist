@@ -1,7 +1,10 @@
 package com.playernguyen.weaponist.asset.gun;
 
+import com.playernguyen.weaponist.entity.Shooter;
+import com.playernguyen.weaponist.ray.RayResult;
 import com.playernguyen.weaponist.sound.SoundConfiguration;
 import org.bukkit.Sound;
+import org.bukkit.plugin.Plugin;
 
 import java.io.IOException;
 
@@ -20,4 +23,12 @@ public abstract class DefaultRifleSingleShoot extends DefaultGun implements Sing
         );
     }
 
+    @Override
+    public RayResult shoot(Shooter shooter, Plugin plugin) {
+        if (shooter.isScoping()) {
+            return generateBullet(shooter, plugin, 0);
+        } else {
+            return generateBullet(shooter, plugin, 5);
+        }
+    }
 }

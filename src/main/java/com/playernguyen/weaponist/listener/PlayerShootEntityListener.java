@@ -25,7 +25,7 @@ public class PlayerShootEntityListener extends WeaponistListener {
         livingEntity.getWorld()
                 .spawnParticle(Particle.BLOCK_CRACK,
                         livingEntity.getLocation().add(0, 0.5, 0),
-                        150,
+                        60,
                         materialData
                 );
 

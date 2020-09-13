@@ -9,6 +9,7 @@ import com.playernguyen.weaponist.event.WeaponistPlayerShootEvent;
 import com.playernguyen.weaponist.language.LanguageFlag;
 import com.playernguyen.weaponist.util.ActionBar;
 import com.playernguyen.weaponist.util.LocationUtil;
+import com.playernguyen.weaponist.util.MathHelper;
 import com.playernguyen.weaponist.util.Tag;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
@@ -65,6 +66,9 @@ public class PlayerInteractListener extends WeaponistListener {
                     shooter.setCanReload(false);
                 }
 
+                // Shooting checker
+                if (!shooter.isCanTrigger()) { return; }
+
                 shooter.setLastShoot(System.currentTimeMillis());
                 if (weapon.getShootType() == ShootType.MULTIPLE) {
                     BukkitRunnable runnable = new BukkitRunnable() {
@@ -75,7 +79,8 @@ public class PlayerInteractListener extends WeaponistListener {
                             // Shoot
                             weapon.shoot(shooter, getWeaponist());
                             // Cancel
-                            if (i > 3) {
+//                            System.out.println(weapon.getDelayPerShootTime() / 60);
+                            if (i >= MathHelper.randomInt(2, 4)) {
                                 cancel();
                             }
                         }

@@ -14,6 +14,7 @@ public class ThrowConfiguration extends AssetConfig<ThrowEnum, ThrowFlags> {
         set(ThrowFlags.METADATA_MATERIAL, assetEnum.getMaterial());
         set(ThrowFlags.ATTRIBUTE_EXPLODE_TIME, assetEnum.getExplodeTime());
         set(ThrowFlags.ATTRIBUTE_GENERIC_POWER, assetEnum.getPower());
+        set(ThrowFlags.ATTRIBUTE_EXPLODING_TIME, assetEnum.getExplodingTime());
         // Save
         save();
     }

@@ -4,6 +4,7 @@ import com.playernguyen.weaponist.entity.DefaultTarget;
 import com.playernguyen.weaponist.entity.Shooter;
 import com.playernguyen.weaponist.entity.Target;
 import com.playernguyen.weaponist.location.LocationIterator;
+import com.playernguyen.weaponist.util.ParticleBuilder;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -76,8 +77,12 @@ public class RayCollectRunnable extends BukkitRunnable {
             Location currentLocation = locationIterator.next();
 
             // Play particle
-            if (currentLocation.distance(eyeLocation) >= 2 && particle != null)
-            currentLocation.getWorld().spawnParticle(particle, currentLocation, 1);
+            if (currentLocation.distance(eyeLocation) >= 2 && particle != null) {
+//                currentLocation.getWorld().spawnParticle(particle, currentLocation, 1, 0.5f);
+
+                new ParticleBuilder(particle, 1)
+                        .extra(0.001).play(currentLocation);
+            }
 
             double detectOffset = 0.1;
             // Detect
