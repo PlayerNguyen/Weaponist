@@ -113,8 +113,8 @@ public abstract class DefaultGun implements Gun {
     }
 
     @Override
-    public RayResult shoot(Shooter shooter, Plugin plugin) {
-        return generateBullet(shooter, plugin, (getFireAccuracy() * ((double)shooter.getStackShoot()/2))/10);
+    public void shoot(Shooter shooter, Plugin plugin) {
+        generateBullet(shooter, plugin, (getFireAccuracy() * ((double)shooter.getStackShoot()/2))/10);
     }
 
     private Vector getDirection(Shooter shooter) {
@@ -152,76 +152,7 @@ public abstract class DefaultGun implements Gun {
 
     @Override
     public void reload(Shooter shooter, Weaponist plugin) {
-        Player player = shooter.asPlayer();
-        if (shooter.isScoping()) {
-            shooter.setScoping(false);
-        }
-        // Search for ammo
-        for (ItemStack i : player.getInventory().getContents()) {
-            if (Tag.isAmmunition(i)
-                    && Tag.getAmmunitionType(i).equalsIgnoreCase(getAmmunitionType().getId())) {
-                shooter.setReloading(true);
-
-                // Do reload
-                ActionPerformRunnable bukkitRunnable = ActionBar.performCountdown(shooter, getReloadTime());
-
-                // On tick
-                bukkitRunnable.setOnTick(() -> {
-                    if (!shooter.isCanReload()) {
-                        // Set properties
-                        shooter.setCanReload(true);
-                        shooter.setReloading(false);
-
-                        // Send cancel reload
-                        new ActionBar(plugin.getLanguageConfiguration()
-                                .getLanguage(LanguageFlag.GENERAL_GUN_RELOAD_CANCELLED))
-                                .send(player);
-
-                        bukkitRunnable.cancel();
-                    }
-                });
-
-                // On done
-                bukkitRunnable.setOnDone(() -> {
-                    ItemStack manHand = player.getInventory().getItemInMainHand();
-
-                    // Decrease the item
-//                    if (manHand.getAmount() < getMaxStackSize()) {
-//                        WeaponistUtil.decreaseItemStack(i);
-//                        manHand.setAmount(getMaxStackSize());
-//                    }
-                    // Using Tag
-                    if (Tag.getGunAmmo(manHand) < getMaxStackSize()) {
-                        //Tag.setData(manHand, ItemTagEnum.GUN_AMMO, getMaxStackSize());
-                        player.getInventory()
-                                .setItemInMainHand(
-                                        WeaponistUtil
-                                                .updateItemMeta(
-                                                        Tag.setData(manHand,
-                                                            ItemTagEnum.GUN_AMMO,
-                                                            this.getMaxStackSize()
-                                                        ),
-                                                        this
-                                                )
-                                );
-
-                        WeaponistUtil.decreaseItemStack(i);
-                    }
-
-                    // Play sound
-                    for (SoundConfiguration soundConfiguration : getReloadSoundList()) {
-                        soundConfiguration.play(player.getEyeLocation());
-                    }
-                    shooter.setReloading(false);
-                });
-
-                // Call new tasks
-                plugin.getTaskManager().put(shooter, bukkitRunnable);
-                // Execute the task
-                plugin.getTaskManager().get(shooter).runTaskTimerAsynchronously(plugin, 0, 0);
-                break;
-            }
-        }
+        reloadFullAction(shooter, plugin);
     }
 
     @Override
@@ -234,9 +165,11 @@ public abstract class DefaultGun implements Gun {
         return gunEnum.getGlobalId();
     }
 
-    protected RayResult generateBullet(Shooter shooter, Plugin plugin, double rate) {
+    protected void generateBullet(Shooter shooter, Plugin plugin, double rate,
+                                       int bulletTime,
+                                       int bulletTaking) {
         if (Tag.getGunAmmo(shooter.asPlayer().getInventory().getItemInMainHand()) <= 0) {
-            return null;
+            return;
         }
 
         if (!shooter.isShooting()) {
@@ -247,47 +180,49 @@ public abstract class DefaultGun implements Gun {
 
         // Raytrace the block and entities
         RayTrace rayTrace = new RayTrace(shooter, getMaxDistance(), rate);
-        RayResult rayResult = rayTrace.ray(Particle.VILLAGER_HAPPY, getMaxPenetrate());
-        // Play start shooting particle
-        new ParticleBuilder(Particle.SMOKE_NORMAL, 1)
-                .offset(getDirection(shooter)
-                        .multiply(0.2))
-                .extra(0.1)
-                .play(shooter.getEyeLocation().add(getDirection(shooter).multiply(1.2)));
+        for (int i = 0; i < bulletTime; i++) {
+            RayResult rayResult = rayTrace.ray(Particle.VILLAGER_HAPPY, getMaxPenetrate());
+            // Play start shooting particle
+            new ParticleBuilder(Particle.SMOKE_NORMAL, 1)
+                    .offset(getDirection(shooter)
+                            .multiply(0.2))
+                    .extra(0.1)
+                    .play(shooter.getEyeLocation().add(getDirection(shooter).multiply(1.2)));
 
-        // Damage
-        for (Target target : rayResult.getTargets()) {
-            if (target.isHeadshot()) {
-                Bukkit.getScheduler().runTask(plugin, () ->
-                        target.asEntity().damage(getDamage()*2, shooter.asPlayer()));
-                WeaponistPlayerShootEntityEvent event =
-                        new WeaponistPlayerShootEntityEvent(
-                                shooter,
-                                target.asEntity(),
-                                getDamage()*2,
-                                true
-                        );
-                Bukkit.getPluginManager().callEvent(event);
-            } else {
-                Bukkit.getScheduler().runTask(plugin, () ->
-                        target.asEntity().damage(getDamage(), shooter.asPlayer()));
-                WeaponistPlayerShootEntityEvent event =
-                        new WeaponistPlayerShootEntityEvent(
-                                shooter,
-                                target.asEntity(),
-                                getDamage()
-                        );
-                Bukkit.getPluginManager().callEvent(event);
+            // Damage
+            for (Target target : rayResult.getTargets()) {
+                if (target.isHeadshot()) {
+                    Bukkit.getScheduler().runTask(plugin, () ->
+                            target.asEntity().damage(getDamage()*2, shooter.asPlayer()));
+                    WeaponistPlayerShootEntityEvent event =
+                            new WeaponistPlayerShootEntityEvent(
+                                    shooter,
+                                    target.asEntity(),
+                                    getDamage()*2,
+                                    true
+                            );
+                    Bukkit.getPluginManager().callEvent(event);
+                } else {
+                    Bukkit.getScheduler().runTask(plugin, () ->
+                            target.asEntity().damage(getDamage(), shooter.asPlayer()));
+                    WeaponistPlayerShootEntityEvent event =
+                            new WeaponistPlayerShootEntityEvent(
+                                    shooter,
+                                    target.asEntity(),
+                                    getDamage()
+                            );
+                    Bukkit.getPluginManager().callEvent(event);
+                }
             }
-        }
 
-        // Play break particle
-        if (rayResult.getHitBlock() != null) {
-            // Get block
-            Block block = rayResult.getHitBlock();
-            new ParticleBuilder(Particle.BLOCK_CRACK, 60)
-                    .offset(new Vector(0.1, 0.1, 0.1))
-                    .play(block.getLocation(), new MaterialData(block.getType()));
+            // Play break particle
+            if (rayResult.getHitBlock() != null) {
+                // Get block
+                Block block = rayResult.getHitBlock();
+                new ParticleBuilder(Particle.BLOCK_CRACK, 60)
+                        .offset(new Vector(0.1, 0.1, 0.1))
+                        .play(block.getLocation(), new MaterialData(block.getType()));
+            }
         }
 
         // Play sound
@@ -348,11 +283,142 @@ public abstract class DefaultGun implements Gun {
         ItemStack handStack = player.getInventory().getItemInMainHand();
         ItemStack updateStack = WeaponistUtil
                 .updateItemMeta(
-                        Tag.setData(handStack, ItemTagEnum.GUN_AMMO, Tag.getGunAmmo(handStack)-1),
+                        Tag.setData(handStack, ItemTagEnum.GUN_AMMO, Tag.getGunAmmo(handStack)-bulletTaking),
                         this
                 );
         player.getInventory()
                 .setItemInMainHand(updateStack);
-        return rayResult;
+    }
+
+    protected void generateBullet(Shooter shooter, Plugin plugin, double rate) {
+        this.generateBullet(shooter, plugin, rate, 1, 1);
+    }
+
+    protected void reloadFullAction(Shooter shooter, Weaponist plugin) {
+        Player player = shooter.asPlayer();
+        if (shooter.isScoping()) {
+            shooter.setScoping(false);
+        }
+        // Search for ammo
+        for (ItemStack i : player.getInventory().getContents()) {
+            if (Tag.isAmmunition(i)
+                    && Tag.getAmmunitionType(i).equalsIgnoreCase(getAmmunitionType().getId())) {
+                shooter.setReloading(true);
+
+                // Do reload
+                ActionPerformRunnable bukkitRunnable = ActionBar.performCountdown(shooter, getReloadTime());
+
+                // On tick
+                bukkitRunnable.setOnTick(() -> {
+                    if (!shooter.isCanReload()) {
+                        // Set properties
+                        shooter.setCanReload(true);
+                        shooter.setReloading(false);
+
+                        // Send cancel reload
+                        new ActionBar(plugin.getLanguageConfiguration()
+                                .getLanguage(LanguageFlag.GENERAL_GUN_RELOAD_CANCELLED))
+                                .send(player);
+
+                        bukkitRunnable.cancel();
+                    }
+                });
+
+                // On done
+                bukkitRunnable.setOnDone(() -> {
+                    ItemStack manHand = player.getInventory().getItemInMainHand();
+
+                    // Decrease the item
+                    // by using Tag
+                    if (Tag.getGunAmmo(manHand) < getMaxStackSize()) {
+                        //Tag.setData(manHand, ItemTagEnum.GUN_AMMO, getMaxStackSize());
+                        player.getInventory().setItemInMainHand(
+                                WeaponistUtil.updateItemMeta(
+                                        Tag.setData(manHand, ItemTagEnum.GUN_AMMO, this.getMaxStackSize()),
+                                        this
+                                )
+                        );
+                        WeaponistUtil.decreaseItemStack(i);
+                    }
+
+                    // Play sound
+                    for (SoundConfiguration soundConfiguration : getReloadSoundList()) {
+                        soundConfiguration.play(player.getEyeLocation());
+                    }
+                    shooter.setReloading(false);
+                });
+
+                // Call new tasks
+                plugin.getTaskManager().put(shooter, bukkitRunnable);
+                // Execute the task
+                plugin.getTaskManager().get(shooter).runTaskTimerAsynchronously(plugin, 0, 0);
+                break;
+            }
+        }
+    }
+
+    protected void reloadSingleAction (Shooter shooter, Weaponist plugin) {
+        Player player = shooter.asPlayer();
+        if (shooter.isScoping()) {
+            shooter.setScoping(false);
+        }
+        // Search for ammo
+        for (ItemStack i : player.getInventory().getContents()) {
+            if (Tag.isAmmunition(i)
+                    && Tag.getAmmunitionType(i).equalsIgnoreCase(getAmmunitionType().getId())) {
+                shooter.setReloading(true);
+
+                // Do reload
+                ActionPerformRunnable bukkitRunnable = ActionBar.performCountdown(shooter, getReloadTime());
+
+                // On tick
+                bukkitRunnable.setOnTick(() -> {
+                    if (!shooter.isCanReload()) {
+                        // Set properties
+                        shooter.setCanReload(true);
+                        shooter.setReloading(false);
+
+                        // Send cancel reload
+                        new ActionBar(plugin.getLanguageConfiguration()
+                                .getLanguage(LanguageFlag.GENERAL_GUN_RELOAD_CANCELLED))
+                                .send(player);
+
+                        bukkitRunnable.cancel();
+                    }
+                });
+
+                // On done
+                bukkitRunnable.setOnDone(() -> {
+                    ItemStack manHand = player.getInventory().getItemInMainHand();
+
+                    // Decrease the item
+                    // by using Tag
+                    int currentAmmo = Tag.getGunAmmo(manHand);
+                    if (currentAmmo < getMaxStackSize()) {
+                        //Tag.setData(manHand, ItemTagEnum.GUN_AMMO, getMaxStackSize());
+
+                        player.getInventory().setItemInMainHand(
+                                WeaponistUtil.updateItemMeta(
+                                        Tag.setData(manHand, ItemTagEnum.GUN_AMMO, currentAmmo + 1),
+                                        this
+                                )
+                        );
+                        WeaponistUtil.decreaseItemStack(i);
+                    }
+
+                    // Play sound
+                    for (SoundConfiguration soundConfiguration : getReloadSoundList()) {
+                        soundConfiguration.play(player.getEyeLocation());
+                    }
+                    shooter.setReloading(false);
+                });
+
+                // Call new tasks
+                plugin.getTaskManager().put(shooter, bukkitRunnable);
+                // Execute the task
+                plugin.getTaskManager().get(shooter).runTaskTimerAsynchronously(plugin, 0, 0);
+                break;
+            }
+        }
     }
 }

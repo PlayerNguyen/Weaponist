@@ -24,11 +24,11 @@ public abstract class DefaultRifleSingleShoot extends DefaultGun implements Sing
     }
 
     @Override
-    public RayResult shoot(Shooter shooter, Plugin plugin) {
+    public void shoot(Shooter shooter, Plugin plugin) {
         if (shooter.isScoping()) {
-            return generateBullet(shooter, plugin, 0);
+            generateBullet(shooter, plugin, 0);
         } else {
-            return generateBullet(shooter, plugin, 5);
+            generateBullet(shooter, plugin, 5);
         }
     }
 }

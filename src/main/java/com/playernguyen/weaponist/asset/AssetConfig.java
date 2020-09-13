@@ -35,7 +35,7 @@ public abstract class AssetConfig<T extends AssetEnum, F extends AssetKeyFlag> e
 //            loadDefault(f);
 //        }
         // Save
-        save();
+//        save();
     }
 
     public void loadDefault(F keyFlag) {

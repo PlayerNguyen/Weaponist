@@ -22,7 +22,7 @@ public abstract class DefaultRocketGun extends DefaultGun {
     }
 
     @Override
-    public RayResult shoot(Shooter shooter, Plugin plugin) {
+    public void shoot(Shooter shooter, Plugin plugin) {
         Player player = shooter.asPlayer();
 
         BukkitRunnable r = new RocketProjectileRunnable(
@@ -50,6 +50,7 @@ public abstract class DefaultRocketGun extends DefaultGun {
         for (SoundConfiguration soundConfiguration : getShootSoundList()) {
             soundConfiguration.play(shooter.asPlayer().getLocation());
         }
-        return null;
+        // Knock back
+        WeaponistUtil.knockBack(player, 5);
     }
 }

@@ -19,6 +19,7 @@ public enum AmmunitionEnum implements AssetEnum {
     RIFLE("rifle", "&cAssault Rifle Clip", Material.FLINT, 2, 16, Collections.singletonList("")),
     ROCKET("rocket", "&6Rocket", Material.FEATHER, 1, 16, Collections.singletonList("")),
     LMG("lmg", "&6LMG Clip", Material.DIAMOND, 1, 16, Collections.singletonList("")),
+    SHOTGUN("shotgun", "&6Shotgun Rounds", Material.IRON_NUGGET, 1, 16, Collections.singletonList(""))
     ;
 
     private final String id;

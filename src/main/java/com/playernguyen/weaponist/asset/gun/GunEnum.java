@@ -177,6 +177,33 @@ public enum GunEnum implements AssetEnum {
                     new SoundConfiguration(Sound.BLOCK_NOTE_SNARE, 1f, 1f)
             ),
             ShootType.MULTIPLE
+    ),
+    SPAS(
+            "spas",
+            "&cSpas 12 &7(%ammo%/%max_ammo%)",
+            2.0,
+            3.0,
+            0.8,
+            6,
+            20,
+            7,
+            3,
+            AmmunitionEnum.SHOTGUN,
+            Material.WOOD_HOE,
+            Arrays.asList(
+                    "&cHigh damage &7pump-action gun",
+                    "&7with great mobility"
+            ),
+            Arrays.asList(
+                    new SoundConfiguration(Sound.BLOCK_WOODEN_TRAPDOOR_OPEN, .5f, 1.4f),
+                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_ON, .5f,  .7f),
+                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_OFF, .5f,  .7f)
+            ),
+            Arrays.asList(
+                    new SoundConfiguration(Sound.BLOCK_NOTE_BASEDRUM, 0.5f, 1),
+                    new SoundConfiguration(Sound.BLOCK_NOTE_SNARE, 1f, 1f)
+            ),
+            ShootType.SINGLE
     )
     ;
 

@@ -14,7 +14,7 @@ public interface Gun extends Item {
 
     AmmunitionEnum getAmmunitionType();
 
-    RayResult shoot(Shooter shooter, Plugin plugin);
+    void shoot(Shooter shooter, Plugin plugin);
 
     void reload(Shooter shooter, Weaponist plugin);
 
