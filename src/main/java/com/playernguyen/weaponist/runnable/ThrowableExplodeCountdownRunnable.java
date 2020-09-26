@@ -6,11 +6,7 @@ import com.playernguyen.weaponist.util.ParticleBuilder;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Item;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
-
-import java.util.Locale;
 
 public class ThrowableExplodeCountdownRunnable extends BukkitRunnable {
 

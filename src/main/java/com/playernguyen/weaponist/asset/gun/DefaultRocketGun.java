@@ -3,7 +3,6 @@ package com.playernguyen.weaponist.asset.gun;
 import com.playernguyen.weaponist.Weaponist;
 import com.playernguyen.weaponist.asset.ItemTagEnum;
 import com.playernguyen.weaponist.entity.Shooter;
-import com.playernguyen.weaponist.ray.RayResult;
 import com.playernguyen.weaponist.runnable.RocketProjectileRunnable;
 import com.playernguyen.weaponist.sound.SoundConfiguration;
 import com.playernguyen.weaponist.util.Tag;
@@ -12,8 +11,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.io.IOException;
 
 public abstract class DefaultRocketGun extends DefaultGun {
 

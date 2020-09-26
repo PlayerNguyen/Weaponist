@@ -14,7 +14,6 @@ import com.playernguyen.weaponist.runnable.ActionPerformRunnable;
 import com.playernguyen.weaponist.sound.SoundConfiguration;
 import com.playernguyen.weaponist.util.*;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -26,7 +25,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.io.IOException;
 import java.util.List;
 
 public abstract class DefaultGun implements Gun {
@@ -114,7 +112,7 @@ public abstract class DefaultGun implements Gun {
 
     @Override
     public void shoot(Shooter shooter, Plugin plugin) {
-        generateBullet(shooter, plugin, (getFireAccuracy() * ((double)shooter.getStackShoot()/2))/10);
+        generateBullet(shooter, plugin, (getFireAccuracy() * ((double)shooter.getStackShoot()))/10);
     }
 
     private Vector getDirection(Shooter shooter) {
@@ -175,6 +173,11 @@ public abstract class DefaultGun implements Gun {
         if (!shooter.isShooting()) {
             shooter.setStackShoot(0);
         }
+
+        if (shooter.getStackShoot() >= 10) {
+            shooter.setStackShoot(0);
+        }
+
 
         Player player = shooter.asPlayer();
 
@@ -242,11 +245,10 @@ public abstract class DefaultGun implements Gun {
             // Refresh trigger
             BukkitRunnable runnable = new BukkitRunnable() {
                 double d = getDelayPerShootTime();
-                //                int i = getDelayPerShootTime();
                 @Override
                 public void run() {
                     // Update tick
-                    d = d - (0.1d);
+                    d = d - (0.05d);
 
                     if (d <= 0) {
                         shooter.setCanTrigger(true);
@@ -278,7 +280,7 @@ public abstract class DefaultGun implements Gun {
         //WeaponistUtil.knockBack(player, 0.5f);
         //WeaponistUtil.decreaseItemStack(player.getInventory().getItemInMainHand());
         // Create accuracy
-        LocationUtil.createNoise(player, (float) getFireAccuracy());
+        LocationUtil.createNoise(player, (float) getFireAccuracy()/3f);
         // Decrease ammo
         ItemStack handStack = player.getInventory().getItemInMainHand();
         ItemStack updateStack = WeaponistUtil

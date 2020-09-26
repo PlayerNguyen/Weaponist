@@ -12,6 +12,8 @@ public enum SettingFlag implements Flagable {
     WEAPON_FOLDER("settings.weapon-directory", File.separatorChar + "weapon"),
     AMMUNITION_FOLDER("settings.ammunition-directory", File.separatorChar + "ammunition"),
 
+    SWAP_HAND_DURATION("settings.swap-hand-duration", 2);
+
     ;
 
     private final String path;

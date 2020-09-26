@@ -1,7 +1,6 @@
 package com.playernguyen.weaponist.util;
 
 import com.playernguyen.weaponist.Weaponist;
-import com.playernguyen.weaponist.asset.ItemTagEnum;
 import com.playernguyen.weaponist.asset.gun.Gun;
 import com.playernguyen.weaponist.entity.Shooter;
 import com.playernguyen.weaponist.event.WeaponistPlayerShootEntityEvent;
@@ -9,7 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
-import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -17,9 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 
 public class WeaponistUtil {

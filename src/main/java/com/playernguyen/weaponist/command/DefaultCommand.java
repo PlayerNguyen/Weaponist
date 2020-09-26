@@ -5,7 +5,6 @@ import com.playernguyen.weaponist.language.LanguageFlag;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

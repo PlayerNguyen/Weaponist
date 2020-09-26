@@ -1,15 +1,8 @@
 package com.playernguyen.weaponist.listener;
 
-import com.playernguyen.weaponist.entity.Shooter;
-import com.playernguyen.weaponist.util.Tag;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
-import org.bukkit.inventory.ItemStack;
 
 public class PlayerInventoryHandlerListener extends WeaponistListener {
 

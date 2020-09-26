@@ -1,6 +1,5 @@
 package com.playernguyen.weaponist.asset;
 
-import com.playernguyen.weaponist.Weaponist;
 import com.playernguyen.weaponist.WeaponistInstance;
 import com.playernguyen.weaponist.asset.ammunition.AmmunitionEnum;
 import org.bukkit.ChatColor;

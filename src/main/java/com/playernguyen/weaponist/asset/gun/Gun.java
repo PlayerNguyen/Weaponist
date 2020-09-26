@@ -4,7 +4,6 @@ import com.playernguyen.weaponist.Weaponist;
 import com.playernguyen.weaponist.asset.Item;
 import com.playernguyen.weaponist.asset.ammunition.AmmunitionEnum;
 import com.playernguyen.weaponist.entity.Shooter;
-import com.playernguyen.weaponist.ray.RayResult;
 import com.playernguyen.weaponist.sound.SoundConfiguration;
 import org.bukkit.plugin.Plugin;
 

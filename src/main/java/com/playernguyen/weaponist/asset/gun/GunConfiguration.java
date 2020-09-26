@@ -3,7 +3,6 @@ package com.playernguyen.weaponist.asset.gun;
 import com.playernguyen.weaponist.asset.AssetConfig;
 import com.playernguyen.weaponist.asset.ItemMetadata;
 import com.playernguyen.weaponist.asset.ItemType;
-import com.playernguyen.weaponist.asset.ammunition.Ammunition;
 import com.playernguyen.weaponist.asset.ammunition.AmmunitionEnum;
 import com.playernguyen.weaponist.asset.ammunition.DefaultItemMetadata;
 import com.playernguyen.weaponist.sound.SoundConfiguration;

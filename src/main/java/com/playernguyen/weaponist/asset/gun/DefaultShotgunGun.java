@@ -12,6 +12,6 @@ public abstract class DefaultShotgunGun  extends DefaultGun {
 
     @Override
     public void shoot(Shooter shooter, Plugin plugin) {
-        generateBullet(shooter, plugin, 2.5f, MathHelper.randomInt(4, 7), 1);
+        generateBullet(shooter, plugin, 10f, MathHelper.randomInt(4, 7), 1);
     }
 }

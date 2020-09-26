@@ -1,7 +1,6 @@
 package com.playernguyen.weaponist.asset.throwItem;
 
 import com.playernguyen.weaponist.entity.Shooter;
-import com.playernguyen.weaponist.runnable.ThrowableExplodeCountdownRunnable;
 import com.playernguyen.weaponist.runnable.ThrowableTriggerCountdownRunnable;
 import com.playernguyen.weaponist.util.ParticleBuilder;
 import org.bukkit.Bukkit;

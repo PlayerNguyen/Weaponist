@@ -46,6 +46,10 @@ public abstract class ConfigurationWeaponist extends WeaponistInstance {
         return this.fileConfiguration.getInt(flagable.getPath());
     }
 
+    public double getDouble(Flagable flagable) {
+        return this.fileConfiguration.getDouble(flagable.getPath());
+    }
+
     public boolean getBoolean(Flagable flagable) {
         return this.fileConfiguration.getBoolean(flagable.getPath());
     }

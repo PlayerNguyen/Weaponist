@@ -2,16 +2,14 @@ package com.playernguyen.weaponist.runnable;
 
 import com.playernguyen.weaponist.Weaponist;
 import com.playernguyen.weaponist.entity.Shooter;
-import com.playernguyen.weaponist.event.WeaponistPlayerShootEntityEvent;
 import com.playernguyen.weaponist.util.LocationUtil;
 import com.playernguyen.weaponist.util.WeaponistUtil;
-import org.bukkit.*;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.Collection;
 import java.util.Collections;
 
 public class RocketProjectileRunnable extends BukkitRunnable {

@@ -39,13 +39,6 @@ public class RayCollectRunnable extends BukkitRunnable {
         this.maxPenetrate = maxPenetrate;
     }
 
-    @Deprecated
-    public RayCollectRunnable(Shooter shooter, int maxDistance, int maxPenetrate,  Particle particle) {
-        this.shooter = shooter;
-        this.maxDistance = maxDistance;
-        this.particle = particle;
-        this.maxPenetrate = maxPenetrate;
-    }
 
     public RayCollectRunnable(Shooter shooter, int maxDistance, int maxPenetrate, Particle particle, double rate) {
         this.shooter = shooter;
@@ -60,15 +53,21 @@ public class RayCollectRunnable extends BukkitRunnable {
         // Shooter location
         Location eyeLocation = shooter.asPlayer().getEyeLocation();
 
+//        Vector rateCompound = new Vector(
+//                generateRate(-rate/10, rate/10),
+//                generateRate(0, rate/5),
+//                generateRate(-rate/10, rate/10)
+//        );
         Vector rateCompound = new Vector(
-                generateRate(-rate/3, rate/3),
-                generateRate(0, rate/2),
-                generateRate(-rate/3, rate/3)
+                0,
+                rate/7,
+                0
         );
 
         LocationIterator locationIterator = new LocationIterator(
                 eyeLocation,
-                eyeLocation.getDirection().add(rateCompound),
+                eyeLocation.getDirection()
+                        .normalize().add(rateCompound),
                 maxDistance
         );
 
