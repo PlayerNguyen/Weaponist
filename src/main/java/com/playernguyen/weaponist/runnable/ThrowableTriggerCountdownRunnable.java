@@ -12,7 +12,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class ThrowableTriggerCountdownRunnable extends BukkitRunnable {
     private final Throw aThrow;
-//    private double countdown;
+    //    private double countdown;
     private final Item item;
     private final Shooter shooter;
 

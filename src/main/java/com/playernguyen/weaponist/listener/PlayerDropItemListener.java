@@ -15,7 +15,6 @@ public class PlayerDropItemListener extends WeaponistListener {
         Shooter shooter = getShooterManager().getShooterAsPlayer(player);
 
 
-
         if (Tag.isWeapon(event.getItemDrop().getItemStack())) {
 
             // Normal

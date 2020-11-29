@@ -33,9 +33,10 @@ public class PlayerSwapHandListener extends WeaponistListener {
             shooter.setCanTrigger(false);
             new BukkitRunnable() {
                 double _duration = getWeaponistSetting().getDouble(SettingFlag.SWAP_HAND_DURATION);
+
                 @Override
                 public void run() {
-                    _duration = _duration - (1.0/20.0);
+                    _duration = _duration - (1.0 / 20.0);
 
                     if (_duration <= 0) {
                         shooter.setCanTrigger(true);

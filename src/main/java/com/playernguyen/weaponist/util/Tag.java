@@ -12,6 +12,58 @@ import java.util.Objects;
 
 public class Tag {
 
+    public static boolean isAmmunition(ItemStack itemStack) {
+        Reader reader = new Reader(itemStack);
+        return reader.hasCompound()
+                && reader.hasKey(ItemTagEnum.IS_AMMO)
+                && (reader.getBoolean(ItemTagEnum.IS_AMMO));
+    }
+
+    public static String getAmmunitionType(ItemStack itemStack) {
+        return getItemId(itemStack);
+    }
+
+    public static boolean isWeapon(ItemStack itemStack) {
+        Reader reader = new Reader(itemStack);
+
+        return reader.hasCompound()
+                && reader.hasKey(ItemTagEnum.IS_WEAPON)
+                && reader.getBoolean(ItemTagEnum.IS_WEAPON);
+    }
+
+    public static boolean isThrowable(ItemStack stack) {
+        Reader reader = new Reader(stack);
+
+        return reader.hasCompound()
+                && reader.hasKey(ItemTagEnum.IS_THROWABLE)
+                && reader.getBoolean(ItemTagEnum.IS_THROWABLE);
+    }
+
+    public static String getWeaponId(ItemStack stack) {
+        return getItemId(stack);
+    }
+
+    public static ItemStack setData(ItemStack stack, ItemTagEnum itemTagEnum, Object value) {
+        Builder builder = new Builder(stack);
+        // Set the data
+        builder.setData(itemTagEnum, value);
+
+        // Rebuild
+        return builder.build();
+    }
+
+    public static String getItemId(ItemStack itemStack) {
+        Reader reader = new Reader(itemStack);
+        if (!reader.hasCompound()) throw new NullPointerException("compound not found!");
+        return reader.getString(ItemTagEnum.ITEM_ID);
+    }
+
+    public static int getGunAmmo(ItemStack stack) {
+        Reader reader = new Reader(stack);
+        if (!reader.hasCompound()) throw new NullPointerException("no compound found!");
+        return reader.getInt(ItemTagEnum.GUN_AMMO);
+    }
+
     public static class Builder {
 
         private final ItemStack itemStack;
@@ -58,27 +110,26 @@ public class Tag {
                 if (value instanceof String) {
                     compound.setString(key, (String) value);
                 } else
-                // Integer
-                if (value instanceof Integer) {
-                    compound.setInt(key, (Integer) value);
-                } else
-                // Float / double
-                if (value instanceof Double) {
-                    compound.setDouble(key, (Double) value);
-                } else
-                if (value instanceof Float) {
-                    compound.setFloat(key, (Float) value);
-                } else
-                // Long
-                if (value instanceof Long) {
-                    compound.setLong(key, (Long) value);
-                } else
-                // Boolean
-                if (value instanceof Boolean) {
-                    compound.setBoolean(key, (Boolean) value);
-                } else {
-                    compound.setString(key, value.toString());
-                }
+                    // Integer
+                    if (value instanceof Integer) {
+                        compound.setInt(key, (Integer) value);
+                    } else
+                        // Float / double
+                        if (value instanceof Double) {
+                            compound.setDouble(key, (Double) value);
+                        } else if (value instanceof Float) {
+                            compound.setFloat(key, (Float) value);
+                        } else
+                            // Long
+                            if (value instanceof Long) {
+                                compound.setLong(key, (Long) value);
+                            } else
+                                // Boolean
+                                if (value instanceof Boolean) {
+                                    compound.setBoolean(key, (Boolean) value);
+                                } else {
+                                    compound.setString(key, value.toString());
+                                }
             }
             // Put data into the buildStack
             buildStack.setTag(compound);
@@ -141,65 +192,13 @@ public class Tag {
             return getBoolean(keyEnum.getKey());
         }
 
-        public String getString(ItemTagEnum e){
+        public String getString(ItemTagEnum e) {
             return getString(e.getKey());
         }
 
-        public int getInt(ItemTagEnum e){
+        public int getInt(ItemTagEnum e) {
             return getInt(e.getKey());
         }
-    }
-
-    public static boolean isAmmunition(ItemStack itemStack) {
-        Reader reader = new Reader(itemStack);
-        return reader.hasCompound()
-                && reader.hasKey(ItemTagEnum.IS_AMMO)
-                && (reader.getBoolean(ItemTagEnum.IS_AMMO));
-    }
-
-    public static String getAmmunitionType(ItemStack itemStack) {
-        return getItemId(itemStack);
-    }
-
-    public static boolean isWeapon(ItemStack itemStack) {
-        Reader reader = new Reader(itemStack);
-
-        return reader.hasCompound()
-                && reader.hasKey(ItemTagEnum.IS_WEAPON)
-                && reader.getBoolean(ItemTagEnum.IS_WEAPON);
-    }
-
-    public static boolean isThrowable(ItemStack stack) {
-        Reader reader = new Reader(stack);
-
-        return reader.hasCompound()
-                && reader.hasKey(ItemTagEnum.IS_THROWABLE)
-                && reader.getBoolean(ItemTagEnum.IS_THROWABLE);
-    }
-
-    public static String getWeaponId(ItemStack stack) {
-        return getItemId(stack);
-    }
-
-    public static ItemStack setData(ItemStack stack, ItemTagEnum itemTagEnum, Object value) {
-        Builder builder = new Builder(stack);
-        // Set the data
-        builder.setData(itemTagEnum, value);
-
-        // Rebuild
-        return builder.build();
-    }
-
-    public static String getItemId(ItemStack itemStack) {
-        Reader reader = new Reader(itemStack);
-        if (!reader.hasCompound()) throw new NullPointerException("compound not found!");
-        return reader.getString(ItemTagEnum.ITEM_ID);
-    }
-
-    public static int getGunAmmo(ItemStack stack) {
-        Reader reader = new Reader(stack);
-        if (!reader.hasCompound()) throw new NullPointerException("no compound found!");
-        return reader.getInt(ItemTagEnum.GUN_AMMO);
     }
 
 

@@ -3,8 +3,7 @@ package com.playernguyen.weaponist.asset;
 public enum ItemType {
     GUN("gun"),
     AMMO("ammo"),
-    THROWABLE("throwable")
-    ;
+    THROWABLE("throwable");
 
     private final String prefix;
 

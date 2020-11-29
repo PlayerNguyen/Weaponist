@@ -31,7 +31,7 @@ public class ScopeRunnable extends BukkitRunnable {
         // If sneaking
         if (shooter.asPlayer().isSneaking()) {
             shooter.setBreathing(true);
-            shooter.setBreathLevel(shooter.getBreathLevel()-0.1d);
+            shooter.setBreathLevel(shooter.getBreathLevel() - 0.1d);
         } else {
             shooter.setBreathing(false);
             if (shooter.getBreathLevel() < shooter.getMaxBreathLevel())
@@ -50,7 +50,6 @@ public class ScopeRunnable extends BukkitRunnable {
                 .prefix(ChatColor.AQUA + ": [-]")
                 .suffix("[-] :")
                 .sendActionBar(shooter.asPlayer());
-
 
 
         if (!shooter.isBreathing())

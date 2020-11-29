@@ -18,7 +18,6 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Snowball;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
@@ -112,7 +111,7 @@ public abstract class DefaultGun implements Gun {
 
     @Override
     public void shoot(Shooter shooter, Plugin plugin) {
-        generateBullet(shooter, plugin, (getFireAccuracy() * ((double)shooter.getStackShoot()))/10);
+        generateBullet(shooter, plugin, (getFireAccuracy() * ((double) shooter.getStackShoot())) / 10);
     }
 
     private Vector getDirection(Shooter shooter) {
@@ -164,8 +163,8 @@ public abstract class DefaultGun implements Gun {
     }
 
     protected void generateBullet(Shooter shooter, Plugin plugin, double rate,
-                                       int bulletTime,
-                                       int bulletTaking) {
+                                  int bulletTime,
+                                  int bulletTaking) {
         if (Tag.getGunAmmo(shooter.asPlayer().getInventory().getItemInMainHand()) <= 0) {
             return;
         }
@@ -206,12 +205,12 @@ public abstract class DefaultGun implements Gun {
             for (Target target : rayResult.getTargets()) {
                 if (target.isHeadshot()) {
                     Bukkit.getScheduler().runTask(plugin, () ->
-                            target.asEntity().damage(getDamage()*2, shooter.asPlayer()));
+                            target.asEntity().damage(getDamage() * 2, shooter.asPlayer()));
                     WeaponistPlayerShootEntityEvent event =
                             new WeaponistPlayerShootEntityEvent(
                                     shooter,
                                     target.asEntity(),
-                                    getDamage()*2,
+                                    getDamage() * 2,
                                     true
                             );
                     Bukkit.getPluginManager().callEvent(event);
@@ -255,6 +254,7 @@ public abstract class DefaultGun implements Gun {
             // Refresh trigger
             BukkitRunnable runnable = new BukkitRunnable() {
                 double d = getDelayPerShootTime();
+
                 @Override
                 public void run() {
                     // Update tick
@@ -290,12 +290,12 @@ public abstract class DefaultGun implements Gun {
         //WeaponistUtil.knockBack(player, 0.5f);
         //WeaponistUtil.decreaseItemStack(player.getInventory().getItemInMainHand());
         // Create accuracy
-        LocationUtil.createNoise(player, (float) getFireAccuracy()/3f);
+        LocationUtil.createNoise(player, (float) getFireAccuracy() / 3f);
         // Decrease ammo
         ItemStack handStack = player.getInventory().getItemInMainHand();
         ItemStack updateStack = WeaponistUtil
                 .updateItemMeta(
-                        Tag.setData(handStack, ItemTagEnum.GUN_AMMO, Tag.getGunAmmo(handStack)-bulletTaking),
+                        Tag.setData(handStack, ItemTagEnum.GUN_AMMO, Tag.getGunAmmo(handStack) - bulletTaking),
                         this
                 );
         player.getInventory()
@@ -369,7 +369,7 @@ public abstract class DefaultGun implements Gun {
         }
     }
 
-    protected void reloadSingleAction (Shooter shooter, Weaponist plugin) {
+    protected void reloadSingleAction(Shooter shooter, Weaponist plugin) {
         Player player = shooter.asPlayer();
         if (shooter.isScoping()) {
             shooter.setScoping(false);

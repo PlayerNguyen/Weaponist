@@ -61,13 +61,13 @@ public class DefaultShooter implements Shooter {
     }
 
     @Override
-    public void setCanTrigger(boolean canTrigger) {
-        this.canTrigger = canTrigger;
+    public boolean isCanTrigger() {
+        return canTrigger;
     }
 
     @Override
-    public boolean isCanTrigger() {
-        return canTrigger;
+    public void setCanTrigger(boolean canTrigger) {
+        this.canTrigger = canTrigger;
     }
 
     public Player asPlayer() {
@@ -109,13 +109,13 @@ public class DefaultShooter implements Shooter {
     }
 
     @Override
-    public void setCurrentItem(ItemStack currentItem) {
-        this.currentItem = currentItem;
+    public ItemStack getCurrentItem() {
+        return currentItem;
     }
 
     @Override
-    public ItemStack getCurrentItem() {
-        return currentItem;
+    public void setCurrentItem(ItemStack currentItem) {
+        this.currentItem = currentItem;
     }
 
     @Override
@@ -184,12 +184,12 @@ public class DefaultShooter implements Shooter {
     }
 
     @Override
-    public void setMaxBreathLevel(double maxBreathLevel) {
-        this.maxBreathLevel = maxBreathLevel;
+    public double getMaxBreathLevel() {
+        return maxBreathLevel;
     }
 
     @Override
-    public double getMaxBreathLevel() {
-        return maxBreathLevel;
+    public void setMaxBreathLevel(double maxBreathLevel) {
+        this.maxBreathLevel = maxBreathLevel;
     }
 }

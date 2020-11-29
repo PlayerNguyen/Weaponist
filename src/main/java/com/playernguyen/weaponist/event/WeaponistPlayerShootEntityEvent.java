@@ -8,12 +8,11 @@ import org.bukkit.event.HandlerList;
 public class WeaponistPlayerShootEntityEvent extends Event {
 
 
-
+    private static final HandlerList handlerList = new HandlerList();
     private final Shooter shooter;
     private final LivingEntity livingEntity;
     private final double damage;
     private final boolean headshot;
-    private static final HandlerList handlerList = new HandlerList();
 
     public WeaponistPlayerShootEntityEvent(Shooter shooter, LivingEntity livingEntity, double damage, boolean headshot) {
         this.shooter = shooter;
@@ -27,6 +26,10 @@ public class WeaponistPlayerShootEntityEvent extends Event {
         this.livingEntity = livingEntity;
         this.damage = damage;
         this.headshot = false;
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlerList;
     }
 
     public boolean isHeadshot() {
@@ -43,10 +46,6 @@ public class WeaponistPlayerShootEntityEvent extends Event {
 
     public LivingEntity getLivingEntity() {
         return livingEntity;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlerList;
     }
 
     @Override

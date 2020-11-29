@@ -84,7 +84,8 @@ public abstract class DefaultSubCommand extends WeaponistInstance implements Sub
                 return true;
             }
 
-            case NOTHING: case NULL: {
+            case NOTHING:
+            case NULL: {
                 return true;
             }
 

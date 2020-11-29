@@ -11,6 +11,7 @@ import java.util.Set;
 public abstract class ConfigurationFolder extends WeaponistInstance {
 
     private final File file;
+
     @Deprecated
     public ConfigurationFolder(String name) {
         this.file = new File(getWeaponist().getDataFolder(), name);

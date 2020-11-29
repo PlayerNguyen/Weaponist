@@ -8,7 +8,6 @@ import java.io.IOException;
 public class LanguageConfiguration extends ConfigurationWeaponist {
     /**
      * Instance of the configuration
-     *
      */
     public LanguageConfiguration() throws IOException {
         super("language.yml", LanguageFlag.values());

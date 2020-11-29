@@ -30,8 +30,8 @@ public enum GunEnum implements AssetEnum {
             ),
             Arrays.asList(
                     new SoundConfiguration(Sound.BLOCK_WOODEN_TRAPDOOR_OPEN, .5f, 1.4f),
-                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_ON, .5f,  .7f),
-                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_OFF, .5f,  .7f)
+                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_ON, .5f, .7f),
+                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_OFF, .5f, .7f)
             ),
             Arrays.asList(
                     new SoundConfiguration(Sound.BLOCK_WOODEN_TRAPDOOR_OPEN, 1, 1.4f),
@@ -57,8 +57,8 @@ public enum GunEnum implements AssetEnum {
             ),
             Arrays.asList(
                     new SoundConfiguration(Sound.BLOCK_WOODEN_TRAPDOOR_OPEN, .5f, 1.4f),
-                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_ON, .5f,  .7f),
-                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_OFF, .5f,  .7f)
+                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_ON, .5f, .7f),
+                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_OFF, .5f, .7f)
             ),
             Arrays.asList(
                     new SoundConfiguration(Sound.BLOCK_NOTE_BASEDRUM, 0.5f, 1),
@@ -84,8 +84,8 @@ public enum GunEnum implements AssetEnum {
             ),
             Arrays.asList(
                     new SoundConfiguration(Sound.BLOCK_WOODEN_TRAPDOOR_OPEN, .5f, 1.4f),
-                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_ON, .5f,  .7f),
-                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_OFF, .5f,  .7f)
+                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_ON, .5f, .7f),
+                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_OFF, .5f, .7f)
             ),
             Arrays.asList(
                     new SoundConfiguration(Sound.BLOCK_NOTE_BASEDRUM, 0.5f, 1),
@@ -112,8 +112,8 @@ public enum GunEnum implements AssetEnum {
             ),
             Arrays.asList(
                     new SoundConfiguration(Sound.BLOCK_WOODEN_TRAPDOOR_OPEN, .5f, 1.4f),
-                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_ON, .5f,  .7f),
-                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_OFF, .5f,  .7f)
+                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_ON, .5f, .7f),
+                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_OFF, .5f, .7f)
             ),
             Arrays.asList(
                     new SoundConfiguration(Sound.ENTITY_BLAZE_DEATH, 0.5f, 1)
@@ -140,8 +140,8 @@ public enum GunEnum implements AssetEnum {
             ),
             Arrays.asList(
                     new SoundConfiguration(Sound.BLOCK_WOODEN_TRAPDOOR_OPEN, .5f, 1.4f),
-                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_ON, .5f,  .7f),
-                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_OFF, .5f,  .7f)
+                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_ON, .5f, .7f),
+                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_OFF, .5f, .7f)
             ),
             Arrays.asList(
                     new SoundConfiguration(Sound.BLOCK_NOTE_BASEDRUM, 0.5f, 1),
@@ -169,8 +169,8 @@ public enum GunEnum implements AssetEnum {
             ),
             Arrays.asList(
                     new SoundConfiguration(Sound.BLOCK_WOODEN_TRAPDOOR_OPEN, .5f, 1.4f),
-                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_ON, .5f,  .7f),
-                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_OFF, .5f,  .7f)
+                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_ON, .5f, .7f),
+                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_OFF, .5f, .7f)
             ),
             Arrays.asList(
                     new SoundConfiguration(Sound.BLOCK_NOTE_BASEDRUM, 0.5f, 1),
@@ -196,16 +196,15 @@ public enum GunEnum implements AssetEnum {
             ),
             Arrays.asList(
                     new SoundConfiguration(Sound.BLOCK_WOODEN_TRAPDOOR_OPEN, .5f, 1.4f),
-                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_ON, .5f,  .7f),
-                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_OFF, .5f,  .7f)
+                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_ON, .5f, .7f),
+                    new SoundConfiguration(Sound.BLOCK_STONE_BUTTON_CLICK_OFF, .5f, .7f)
             ),
             Arrays.asList(
                     new SoundConfiguration(Sound.BLOCK_NOTE_BASEDRUM, 0.5f, 1),
                     new SoundConfiguration(Sound.BLOCK_NOTE_SNARE, 1f, 1f)
             ),
             ShootType.SINGLE
-    )
-    ;
+    );
 
     private final String id;
     private final String name;

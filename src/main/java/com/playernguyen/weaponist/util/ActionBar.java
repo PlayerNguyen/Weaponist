@@ -19,14 +19,6 @@ public class ActionBar {
     public ActionBar() {
     }
 
-    public void send(Player player) {
-        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(content));
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
     public static ActionPerformRunnable performCountdown(JavaPlugin plugin,
                                                          Shooter shooter,
                                                          double second,
@@ -40,6 +32,14 @@ public class ActionBar {
         return new ActionPerformRunnable(second, shooter);
     }
 
+    public void send(Player player) {
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(content));
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     public static class Percentage {
         private double maxValue;
         private double currentValue;
@@ -48,16 +48,15 @@ public class ActionBar {
         private ChatColor activeColor = ChatColor.RED;
         private String prefixText = "";
         private String suffixText = "";
+        // private String content = "";
+        private String barContent = "";
+
 
         public Percentage(double maxValue, double currentValue) {
             this.maxValue = maxValue;
             this.currentValue = currentValue;
             init();
         }
-
-
-        // private String content = "";
-        private String barContent = "";
 
         @Deprecated
         public Percentage() {
@@ -92,7 +91,7 @@ public class ActionBar {
             double _currentPercentage = percentage();
             for (int i = 0; i < 10; i++) {
                 int leftBlock = i * 10;
-                int rightBlock = ((i+1) * 10);
+                int rightBlock = ((i + 1) * 10);
                 if (leftBlock <= _currentPercentage && _currentPercentage < rightBlock) {
                     return i;
                 }

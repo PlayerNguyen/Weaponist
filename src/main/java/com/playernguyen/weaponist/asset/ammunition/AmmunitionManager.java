@@ -15,6 +15,7 @@ public class AmmunitionManager extends ManagerSet<Ammunition> {
 
     /**
      * Search with O(n) by using enum
+     *
      * @param ammunitionEnum type to search
      * @return the ammunition searching
      */
@@ -29,6 +30,7 @@ public class AmmunitionManager extends ManagerSet<Ammunition> {
 
     /**
      * Search with O(n) by using id
+     *
      * @param id the id of ammo to search
      * @return the ammunition searching
      */

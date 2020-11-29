@@ -4,7 +4,7 @@ import com.playernguyen.weaponist.entity.Shooter;
 import com.playernguyen.weaponist.util.MathHelper;
 import org.bukkit.plugin.Plugin;
 
-public abstract class DefaultShotgunGun  extends DefaultGun {
+public abstract class DefaultShotgunGun extends DefaultGun {
 
     public DefaultShotgunGun(GunEnum gunEnum) {
         super(gunEnum);

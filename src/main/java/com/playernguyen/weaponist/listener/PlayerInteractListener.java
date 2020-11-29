@@ -49,7 +49,7 @@ public class PlayerInteractListener extends WeaponistListener {
                         .getLanguage(LanguageFlag.GENERAL_WEAPON_OUT_OF_AMMO));
                 actionBar.send(player);
                 player.playSound(player.getLocation(), Sound.BLOCK_NOTE_SNARE, 0.5f, 1f);
-                return ;
+                return;
             }
 
             // Call event and handler
@@ -67,15 +67,18 @@ public class PlayerInteractListener extends WeaponistListener {
                 }
 
                 // Shooting checker
-                if (!shooter.isCanTrigger()) { return; }
+                if (!shooter.isCanTrigger()) {
+                    return;
+                }
 
                 shooter.setLastShoot(System.currentTimeMillis());
                 if (weapon.getShootType() == ShootType.MULTIPLE) {
                     BukkitRunnable runnable = new BukkitRunnable() {
                         int i = 0;
+
                         @Override
                         public void run() {
-                            ++ i;
+                            ++i;
                             // Shoot
                             weapon.shoot(shooter, getWeaponist());
                             // Cancel

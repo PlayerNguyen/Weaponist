@@ -20,6 +20,10 @@ public class WeaponistPlayerReloadEvent extends PlayerEvent implements Cancellab
         this.shooter = new DefaultShooter(who);
     }
 
+    public static HandlerList getHandlerList() {
+        return handlerList;
+    }
+
     public Shooter getShooter() {
         return shooter;
     }
@@ -36,10 +40,6 @@ public class WeaponistPlayerReloadEvent extends PlayerEvent implements Cancellab
     @Override
     public void setCancelled(boolean cancelled) {
         this.cancelled = cancelled;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlerList;
     }
 
     @Override

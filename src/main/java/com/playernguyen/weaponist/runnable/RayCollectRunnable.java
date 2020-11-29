@@ -54,9 +54,9 @@ public class RayCollectRunnable extends BukkitRunnable {
         Location eyeLocation = shooter.asPlayer().getEyeLocation();
 
         Vector rateCompound = new Vector(
-                generateRate(-rate/10, rate/10),
-                generateRate(0, rate/5),
-                generateRate(-rate/10, rate/10)
+                generateRate(-rate / 10, rate / 10),
+                generateRate(0, rate / 5),
+                generateRate(-rate / 10, rate / 10)
         );
 //        Vector rateCompound = new Vector(
 //                0,
@@ -101,7 +101,7 @@ public class RayCollectRunnable extends BukkitRunnable {
                     boolean headshot = (currentLocation.distance(((LivingEntity) entity).getEyeLocation()) <= 0.5f);
                     Target target = new DefaultTarget((LivingEntity) entity, shooter, headshot);
                     targets.add(target);
-                    entityPenetrate ++;
+                    entityPenetrate++;
                 }
             }
 
@@ -113,7 +113,7 @@ public class RayCollectRunnable extends BukkitRunnable {
                     if (blockPenetrate == 0) {
                         this.firstCollideBlock = currentLocation.getBlock();
                     }
-                    blockPenetrate ++;
+                    blockPenetrate++;
                 }
             }
 

@@ -80,7 +80,7 @@ public abstract class DefaultCommand extends WeaponistInstance implements Comman
 
         if (!hasPermissions(commandSender)) {
             commandSender.sendMessage(getLanguageConfiguration()
-                        .getLanguageWithPrefix(LanguageFlag.COMMAND_USAGE_NO_PERMISSION));
+                    .getLanguageWithPrefix(LanguageFlag.COMMAND_USAGE_NO_PERMISSION));
             return true;
         }
 
@@ -116,7 +116,7 @@ public abstract class DefaultCommand extends WeaponistInstance implements Comman
 
     @Override
     public String toHelp() {
-        return ChatColor.GOLD +  "/" + getCommand() + " " + ChatColor.DARK_PURPLE + getParameter() + ": " + ChatColor.GRAY + getDescription();
+        return ChatColor.GOLD + "/" + getCommand() + " " + ChatColor.DARK_PURPLE + getParameter() + ": " + ChatColor.GRAY + getDescription();
     }
 
 }

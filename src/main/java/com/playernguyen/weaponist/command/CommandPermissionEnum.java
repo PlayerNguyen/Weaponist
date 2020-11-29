@@ -1,6 +1,6 @@
 package com.playernguyen.weaponist.command;
 
-public enum  CommandPermissionEnum {
+public enum CommandPermissionEnum {
     COMMAND_ALL("weaponist.command.*"),
 
     COMMAND_GROUP_ADMIN("weaponist.admin"),

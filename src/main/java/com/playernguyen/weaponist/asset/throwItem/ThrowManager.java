@@ -3,10 +3,6 @@ package com.playernguyen.weaponist.asset.throwItem;
 import com.playernguyen.weaponist.Weaponist;
 import com.playernguyen.weaponist.manager.ManagerSet;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class ThrowManager extends ManagerSet<Throw> {
 
     @Override

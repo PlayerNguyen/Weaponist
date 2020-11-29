@@ -36,7 +36,7 @@ public class CommandWeapon extends DefaultCommand {
         }
 
         // Call sub-command
-        subCommandManager.getCommand(subCommand).onCommand(sender,params.subList(1, params.size()));
+        subCommandManager.getCommand(subCommand).onCommand(sender, params.subList(1, params.size()));
         return CommandResult.NOTHING;
     }
 

@@ -1,19 +1,11 @@
 package com.playernguyen.weaponist.asset.throwItem;
 
-import com.playernguyen.weaponist.Weaponist;
 import com.playernguyen.weaponist.entity.Shooter;
-import com.playernguyen.weaponist.util.LocationUtil;
 import com.playernguyen.weaponist.util.ParticleBuilder;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.block.Block;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ThrowSmoke extends DefaultThrow {
 
@@ -25,6 +17,7 @@ public class ThrowSmoke extends DefaultThrow {
     public void onExplode(Shooter shooter, Location location) {
         BukkitRunnable runnable = new BukkitRunnable() {
             double duration = getExplodingTime() * 20;
+
             @Override
             public void run() {
 //                duration = 0;

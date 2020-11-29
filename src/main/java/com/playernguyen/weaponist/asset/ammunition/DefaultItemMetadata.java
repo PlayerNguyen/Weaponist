@@ -30,7 +30,9 @@ public class DefaultItemMetadata implements ItemMetadata {
         this.type = type;
 
         List<String> des = new ArrayList<>();
-        for (String e : description) { des.add(ChatColor.translateAlternateColorCodes('&', e)); }
+        for (String e : description) {
+            des.add(ChatColor.translateAlternateColorCodes('&', e));
+        }
         this.description = des;
     }
 

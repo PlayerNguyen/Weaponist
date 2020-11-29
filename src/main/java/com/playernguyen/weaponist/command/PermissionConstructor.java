@@ -20,7 +20,7 @@ public class PermissionConstructor extends WeaponistInstance implements Iterable
         container.add(s);
     }
 
-    public void add(CommandPermissionEnum e){
+    public void add(CommandPermissionEnum e) {
         getDebugger().warn(String.format("Register permissions: %s", e.getNode()));
         container.add(e.getNode());
     }

@@ -11,9 +11,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class ThrowableExplodeCountdownRunnable extends BukkitRunnable {
 
     private final Throw aThrow;
-    private double countdown;
     private final Item item;
     private final Shooter shooter;
+    private double countdown;
 
     public ThrowableExplodeCountdownRunnable(Throw aThrow, Item item, Shooter shooter) {
         this.aThrow = aThrow;
@@ -24,7 +24,7 @@ public class ThrowableExplodeCountdownRunnable extends BukkitRunnable {
 
     @Override
     public void run() {
-        countdown = countdown - (1.0/20.0);
+        countdown = countdown - (1.0 / 20.0);
         Location itemLocation = item.getLocation();
         // Play smoke effect
         new ParticleBuilder(Particle.SPELL_INSTANT, 10)

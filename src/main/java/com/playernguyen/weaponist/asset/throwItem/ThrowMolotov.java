@@ -43,9 +43,10 @@ public class ThrowMolotov extends DefaultThrow {
     public void onExplode(Shooter shooter, Location location) {
         BukkitRunnable runnable = new BukkitRunnable() {
             double duration = getExplodingTime();
+
             @Override
             public void run() {
-                duration = duration - (1.0/20.0);
+                duration = duration - (1.0 / 20.0);
 
                 // Create flame
                 new ParticleBuilder(Particle.FLAME, 50)
@@ -59,7 +60,7 @@ public class ThrowMolotov extends DefaultThrow {
                             if (entity instanceof LivingEntity) {
                                 Bukkit.getScheduler().runTask(getWeaponist(), () -> {
                                     entity.setFireTicks(100);
-                                    ((LivingEntity) entity).damage(getPower()/10, shooter.asPlayer());
+                                    ((LivingEntity) entity).damage(getPower() / 10, shooter.asPlayer());
                                 });
                             }
                         });

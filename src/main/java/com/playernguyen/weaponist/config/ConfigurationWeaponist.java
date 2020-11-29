@@ -17,7 +17,8 @@ public abstract class ConfigurationWeaponist extends WeaponistInstance {
 
     /**
      * Instance of the configuration
-     * @param fileName The file name
+     *
+     * @param fileName  The file name
      * @param flagables Default flagables to save
      */
     public ConfigurationWeaponist(@NotNull String fileName, @NotNull Flagable[] flagables) throws IOException {
@@ -54,7 +55,7 @@ public abstract class ConfigurationWeaponist extends WeaponistInstance {
         return this.fileConfiguration.getBoolean(flagable.getPath());
     }
 
-    public void load () {
+    public void load() {
         this.file = new File(getWeaponist().getDataFolder(), fileName);
         this.fileConfiguration = YamlConfiguration.loadConfiguration(this.file);
     }

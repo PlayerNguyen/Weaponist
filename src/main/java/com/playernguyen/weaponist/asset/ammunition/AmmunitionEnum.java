@@ -19,8 +19,7 @@ public enum AmmunitionEnum implements AssetEnum {
     RIFLE("rifle", "&cAssault Rifle Clip", Material.FLINT, 2, 16, Collections.singletonList("")),
     ROCKET("rocket", "&6Rocket", Material.FEATHER, 1, 16, Collections.singletonList("")),
     LMG("lmg", "&6LMG Clip", Material.DIAMOND, 1, 16, Collections.singletonList("")),
-    SHOTGUN("shotgun", "&6Shotgun Rounds", Material.IRON_NUGGET, 1, 16, Collections.singletonList(""))
-    ;
+    SHOTGUN("shotgun", "&6Shotgun Rounds", Material.IRON_NUGGET, 1, 16, Collections.singletonList(""));
 
     private final String id;
     private final String defaultDisplay;
@@ -42,6 +41,15 @@ public enum AmmunitionEnum implements AssetEnum {
         this.defaultMaxStackSize = defaultMaxStackSize;
         this.defaultMaterial = defaultMaterial;
 
+    }
+
+    @Nullable
+    public static AmmunitionEnum fromId(String id) {
+        for (AmmunitionEnum value : AmmunitionEnum.values()) {
+            if (value.getId().equalsIgnoreCase(id))
+                return value;
+        }
+        throw new NullPointerException("Not found the AmmunitionEnum id " + id);
     }
 
     public String getId() {
@@ -75,14 +83,5 @@ public enum AmmunitionEnum implements AssetEnum {
     @Override
     public ItemType getItemType() {
         return ItemType.AMMO;
-    }
-
-    @Nullable
-    public static AmmunitionEnum fromId(String id) {
-        for (AmmunitionEnum value : AmmunitionEnum.values()) {
-            if (value.getId().equalsIgnoreCase(id))
-                return value;
-        }
-        throw new NullPointerException("Not found the AmmunitionEnum id " + id);
     }
 }

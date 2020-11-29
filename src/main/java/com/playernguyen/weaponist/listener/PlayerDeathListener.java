@@ -30,12 +30,12 @@ public class PlayerDeathListener extends WeaponistListener {
         if (Tag.isWeapon(itemInMainHand)) {
             event.setDeathMessage(
                     getLanguageConfiguration().getLanguage(LanguageFlag.DEATH_MESSAGE)
-                        .replace("%killer%", killer.getDisplayName())
-                        .replace("%player%", deathPlayer.getDisplayName())
-                        .replace("%weapon%", getGunManager().getRegisteredWeapon(Tag.getWeaponId(itemInMainHand))
-                                .getDisplayName().replace("%ammo%", "").replace("%max_ammo%", "")
-                                .replace("(", "").replace(")", "").replace("/", "")
-                        )
+                            .replace("%killer%", killer.getDisplayName())
+                            .replace("%player%", deathPlayer.getDisplayName())
+                            .replace("%weapon%", getGunManager().getRegisteredWeapon(Tag.getWeaponId(itemInMainHand))
+                                    .getDisplayName().replace("%ammo%", "").replace("%max_ammo%", "")
+                                    .replace("(", "").replace(")", "").replace("/", "")
+                            )
             );
         }
     }

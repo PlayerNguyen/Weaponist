@@ -42,7 +42,7 @@ public class SoundConfiguration implements ConfigurationSerializable {
 
     @Override
     public Map<String, Object> serialize() {
-        Map<String, Object>  m = new HashMap<>();
+        Map<String, Object> m = new HashMap<>();
         m.put("value", this.toString());
 
         return m;

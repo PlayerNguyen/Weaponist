@@ -26,23 +26,23 @@ public class RayResult {
         this.hitBlock = hitBlock;
     }
 
-    public void setShooter(Shooter shooter) {
-        this.shooter = shooter;
-    }
-
     public Shooter getShooter() {
         return shooter;
+    }
+
+    public void setShooter(Shooter shooter) {
+        this.shooter = shooter;
     }
 
     public List<Target> getTargets() {
         return targets;
     }
 
-    public void addTarget(Target e) {
-        targets.add(e);
-    }
-
     public void setTargets(List<Target> targets) {
         this.targets = targets;
+    }
+
+    public void addTarget(Target e) {
+        targets.add(e);
     }
 }

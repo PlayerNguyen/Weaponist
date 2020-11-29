@@ -24,7 +24,7 @@ public enum ThrowEnum implements AssetEnum {
             3,
             20,
             Material.CLAY_BALL,
-             20
+            20
     ),
     MOLOTOV(
             "molotov",
@@ -34,8 +34,7 @@ public enum ThrowEnum implements AssetEnum {
             20,
             Material.DIAMOND,
             5
-    )
-    ;
+    );
 
     private final String id;
     private final String display;

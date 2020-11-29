@@ -14,8 +14,6 @@ public enum SettingFlag implements Flagable {
 
     SWAP_HAND_DURATION("settings.swap-hand-duration", 2);
 
-    ;
-
     private final String path;
     private final Object definite;
 

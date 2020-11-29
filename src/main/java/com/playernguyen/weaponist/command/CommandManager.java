@@ -13,6 +13,7 @@ public class CommandManager extends ManagerSet<Command> {
 
     /**
      * Get the list of name of command
+     *
      * @return List name of command
      */
     public List<String> toList() {

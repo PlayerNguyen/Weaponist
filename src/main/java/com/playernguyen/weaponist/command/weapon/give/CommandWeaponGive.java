@@ -26,7 +26,7 @@ public class CommandWeaponGive extends DefaultSubCommand {
         if (sender instanceof Player) {
 
             Player player = (Player) sender;
-            if (params.size() <= 0 ) {
+            if (params.size() <= 0) {
                 player.sendMessage(ChatColor.DARK_GRAY + "---------------------");
                 for (String s : getItemManager().keySet()) {
                     //player.sendMessage(ChatColor.DARK_GRAY + "- " + ChatColor.RED + s);
@@ -40,7 +40,7 @@ public class CommandWeaponGive extends DefaultSubCommand {
                             String.format("/%s %s %s", getPreviousCommand().getCommand(), getCommand(), s)));
                     componentBuilder.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                             new ComponentBuilder("Click for prepare command").color(net.md_5.bungee.api.ChatColor.RED).create()
-                            ));
+                    ));
 
                     player.spigot().sendMessage(componentBuilder.create());
                 }
@@ -59,7 +59,7 @@ public class CommandWeaponGive extends DefaultSubCommand {
             // Give to player
             player.getInventory()
                     .addItem(registeredGlobalItem.toItem(player, (params.size() == 2)
-                                    ? Integer.parseInt(params.get(1)) : 1)
+                            ? Integer.parseInt(params.get(1)) : 1)
                     );
         }
         return CommandResult.NOTHING;

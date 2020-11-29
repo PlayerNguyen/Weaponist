@@ -6,6 +6,7 @@ public class AmmunitionCommunistRifle extends DefaultAmmunition {
 
     /**
      * 7.62mm rifle class
+     *
      * @throws IOException cannot save the configuration
      */
     public AmmunitionCommunistRifle() throws IOException {

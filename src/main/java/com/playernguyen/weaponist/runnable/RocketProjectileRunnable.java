@@ -15,13 +15,12 @@ import java.util.Collections;
 public class RocketProjectileRunnable extends BukkitRunnable {
 
     private final Weaponist weaponist;
-
-    private Location currentLocation;
     private final Location firstLocation;
     private final Vector direction;
     private final float damage;
     private final int maxDistance;
     private final Shooter shooter;
+    private Location currentLocation;
 
     public RocketProjectileRunnable(Weaponist weaponist,
                                     Shooter shooter,
@@ -70,11 +69,11 @@ public class RocketProjectileRunnable extends BukkitRunnable {
 
         // Cancel
         if (currentLocation.getBlock().getType() != Material.AIR
-        || currentLocation.distance(firstLocation) >= maxDistance
-        || LocationUtil.hasLivingEntity(
+                || currentLocation.distance(firstLocation) >= maxDistance
+                || LocationUtil.hasLivingEntity(
                 currentLocation,
-                        0.3,
-                        Collections.singletonList(shooter.asPlayer()))
+                0.3,
+                Collections.singletonList(shooter.asPlayer()))
         ) {
             // Create explosion
             WeaponistUtil.fakeExplosion(currentLocation, damage, shooter);

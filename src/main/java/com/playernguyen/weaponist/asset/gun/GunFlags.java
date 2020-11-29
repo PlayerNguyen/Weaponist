@@ -4,7 +4,7 @@ import com.playernguyen.weaponist.asset.AssetKeyFlag;
 import com.playernguyen.weaponist.asset.ammunition.AmmunitionEnum;
 import org.bukkit.Material;
 
-public enum  GunFlags implements AssetKeyFlag {
+public enum GunFlags implements AssetKeyFlag {
 
     METADATA_DISPLAY_NAME("Metadata.Display", "gun_display"),
     METADATA_MATERIAL("Metadata.Material", Material.STICK),
@@ -20,10 +20,7 @@ public enum  GunFlags implements AssetKeyFlag {
     ATTRIBUTE_GENERIC_DISTANCE("Attribute.Distance", 100),
     ATTRIBUTE_GENERIC_PENETRATE("Attribute.Penetrate", 1),
     ATTRIBUTE_MAX_MAGAZINE("Attribute.MaxMagazine", 1),
-    ATTRIBUTE_GENERIC_FIRE_RATE("Attribute.FireRate", 0.0D)
-
-
-    ;
+    ATTRIBUTE_GENERIC_FIRE_RATE("Attribute.FireRate", 0.0D);
 
     private final String path;
     private final Object define;

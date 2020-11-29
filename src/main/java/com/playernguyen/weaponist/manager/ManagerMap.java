@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 public abstract class ManagerMap<K, V> {
-    private final Map<K, V> map ;
+    private final Map<K, V> map;
 
     public ManagerMap(Map<K, V> map) {
         this.map = map;
@@ -38,7 +38,6 @@ public abstract class ManagerMap<K, V> {
     public Set<K> keySet() {
         return map.keySet();
     }
-
 
 
 }

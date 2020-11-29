@@ -46,6 +46,19 @@ public class Weaponist extends JavaPlugin {
     private ShooterManager shooterManager;
     private TaskManager<ActionPerformRunnable> taskManager;
 
+    /**
+     * Get instance of weaponist
+     *
+     * @return The current weaponist instance
+     */
+    public static Weaponist getWeaponist() {
+        return weaponist;
+    }
+
+    public static Debugger getDebugger() {
+        return debugger;
+    }
+
     @Override
     public void onEnable() {
         // Instance setup
@@ -179,7 +192,6 @@ public class Weaponist extends JavaPlugin {
         getGunManager().add(new GunGlock());
         getGunManager().add(new GunSpas());
 
-
         // Throwable
         this.throwManager = new ThrowManager();
         getThrowManager().add(new ThrowFrag());
@@ -211,25 +223,13 @@ public class Weaponist extends JavaPlugin {
         return listenerManager;
     }
 
-
-    /**
-     * Get instance of weaponist
-     * @return The current weaponist instance
-     */
-    public static Weaponist getWeaponist() {
-        return weaponist;
-    }
-
     /**
      * Setting of weaponist
+     *
      * @return Setting of weaponist
      */
     public WeaponistSetting getWeaponistSetting() {
         return weaponistSetting;
-    }
-
-    public static Debugger getDebugger() {
-        return debugger;
     }
 
     public ConfigurationFolder getAmmunitionFolder() {

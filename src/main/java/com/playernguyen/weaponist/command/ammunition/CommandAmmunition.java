@@ -34,7 +34,7 @@ public class CommandAmmunition extends DefaultCommand {
         }
 
         // Call sub-command
-        subCommandManager.getCommand(subCommand).onCommand(sender,params.subList(1, params.size()));
+        subCommandManager.getCommand(subCommand).onCommand(sender, params.subList(1, params.size()));
         return CommandResult.NOTHING;
     }
 
@@ -48,7 +48,7 @@ public class CommandAmmunition extends DefaultCommand {
             }
             return subCommandManager.getCommand(getter).onTab(sender, params.subList(1, params.size()));
         } else
-        // Or no
-        return subCommandManager.toList();
+            // Or not
+            return subCommandManager.toList();
     }
 }

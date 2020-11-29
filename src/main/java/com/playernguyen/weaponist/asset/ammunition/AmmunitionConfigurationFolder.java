@@ -9,6 +9,7 @@ public class AmmunitionConfigurationFolder extends ConfigurationFolder {
     }
 
     @Override
-    protected void load() { }
+    protected void load() {
+    }
 
 }

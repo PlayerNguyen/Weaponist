@@ -4,7 +4,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class MathHelper {
 
-    public static int randomInt(int min, int max){
+    public static int randomInt(int min, int max) {
         return ThreadLocalRandom.current().nextInt(min, max + 1);
     }
 }

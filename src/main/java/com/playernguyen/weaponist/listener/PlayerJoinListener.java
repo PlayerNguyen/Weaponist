@@ -6,7 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-public class PlayerJoinListener extends WeaponistListener{
+public class PlayerJoinListener extends WeaponistListener {
     @EventHandler
     public void join(PlayerJoinEvent event) {
 

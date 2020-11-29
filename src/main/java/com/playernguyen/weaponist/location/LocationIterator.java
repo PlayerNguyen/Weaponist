@@ -41,7 +41,7 @@ public class LocationIterator {
         return next.distance(start);
     }
 
-    public Location next () {
+    public Location next() {
         return current.add(direction);
     }
 

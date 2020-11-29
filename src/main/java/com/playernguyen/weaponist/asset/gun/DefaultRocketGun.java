@@ -37,7 +37,7 @@ public abstract class DefaultRocketGun extends DefaultGun {
         ItemStack handStack = player.getInventory().getItemInMainHand();
         ItemStack updateStack = WeaponistUtil
                 .updateItemMeta(
-                        Tag.setData(handStack, ItemTagEnum.GUN_AMMO, Tag.getGunAmmo(handStack)-1),
+                        Tag.setData(handStack, ItemTagEnum.GUN_AMMO, Tag.getGunAmmo(handStack) - 1),
                         this
                 );
         player.getInventory()
