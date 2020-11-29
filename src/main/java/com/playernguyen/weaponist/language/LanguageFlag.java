@@ -24,6 +24,8 @@ public enum LanguageFlag implements Flagable {
 
     COMMAND_CLICK_ME("command.tips.click-me", "Click me"),
 
+    DEATH_MESSAGE("command.death-message", "%player% was shot by %killer% using %weapon%")
+
 
     ;
 

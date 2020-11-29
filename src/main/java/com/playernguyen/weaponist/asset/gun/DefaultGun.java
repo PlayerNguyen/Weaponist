@@ -18,6 +18,7 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Snowball;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
@@ -184,7 +185,17 @@ public abstract class DefaultGun implements Gun {
         // Raytrace the block and entities
         RayTrace rayTrace = new RayTrace(shooter, getMaxDistance(), rate);
         for (int i = 0; i < bulletTime; i++) {
-            RayResult rayResult = rayTrace.ray(Particle.VILLAGER_HAPPY, getMaxPenetrate());
+            RayResult rayResult = rayTrace.ray(Particle.END_ROD, getMaxPenetrate());
+            // Create snowball
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    new ParticleBuilder(Particle.ITEM_CRACK, 2)
+                            .offset(getDirection(shooter).multiply(1.2))
+                            .extra(0.1)
+                            .play(shooter.getEyeLocation(), new ItemStack(Material.SNOW_BALL, 1));
+                }
+            }.runTask(plugin);
             // Play start shooting particle
             new ParticleBuilder(Particle.SMOKE_NORMAL, 1)
                     .offset(getDirection(shooter)

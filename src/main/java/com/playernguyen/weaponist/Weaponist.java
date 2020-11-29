@@ -201,6 +201,7 @@ public class Weaponist extends JavaPlugin {
         listenerManager.add(new PlayerDropItemListener());
         listenerManager.add(new PlayerShootEntityListener());
         listenerManager.add(new PlayerInventoryHandlerListener());
+        listenerManager.add(new PlayerDeathListener());
 
         // Register the manager
         getListenerManager().register(this);

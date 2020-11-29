@@ -58,8 +58,8 @@ public class ThrowMolotov extends DefaultThrow {
                         .forEach(entity -> {
                             if (entity instanceof LivingEntity) {
                                 Bukkit.getScheduler().runTask(getWeaponist(), () -> {
-                                    entity.setFireTicks(1);
-                                    ((LivingEntity) entity).damage(getPower()/10);
+                                    entity.setFireTicks(100);
+                                    ((LivingEntity) entity).damage(getPower()/10, shooter.asPlayer());
                                 });
                             }
                         });

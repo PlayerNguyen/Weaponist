@@ -53,16 +53,16 @@ public class RayCollectRunnable extends BukkitRunnable {
         // Shooter location
         Location eyeLocation = shooter.asPlayer().getEyeLocation();
 
-//        Vector rateCompound = new Vector(
-//                generateRate(-rate/10, rate/10),
-//                generateRate(0, rate/5),
-//                generateRate(-rate/10, rate/10)
-//        );
         Vector rateCompound = new Vector(
-                0,
-                rate/7,
-                0
+                generateRate(-rate/10, rate/10),
+                generateRate(0, rate/5),
+                generateRate(-rate/10, rate/10)
         );
+//        Vector rateCompound = new Vector(
+//                0,
+//                rate/7,
+//                0
+//        );
 
         LocationIterator locationIterator = new LocationIterator(
                 eyeLocation,
@@ -79,8 +79,9 @@ public class RayCollectRunnable extends BukkitRunnable {
             if (currentLocation.distance(eyeLocation) >= 2 && particle != null) {
 //                currentLocation.getWorld().spawnParticle(particle, currentLocation, 1, 0.5f);
 
-                new ParticleBuilder(particle, 1)
-                        .extra(0.001).play(currentLocation);
+                // Old: 0.01 extra
+                new ParticleBuilder(particle, 0)
+                        .extra(0.0000001).play(currentLocation);
             }
 
             double detectOffset = 0.1;
