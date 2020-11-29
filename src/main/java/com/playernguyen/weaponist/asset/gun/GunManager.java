@@ -3,7 +3,14 @@ package com.playernguyen.weaponist.asset.gun;
 import com.playernguyen.weaponist.Weaponist;
 import com.playernguyen.weaponist.manager.ManagerSet;
 
+import java.util.TreeSet;
+
 public class GunManager extends ManagerSet<Gun> {
+
+    public GunManager() {
+        super(new TreeSet<>());
+    }
+
     @Override
     public boolean add(Gun e) {
         String globalId = e.getGlobalId();

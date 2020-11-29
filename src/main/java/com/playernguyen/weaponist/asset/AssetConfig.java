@@ -17,32 +17,35 @@ public abstract class AssetConfig<T extends AssetEnum, F extends AssetKeyFlag> e
 
     private final T assetEnum;
 
-    private File file;
+    private final File file;
     private FileConfiguration fileConfiguration;
-    private final File fileParent;
 
     public AssetConfig(T assetEnum, F[] defaultLoader, String parent) {
         this.assetEnum = assetEnum;
-        this.fileParent = new File(getWeaponist().getDataFolder(), parent);
+        File fileParent = new File(getWeaponist().getDataFolder(), parent);
         if (!fileParent.exists() && !fileParent.mkdir())
             throw new NullPointerException("Not found parent " + parent);
-        // Load the file, first load
-        load();
-
+        // Load the file
+        this.file = new File(fileParent, assetEnum.getId().concat(".yml"));
+        this.fileConfiguration = YamlConfiguration.loadConfiguration(this.file);
         // Generate the loadDefault if not found the key :D
 //        for (F f : defaultLoader) {
 //            loadDefault(f);
 //        }
-        // Save
-//        save();
+        // Save this code
+        // save();
+        // Call onInit instead of above code
+        onInit();
     }
+
+    protected abstract void onInit();
 
     public void loadDefault(F keyFlag) {
         if (!hasFlag(keyFlag)) {
             getDebugger().info(
                     String.format("Load default %s => %s",
-                    keyFlag.getPath(),
-                    keyFlag.getDefine())
+                            keyFlag.getPath(),
+                            keyFlag.getDefine())
             );
             set(keyFlag, keyFlag.getDefine());
         }
@@ -55,6 +58,16 @@ public abstract class AssetConfig<T extends AssetEnum, F extends AssetKeyFlag> e
     }
 
     public void set(F keyFlag, Object value) {
+        insert(keyFlag, value);
+    }
+
+    public void nullSet(F keyFlag, Object value) {
+        if (!getFileConfiguration().contains(keyFlag.getPath())) {
+            insert(keyFlag, value);
+        }
+    }
+
+    private void insert(F keyFlag, Object value) {
         if (value instanceof Material) {
             getFileConfiguration().set(keyFlag.getPath(), value.toString());
             return;
@@ -70,7 +83,6 @@ public abstract class AssetConfig<T extends AssetEnum, F extends AssetKeyFlag> e
     }
 
     private void load() {
-        this.file = new File(fileParent, assetEnum.getId().concat(".yml"));
         this.fileConfiguration = YamlConfiguration.loadConfiguration(this.file);
     }
 
@@ -92,10 +104,9 @@ public abstract class AssetConfig<T extends AssetEnum, F extends AssetKeyFlag> e
     }
 
     public Object get(F flag) {
-        Object value = fileConfiguration.get(flag.getPath());
         //Weaponist.getDebugger().warn("Getting " + flag.getPath() + " with value " + value.toString());
 //        System.out.println(flag.getPath() + " => " + value);
-        return value;
+        return fileConfiguration.get(flag.getPath());
     }
 
     public String getString(F flag) {

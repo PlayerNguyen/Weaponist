@@ -35,7 +35,6 @@ public abstract class DefaultGun implements Gun {
     private final GunEnum gunEnum;
     private final GunConfiguration gunConfiguration;
 
-
     public DefaultGun(GunEnum gunEnum) {
         this.gunEnum = gunEnum;
         this.gunConfiguration = new GunConfiguration(gunEnum, GunFlags.values(), PARENT_FOLDER);

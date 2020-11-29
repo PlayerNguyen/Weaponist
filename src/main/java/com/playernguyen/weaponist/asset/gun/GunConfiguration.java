@@ -66,7 +66,7 @@ public class GunConfiguration extends AssetConfig<GunEnum, GunFlags> {
         this.fireAccuracy = getDouble(GunFlags.ATTRIBUTE_GENERIC_FIRE_RATE);
         this.maxDistance = getInt(GunFlags.ATTRIBUTE_GENERIC_DISTANCE);
         this.maxPenetrate = getInt(GunFlags.ATTRIBUTE_GENERIC_PENETRATE);
-        // Sound attributes initial
+        // Sound attributes
         this.reloadSound = new ArrayList<>();
         addSoundFromListString(getStringList(GunFlags.SOUND_RELOAD), this.reloadSound);
         this.shootSound = new ArrayList<>();
@@ -85,8 +85,12 @@ public class GunConfiguration extends AssetConfig<GunEnum, GunFlags> {
         if (!getFile().exists()) save();
     }
 
+    @Override
+    protected void onInit() {
 
-//    public GunConfiguration(GunEnum gunEnum) throws IOException {
+    }
+
+    //    public GunConfiguration(GunEnum gunEnum) throws IOException {
 //        // Load the file ~
 //        this.file = new File(
 //                getWeaponist().getWeaponFolder().getFolder(),

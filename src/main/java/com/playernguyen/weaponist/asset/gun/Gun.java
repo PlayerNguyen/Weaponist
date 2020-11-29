@@ -6,10 +6,11 @@ import com.playernguyen.weaponist.asset.ammunition.AmmunitionEnum;
 import com.playernguyen.weaponist.entity.Shooter;
 import com.playernguyen.weaponist.sound.SoundConfiguration;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public interface Gun extends Item {
+public interface Gun extends Item, Comparable<Gun> {
 
     AmmunitionEnum getAmmunitionType();
 
@@ -35,4 +36,8 @@ public interface Gun extends Item {
 
     double getDamage();
 
+    @Override
+    default int compareTo(@NotNull Gun o) {
+        return this.getId().compareTo(o.getId());
+    }
 }

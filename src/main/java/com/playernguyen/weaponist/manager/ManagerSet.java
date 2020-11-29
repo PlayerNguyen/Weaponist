@@ -8,7 +8,15 @@ import java.util.Set;
 
 public abstract class ManagerSet<T> implements Iterable<T> {
 
-    private final Set<T> container = new HashSet<>();
+    private final Set<T> container;
+
+    public ManagerSet(Set<T> container) {
+        this.container = container;
+    }
+
+    public ManagerSet() {
+        this.container = new HashSet<>();
+    }
 
     public Set<T> getContainer() {
         return container;
